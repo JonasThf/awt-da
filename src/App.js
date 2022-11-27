@@ -19,7 +19,7 @@ function App() {
       name: document.getElementById('name').value,
       typeOfAd: document.getElementById('da-type').value,
       imageResize: document.getElementById('image_resize').value,
-      interactions: document.getElementById('interactions').value,
+      interactions: document.getElementById('interactions').value, 
     }
     alert(value.name)
   
