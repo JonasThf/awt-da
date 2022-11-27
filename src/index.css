@@ -9,6 +9,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background: 	#e0e1dd; */
+  align-items: center;
 }
 
 h1 {
@@ -17,16 +18,54 @@ h1 {
 
 }
 
-button {
-   background-color: #457b9d;
+/* button{
+  background-color: #457b9d;
+  border: none;
+  color: white;
+  text-align: center;
+} */
+
+
+.startbuttons {
+  
     border: none;
     color: white;
-    padding: 15px 50px;
+    padding: 50px 100px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    border-radius:10px;
+    /* margin-top: 5%; */
+    /* margin-left: 25%; */
+
     
-  }
+   }
+
+   #template {
+    background-color: #9d4548;
+     border: none;
+     color: white;
+     padding: 50px 100px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     border-radius:10px; 
+     margin-left: 330px;
+    } 
+    #instance {
+      background-color: #9d4548;
+       border: none;
+       color: white;
+       padding: 50px 100px;
+       margin-left: 30px;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       border-radius:10px; 
+      } 
+  
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
