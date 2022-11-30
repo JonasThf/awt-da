@@ -1,26 +1,45 @@
 import React from 'react';
 import './App.css';
-import createTemplate from './pages/createTemplate'
-import createInstance from './pages/createInstance'
-import create_template from './pages/createTemplate';
+import CreateInstance from './pages/CreateInstance'
+import CreateTemplate from './pages/CreateTemplate';
+import { BrowserRouter, Route, Link, Routes } from "react-router-dom"
 
-
-const LoadingText = () => {
-  const isLoading = false;
-  return <div>{isLoading ? <p>Loading...</p> : <h2>Fertig geladen</h2>}</div>;
-};
-const Einfach = () => {
-  return <div>ahdhdsahdsa</div>
-}
 
 function App() {
   
   return(
-  
+
+    <BrowserRouter>
     <div className="App">
-      <LoadingText></LoadingText>
-      <Einfach></Einfach>
+      <nav className ="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul className='navbar-nav'>
+          <li>
+            <Link to ="/" className='nav-Link'>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to ="/CreateTemplate" className='nav-Link'>
+              Create Template
+            </Link>
+          </li>
+          <li>
+            <Link to ="/CreateInstance" className='nav-Link'>
+              Create Instance
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        
+        <Route  path="/CreateTemplate" element = {CreateTemplate()}/>
+        <Route  path="/CreateInstance" element = {CreateInstance()}/>
+      </Routes>
+
     </div>
+    </BrowserRouter>
+    
   );
   
   

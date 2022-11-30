@@ -32,59 +32,8 @@
     <div>
       <h1>DA-Creator</h1>
     </div>
-    <div class = "startbuttons">
       <!--
         müssen noch function bei onclick hinzufügen damit sich dann die verschiedenen teile öfennen oder mit andere Lopgik 
       -->
-      <button onclick="ope" type="button" id="template"> Create template</button>
-      <button type="button" id = "instance"> Create instance</button>
-    
-    </div>
-    <div id="template_creation" class="create_template">
-      <form name = 'firstForm'>
-        <label for="name">Template Name:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="da-type">Display ad type:</label><br>
-          <select name="da-type" id="da-type">
-            <option disabled selected value> -- select an option -- </option>
-            <option value="half_screen">Half screen banner</option>
-            <option value="l-banner">L-banner</option>
-            <option value="below_screen">Below screen</option>
-          </select><br>
-          <input type="checkbox" id="image_resize" name="image_resize" value="image_resize">
-          <label for="image_resize">Image Resize</label><br>
-          <label for="interaction">Interactions:</label><br>
-            <input type="checkbox" id="interaction1" name="interaction1" value="redirection">
-            <label for="vehicle1"> Links to open</label><br>
-            <input type="checkbox" id="interaction2" name="interaction2" value="differentTabs">
-            <label for="vehicle2"> Different Tabs</label><br>
-            <input type="checkbox" id="interaction3" name="interaction3" value="fill_in_forms">
-            <label for="vehicle3"> Fill in Forms</label><br>
-            <input type="checkbox" id="interaction4" name="interaction4" value="minigame">
-            <label for="vehicle2"> Mini Game</label><br>
-            <input type="submit" value="Submit">
-            <button type="button" id = "create"> Create</button>
-        </form>
-    </div>
-    <div id="instance_creation">
-      <form>
-      <label for="da-type">Choose Template:</label><br>
-          <select name="chosen_template" id="chosen_template">
-            <option disabled selected value> -- select an option -- </option>
-            <option value="template1">hier müssen dann erstellte templates gelistet werden</option>
-            <option value="template2">s.o</option>
-            <option value="template3">evtl noch ne funktion wegen anzahl an tepmlates und wenn leer was dann?</option>
-          </select><br>
-          <label for="duration">Duration in seconds:</label>
-          <input type="number" id="duration" name="duration" min="1" max="20"><br>
-          <label for="URL">Add Media Ressource</label><br>
-          <input type="url" id="URL" name="URL"><br>
-          <button onClick = sayHello() type="button" id = "export"> Export</button>
-        </form>
-    </div>
-    <script>
-      
-    </script>
-    
   </body>
 </html>

@@ -1,16 +1,16 @@
 import React from "react";
-import './createInstance.css';
+import './CreateInstance.css'
 
 
 
 
-function createInstance() {
+function CreateInstance() {
 
     return (
-        <div className="createInstance">
+        <div className="CreateInstance">
         </div>
         
     )
 };
 
-export default createInstance;
+export default CreateInstance;
