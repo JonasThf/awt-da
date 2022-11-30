@@ -32,7 +32,7 @@ function App() {
       </nav>
 
       <Routes>
-        
+         {/* <Route  path="/" element = {Home()}/> */}
         <Route  path="/CreateTemplate" element = {CreateTemplate()}/>
         <Route  path="/CreateInstance" element = {CreateInstance()}/>
       </Routes>
