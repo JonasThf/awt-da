@@ -12,7 +12,7 @@ function CreateInstance() {
                 <h1> Create Instance</h1>
                 <form>
                 <label>Choose Template:</label>
-                    <select name="chosen_template" id="chosen_template" required>
+                    <select name="chosen_template" id="chosen_template">
                         <option disabled selected value> -- select an option -- </option>
                         <option value="template1">hier müssen dann erstellte templates gelistet werden</option>
                         <option value="template2">s.o</option>
@@ -22,8 +22,9 @@ function CreateInstance() {
                     <input type="number" id="duration" name="duration" min="1" max="20"></input><br></br>
                     <label>Add Media Ressource</label><br></br>
                     <input type="url" id="URL" name="URL" required></input><br></br>
-                    <button onClick={createJson()}>Create Instance</button>
+                    
                 </form>
+                <button onClick={createJson()}>Create Instance</button>
             </div>
         </div>
     )

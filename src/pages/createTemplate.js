@@ -33,7 +33,7 @@ const CreateTemplate = () => {
         <h1>Create Template</h1>
         <form>
           <label>Template Name: </label>
-          <input type="text" id = "template name" required></input>
+          <input type="text" id = "template name"></input>
           <br />
           <br />
           <label>Image Resize</label>
@@ -56,14 +56,15 @@ const CreateTemplate = () => {
           <label>Mini Games</label>
           <br/>
           <label>Choose Da-Type:</label>
-                    <select name="da-type" id="da-type" required>
+                    <select name="da-type" id="da-type">
                         <option disabled selected value> -- select an option -- </option>
                         <option value="half-screen">Half screen banner</option>
                         <option value="l-banner">L-Banner</option>
                         <option value="below-screen">Below Sreeen</option>
                     </select><br></br>
-                    <button onClick={submit}>Submit Template</button>
+                    
         </form>
+        <button onClick={submit}>Submit Template</button>
       </div>
     </div>
   );
