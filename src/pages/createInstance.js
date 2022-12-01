@@ -3,9 +3,13 @@ import './CreateInstance.css'
 
 
 function CreateInstance() {
+    function createJson(obj){
+        
+    }
     return (
         <div className="createInstance">
              <div id="instance_creation">
+                <h1> Create Instance</h1>
                 <form>
                 <label>Choose Template:</label>
                     <select name="chosen_template" id="chosen_template">
@@ -19,6 +23,7 @@ function CreateInstance() {
                     <label>Add Media Ressource</label><br></br>
                     <input type="url" id="URL" name="URL"></input><br></br>
                 </form>
+                <button onClick={createJson()}>Create Instance</button>
             </div>
         </div>
     )
