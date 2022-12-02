@@ -31,7 +31,7 @@ const CreateTemplate = () => {
     <div className="createTemplate">
       <div id="template_creation">
         <h1>Create Template</h1>
-        <form>
+        <form class="TemplateForm">
           <label>Template Name: </label>
           <input type="text" id = "template name"></input>
           <br />
