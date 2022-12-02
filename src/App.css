@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+
+.navbar-nav{
+  color:#3d5a80;
+  font-size: xx-large;
+}
+
+.nav-Link{
+    color:#3d5a80;
+    font-size: 30px;
+
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -23,6 +35,8 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+
 
 .App-link {
   color: #61dafb;

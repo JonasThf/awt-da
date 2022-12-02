@@ -14,17 +14,17 @@ function App() {
       <nav className ="navbar navbar-expand-sm bg-dark navbar-dark">
         <ul className='navbar-nav'>
           <li>
-            <Link to ="/" className='nav-Link'>
+            <Link style={{textDecoration: 'none'}} to ="/" className='nav-Link'>
               Home
             </Link>
           </li>
           <li>
-            <Link to ="/CreateTemplate" className='nav-Link'>
+            <Link style={{textDecoration: 'none'}} to ="/CreateTemplate" className='nav-Link'>
               Create Template
             </Link>
           </li>
           <li>
-            <Link to ="/CreateInstance" className='nav-Link'>
+            <Link style={{textDecoration: 'none'}} to ="/CreateInstance" className='nav-Link'>
               Create Instance
             </Link>
           </li>
