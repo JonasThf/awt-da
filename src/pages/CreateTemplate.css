@@ -56,3 +56,14 @@ input[type="checkbox"]+label{
        color: black;
        font-size: large;
 }
+
+select{
+	background-color:#d7e3fc;
+       min-width: 20em;
+       text-align: center;
+       color: black;
+       min-height:2em;
+       border-color:black;
+      
+}
+
