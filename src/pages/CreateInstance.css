@@ -10,11 +10,19 @@
 {
        font-weight: bold;
        color: black;
+       
 }
 
+#duration{
+    width:7em;
+    text-align: center;
+}
 #AddMedia
 
 {
     font-weight: bold;
        color: black;
+}
+#URL{
+    min-width: 25em;
 }

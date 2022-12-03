@@ -75,7 +75,6 @@ const CreateTemplate = () => {
         </div>
         <br/>
         <br/>
-        <br/>
         <button onClick={submit}>Submit Template</button>
       </div>
     </div>
