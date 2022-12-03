@@ -6,7 +6,7 @@ const CreateTemplate = () => {
 
   function submit(){
     
-    var title = document.getElementById("template name").value
+    var title = document.getElementById("templatename").value
     var resizing = document.getElementById("image").checked
     var interactions = [document.getElementById("interaction1").checked] 
     interactions[1] = document.getElementById("interaction2").checked
@@ -31,16 +31,21 @@ const CreateTemplate = () => {
     <div className="createTemplate">
       <div id="template_creation">
         <h1>Create Template</h1>
-        <form class="TemplateForm">
-          <label>Template Name: </label>
-          <input type="text" id = "template name"></input>
+        <div class="TemplateForm">
+        <form >
+          <fieldset class="TemplateFieldset">
+          <label id="TemplateNameLabel">Template Name: </label>
+          <input type="text" id = "templatename"></input>
           <br />
           <br />
-          <label>Image Resize</label>
+          <div class="ImageResizeClass">
           <input type="checkbox" id = "image"></input>
+          <label id="ImageResizeLabel">Image Resize</label>
+          </div>
+
           <br />
           <br />
-          <label>Interactions: </label>
+          <label id="InteractionsLabel">Interactions: </label>
           <br/>
           <label></label>
           <input type="checkbox" id = "interaction1"></input>
@@ -62,8 +67,9 @@ const CreateTemplate = () => {
                         <option value="l-banner">L-Banner</option>
                         <option value="below-screen">Below Sreeen</option>
                     </select><br></br>
-                    
+          </fieldset> 
         </form>
+        </div>
         <button onClick={submit}>Submit Template</button>
       </div>
     </div>
