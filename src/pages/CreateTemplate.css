@@ -12,33 +12,18 @@
 
 }
 
-/* #image{
-      
-       min-width: 2em;
-       min-height:1.3em;
-      
-}   */
-
 #InteractionsLabel{
        color: black;
        font-weight: bold;
 }
 
-/* #TemplateFieldset
-{
-      width:40%;
-}  */
-
 label{
        display:block;
        text-align: center;
        font-size: large;
+       margin-bottom: 3px;
      
 }
-/* #ImageResizeClass label{
-       margin-top: 0;
-       display:inline-block;
-} */
 
 #templatename{
        min-width: 20em;
@@ -64,4 +49,10 @@ input[type="checkbox"]+label{
 .InteractionsLabel{
        text-align: center;
      
+}
+
+.ChooseDaType{
+       font-weight: bold;
+       color: black;
+       font-size: large;
 }
