@@ -33,8 +33,8 @@ const CreateTemplate = () => {
         <h1>Create Template</h1>
         <div class="TemplateForm">
         <form >
-          <fieldset class="TemplateFieldset">
-          <label id="TemplateNameLabel">Template Name: </label>
+          {/* <fieldset class="TemplateFieldset"> */}
+          <label id="TemplateNameLabel">Template Name</label>
           <input type="text" id = "templatename"></input>
           <br />
           <br />
@@ -42,11 +42,10 @@ const CreateTemplate = () => {
           <input type="checkbox" id = "image"></input>
           <label id="ImageResizeLabel">Image Resize</label>
           </div>
-
           <br />
-          <br />
-          <label id="InteractionsLabel">Interactions: </label>
-          <br/>
+          <div class="InteractionCheckboxes">
+          <label id="InteractionsLabel">Interactions</label>
+         
           <label></label>
           <input type="checkbox" id = "interaction1"></input>
           <label>Links to open</label>
@@ -59,6 +58,7 @@ const CreateTemplate = () => {
           <br/>
           <input type="checkbox" id = "interaction4"></input>
           <label>Mini Games</label>
+          </div>
           <br/>
           <label>Choose Da-Type:</label>
                     <select name="da-type" id="da-type">
@@ -67,7 +67,7 @@ const CreateTemplate = () => {
                         <option value="l-banner">L-Banner</option>
                         <option value="below-screen">Below Sreeen</option>
                     </select><br></br>
-          </fieldset> 
+          {/* </fieldset>  */}
         </form>
         </div>
         <button onClick={submit}>Submit Template</button>
