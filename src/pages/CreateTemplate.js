@@ -1,23 +1,24 @@
 import React from "react";
 import "./CreateTemplate.css";
 
-
+/* eslint-disable */
 const CreateTemplate = () => {
 
   function submit(){
     
     var title = document.getElementById("templatename").value
     var resizing = document.getElementById("image").checked
-    var interactions = [document.getElementById("interaction1").checked] 
-    interactions[1] = document.getElementById("interaction2").checked
-    interactions[2] = document.getElementById("interaction3").checked
-    interactions[3] = document.getElementById("interaction4").checked
+    var interactions = []
+    if (document.getElementById("links_to_open").checked == true) interactions.push("links")
+    if (document.getElementById("different_tabs").checked == true) interactions.push("tabs")
+    if (document.getElementById("fill_in_form").checked == true) interactions.push("form")
+    if (document.getElementById("mini_game").checked == true) interactions.push("game")
     var da_type = document.getElementById("da-type").value
 
     var  template = {
       name: title,
       resize: resizing,
-      ineraction: interactions,
+      ineractions: interactions,
       daType: da_type,
       duration: 0, 
       media_ressource: ""
@@ -31,40 +32,40 @@ const CreateTemplate = () => {
     <div className="createTemplate">
       <div id="template_creation">
         <h1>Create Template</h1>
-        <div class="TemplateForm">
+        <div id="TemplateForm">
         <form >
           {/* <fieldset class="TemplateFieldset"> */}
           <label id="TemplateNameLabel">Template Name</label>
-          <input type="text" id = "templatename"></input>
+          <input type="text" id="templatename"></input>
           <br />
           <br />
-          <div class="ImageResizeClass">
-          <input type="checkbox" id = "image"></input>
+          <div id="ImageResizeClass">
+          <input type="checkbox" id="image"></input>
           <label id="ImageResizeLabel">Image Resize</label>
           </div>
           <br />
-          <div class="InteractionCheckboxes">
+          <div id="InteractionCheckboxes">
           <label id="InteractionsLabel">Interactions</label>
          
           <label></label>
-          <input type="checkbox" id = "interaction1"></input>
+          <input type="checkbox" id="links_to_open"></input>
           <label>Links to open</label>
           <br/>
-          <input type="checkbox" id = "interaction2"></input>
+          <input type="checkbox" id="different_tabs"></input>
           <label>Different Tabs</label>
           <br />
-          <input type="checkbox" id = "interaction3"></input>
-          <label>Fill in Forms</label>
+          <input type="checkbox" id="fill_in_form"></input>
+          <label>Fill in Form</label>
           <br/>
-          <input type="checkbox" id = "interaction4"></input>
-          <label>Mini Games</label>
+          <input type="checkbox" id="mini_game"></input>
+          <label>Mini Game</label>
           </div>
           <br/>
           <br/>
-          <div class="ChooseDaType">
+          <div id="ChooseDaType">
           <label>Choose Da-Type</label>
-                    <select name="da-type" id="da-type">
-                        <option disabled selected value> -- select an option -- </option>
+                    <select id="da-type">
+                        <option disabled value="option"> -- select an option -- </option>
                         <option value="half-screen">Half screen banner</option>
                         <option value="l-banner">L-Banner</option>
                         <option value="below-screen">Below Sreeen</option>
