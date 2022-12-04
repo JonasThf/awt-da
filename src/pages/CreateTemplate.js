@@ -4,7 +4,7 @@ import "./CreateTemplate.css";
 /* eslint-disable */
 const CreateTemplate = () => {
 
-  function submit(){
+  function submit () {
     
     var title = document.getElementById("templatename").value
     var resizing = document.getElementById("image").checked
@@ -22,10 +22,19 @@ const CreateTemplate = () => {
       daType: da_type,
       duration: 0, 
       media_ressource: ""
-  }
-  var templateAsString = JSON.stringify(template)
-  console.log(templateAsString)
+    }
 
+    //var templateAsString = JSON.stringify(template)
+    //console.log(templateAsString)
+
+    const fileData = JSON.stringify(template);
+    const blob = new Blob([fileData], {type: "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `${title}.json`;
+    link.href = url;
+    link.click();
+  
       
   }
   return (

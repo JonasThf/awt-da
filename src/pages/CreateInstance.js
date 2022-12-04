@@ -13,7 +13,7 @@ function CreateInstance() {
                 <form>
                 <label id="ChooseTemplate">Choose Template:</label>
                     <select name="chosen_template" id="chosen_template">
-                        <option disabled selected value> -- select an option -- </option>
+                        <option disabled value> -- select an option -- </option>
                         <option value="template1">hier müssen dann erstellte templates gelistet werden</option>
                         <option value="template2">s.o</option>
                         <option value="template3">evtl noch ne funktion wegen anzahl an tepmlates und wenn leer was dann?</option>
