@@ -1,0 +1,74 @@
+
+
+#TemplateNameLabel
+{
+       font-weight: bold;
+       color: black;
+}
+#ImageResizeLabel
+{
+       font-weight: bold;
+       color: black;
+
+}
+
+#InteractionsLabel{
+       color: black;
+       font-weight: bold;
+}
+
+label{
+       display:block;
+       text-align: center;
+       font-size: large;
+       margin-bottom: 3px;
+     
+}
+
+#templatename{
+       min-width: 20em;
+       min-height:1.7em;
+}
+input[type="checkbox"]{
+       min-width: 2em;
+       min-height:1.3em;
+      
+}
+
+input[type="checkbox"]+label{
+       display:inline-block;
+       padding-top: 0;
+       margin-top:0;
+}
+
+.InteractionCheckboxes{
+       display:inline-block;
+       text-align: left;
+}
+
+.InteractionsLabel{
+       text-align: center;
+     
+}
+.ChooseDaType{
+       font-weight: bold;
+       color: black;
+       font-size: large;
+}
+
+select{
+	/* background-color:#d7e3fc; */
+       min-width: 20em;
+       text-align: center;
+       color: black;
+       min-height:2em;
+       border-color:black;
+      
+}
+
+button{
+       min-width: 10em;
+       min-height: 3em;
+       background-color: #7d8597;
+       font-size:13px;
+}
