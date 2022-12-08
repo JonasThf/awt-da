@@ -6,18 +6,39 @@ import axios from "axios";
 
 const CreateInstance = () => {
     
-    
     async function getTemplates() {
         try {
             const response = await axios.get("http://localhost:3001/getTemplates");
-            console.log(response);
+            let templateStrings = response.data;
+            let parsedTemplates = [];
+            for (let i = 0; i < templateStrings.length; i++) {
+                let parsedTemplate = JSON.parse(templateStrings[i]);
+                parsedTemplates.push(parsedTemplate);
+            }
+            //setTemplates(parsedTemplates);
+            showTemplates(parsedTemplates);
         }
         catch (error) {
             console.log(error);
         }
     }
     
+     function showTemplates(parsedTemplates) {
+        
+        var select = document.getElementById("selectTemplate");
 
+        for (let i = 0; i < parsedTemplates.length; i++) {
+            console.log(parsedTemplates[i]);
+            var el = document.createElement("option");
+            el.textContent = parsedTemplates[i].name;
+            el.value = parsedTemplates[i].name;
+            select.appendChild(el);
+         }
+         
+     }
+     
+
+    //const [templates, setTemplates] = React.useState ([]);
 
     return (
         <div className="createInstance">
@@ -25,13 +46,10 @@ const CreateInstance = () => {
                 <h1> Create Instance</h1>
                 <form>
                 <label id="ChooseTemplate">Choose Template:</label><br></br>
-                <button onClick={getTemplates()}>Get Existing Templates</button>
-                    <select name="chosen_template" id="chosen_template">
-                        <option disabled value> -- select an option -- </option>
-                        <option value="template1">hier müssen dann erstellte templates gelistet werden</option>
-                        <option value="template2">s.o</option>
-                        <option value="template3">evtl noch ne funktion wegen anzahl an tepmlates und wenn leer was dann?</option>
-                    </select><br></br><br></br>
+                <button onClick={getTemplates}>Get Existing Templates</button><br></br>
+                <select id="selectTemplate">
+                    <option>Choose a Template</option>
+                </select>
                     <label id="DurationInSec">Duration in seconds:</label>
                     <input type="number" id="duration" name="duration" min="1" max="20"></input><br></br><br></br>
                     <label id="AddMedia">Add Media Ressource URL</label>

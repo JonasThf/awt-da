@@ -2,17 +2,23 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const cors = require('cors');
-const { waitForDebugger } = require("inspector");
-//var jsonParser = bodyParser.json();
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-let templates = readDirectory('./templates/');
-
 app.use(cors()) 
 app.use(bodyParser.json());
+
+function readDirectory() {
+    let templates = [];
+    let fileNames = fs.readdirSync('./templates/');
+    fileNames.forEach(file => {
+        let fileData = fs.readFileSync('./templates/'+file, 'utf8');
+        templates.push(fileData);
+    });
+    return templates;
+};
 
 app.post("/createTemplate", (req, res) => {
     const template = req.body;
@@ -31,24 +37,10 @@ app.post("/createTemplate", (req, res) => {
     
   });
 
-function readDirectory(templatesFolder) {
-    const templates = [];
-    fs.readdir(templatesFolder, (err, files) => {
-        files.forEach(fileName => {
-            fs.readFile(templatesFolder+fileName, 'utf8', (err, file) => {
-                console.log(file);
-                templates.push(JSON.parse(file));
-                console.log(templates.length);
-            });
-            console.log(templates);
-        });
-    });
-    return templates;
-};
 
 app.get("/getTemplates", async (req, res) => {
     try {
-        res.status(200).send((templates));
+        res.status(200).send((readDirectory()));
     } catch (e) {
         res.send({message: "Error in Fetching user"});
     }
