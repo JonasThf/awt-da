@@ -33,7 +33,7 @@ const CreateInstance = () => {
          }
      }
 
-     function submitInstance() {
+    async function submitInstance() {
         var selectedTemplate;
         for (let i = 0; i < parsedTemplates.length; i++) {
             if (parsedTemplates[i].name === document.getElementById('selectTemplate').value) {
@@ -44,10 +44,22 @@ const CreateInstance = () => {
         selectedTemplate.media_ressource = document.getElementById('URL').value;
 
         console.log(JSON.stringify(selectedTemplate));
+
+
+
+        // try {
+        //     const response = await axios.post("http://localhost:3001/createInstances", selectedTemplate, {headers: {'Content-Type': 'application/json'}});
+        //     alert(response.data);
+        // }
+        // catch (error) {
+        //     console.log(error);
+        // }
         var xhr = new XMLHttpRequest();
         xhr.open("POST", 'http://localhost:3001/createInstance', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(selectedTemplate));
+        xhr.send(JSON.stringify(selectedTemplate)); 
+        alert(xhr.responseText);
+        
      }
      
 

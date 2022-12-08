@@ -25,34 +25,15 @@ const CreateTemplate = () => {
     }
 
     var templateAsString = JSON.stringify(template)
-    console.log(templateAsString)
-
-    // writing in a local file from the browser is not possible. The code below is only for node.js C++
-    /*
-    const fs = require('fs')
-    fs.writeFile(title+'.json', template, err => {
-      if(err) {
-        throw err
-      }
-      console.log('JSON data was saved')
-    })
-    */
+    console.log(templateAsString);
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", 'http://localhost:3001/createTemplate', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(template));
-
-    // // // const fileData = JSON.stringify(template);
-    // // // const blob = new Blob([fileData], {type: "text/plain"});
-    // // // const url = URL.createObjectURL(blob);
-    // // // const link = document.createElement('a');
-    // // // link.download = `${title}.json`;
-    // // // link.href = url;
-    // // // link.click();
-  
-      
   }
+
+
   return (
     <div className="createTemplate">
       <div id="template_creation">
