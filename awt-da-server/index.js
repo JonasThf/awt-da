@@ -47,7 +47,20 @@ app.get("/getTemplates", async (req, res) => {
 });
 
 app.post("/createInstance", (req, res) => {
-    res.json({ message: "Hello from server!" });
+    const instance = req.body;
+    console.log(instance);
+    let fileNames = fs.readdirSync('./instances/');
+    let addTitle = 'instance_';
+    const title = addTitle+(fileNames.length+1)+'_'+instance.name;
+    fs.writeFile('./instances/'+title+'.json', JSON.stringify(instance), (err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Instance was not created.");
+        }
+        else {
+          res.status(200).send("Instance was created.");
+        }
+      });
   });
 
 
