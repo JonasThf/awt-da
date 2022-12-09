@@ -2,36 +2,46 @@ import React from "react";
 import './CreateInstance.css'
 import axios from "axios";
 
-const parsedTemplates = [];
+var parsedTemplates = [];
+var templateStrings = [];
 
 const CreateInstance = () => {
-    
+
     async function getTemplates() {
+        
         try {
             const response = await axios.get("http://localhost:3001/getTemplates");
-            let templateStrings = response.data;
-            for (let i = 0; i < templateStrings.length; i++) {
-                let parsedTemplate = JSON.parse(templateStrings[i]);
-                parsedTemplates.push(parsedTemplate);
+            templateStrings = response.data;
+            if (parsedTemplates.length === 0) {
+                for (let i = 0; i < templateStrings.length; i++) {
+                    let parsedTemplate = JSON.parse(templateStrings[i]);
+                    parsedTemplates.push(parsedTemplate);
+                }
+                showTemplates(parsedTemplates);
             }
-            showTemplates(parsedTemplates);
+            if (parsedTemplates.length !== 0 && parsedTemplates.length < templateStrings.length) {
+                parsedTemplates = [];
+                for (let i = 0; i < templateStrings.length ; i++) {
+                    parsedTemplates.push(JSON.parse(templateStrings[i]));
+                }
+                showTemplates(parsedTemplates);
+            }
         }
         catch (error) {
             console.log(error);
         }
     }
     
-     function showTemplates(parsedTemplates) {
+    function showTemplates(parsedTemplates) {
         var select = document.getElementById("selectTemplate");
         for (let i = 0; i < parsedTemplates.length; i++) {
-            console.log(parsedTemplates[i]);
             var el = document.createElement("option");
             el.textContent = parsedTemplates[i].name;
             el.value = parsedTemplates[i].name;
             el.id = parsedTemplates[i].name;
             select.appendChild(el);
-         }
-     }
+        }
+    }
 
     async function submitInstance() {
         var selectedTemplate;
@@ -40,34 +50,27 @@ const CreateInstance = () => {
                 selectedTemplate = parsedTemplates[i];
             }
         }
+        
         selectedTemplate.duration = document.getElementById('duration').value;
         selectedTemplate.media_ressource = document.getElementById('URL').value;
-
         console.log(JSON.stringify(selectedTemplate));
 
-
-
-        // try {
-        //     const response = await axios.post("http://localhost:3001/createInstances", selectedTemplate, {headers: {'Content-Type': 'application/json'}});
-        //     alert(response.data);
-        // }
-        // catch (error) {
-        //     console.log(error);
-        // }
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:3001/createInstance', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(selectedTemplate)); 
-        alert(xhr.responseText);
-        
-     }
+        try {
+            const response = await axios.post("http://localhost:3001/createInstance", selectedTemplate, {headers: {'Content-Type': 'application/json'}});
+            document.getElementById("formular").reset();
+            alert(response.data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
      
 
     return (
         <div className="createInstance">
              <div id="instance_creation">
                 <h1> Create Instance</h1>
-                <form>
+                <form id="formular">
                 <label id="ChooseTemplate">Choose Template:</label><br></br>
                 <button type="button" onClick={getTemplates}>Get Existing Templates</button><br></br>
                 <select id="selectTemplate">

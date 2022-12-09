@@ -1,10 +1,12 @@
 import React from "react";
 import "./CreateTemplate.css";
+import axios from "axios";
+
 
 /* eslint-disable */
 const CreateTemplate = () => {
 
-  function submit () {
+async function submit () {
     
     var title = document.getElementById("templatename").value
     var resizing = document.getElementById("image").checked
@@ -16,21 +18,25 @@ const CreateTemplate = () => {
     var da_type = document.getElementById("da-type").value
 
     var  template = {
-      name: title,
-      resize: resizing,
-      ineractions: interactions,
-      daType: da_type,
-      duration: 0, 
-      media_ressource: ""
+        name: title,
+        resize: resizing,
+        ineractions: interactions,
+        daType: da_type,
+        duration: 0, 
+        media_ressource: ""
     }
 
     var templateAsString = JSON.stringify(template)
     console.log(templateAsString);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'http://localhost:3001/createTemplate', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(template));
+    try {
+        const response = await axios.post("http://localhost:3001/createTemplate", template, {headers: {'Content-Type': 'application/json'}});
+        document.getElementById("formular").reset();
+        alert(response.data);
+    }
+    catch (error) {
+        console.log(error);
+    }
   }
 
 
@@ -39,7 +45,7 @@ const CreateTemplate = () => {
       <div id="template_creation">
         <h1>Create Template</h1>
         <div id="TemplateForm">
-        <form >
+        <form id="formular" >
           {/* <fieldset class="TemplateFieldset"> */}
           <label id="TemplateNameLabel">Template Name</label>
           <input type="text" id="templatename"></input>
