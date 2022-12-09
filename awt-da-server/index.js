@@ -23,19 +23,29 @@ function readDirectory() {
 app.post("/createTemplate", (req, res) => {
     const template = req.body;
     console.log(template)
-    
+    var exists = false;
     const title = template.name;
-    fs.writeFile('./templates/'+title+'.json', JSON.stringify(template), (err) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send("Template was not created.");
-        }
-        else {
-          res.status(200).send("Template was created.");
-        }
-      });
-    
-  });
+    const templates = readDirectory();
+
+    templates.forEach(x => {
+      if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
+        exists = true;
+        res.status(200).send("Template "+title+" already exists! \nChoose different Name.")
+      }
+    });
+
+    if(!exists) {
+      fs.writeFile('./templates/'+title+'.json', JSON.stringify(template), (err) => {
+      if (err) {
+          console.log(err);
+          res.status(500).send("Template was not created.");
+      }
+      else {
+        res.status(200).send("Template was created.");
+      }
+    });
+    }
+});
 
 
 app.get("/getTemplates", async (req, res) => {
