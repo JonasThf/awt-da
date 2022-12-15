@@ -27,6 +27,9 @@ app.post("/createTemplate", (req, res) => {
     const title = template.name;
     const templates = readDirectory();
 
+
+    
+
     templates.forEach(x => {
       if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
         exists = true;
