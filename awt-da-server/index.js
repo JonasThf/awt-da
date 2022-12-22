@@ -23,7 +23,7 @@ function readDirectory() {
 app.post("/createTemplate", (req, res) => {
     const template = req.body;
     console.log(template)
-    var exists = false;
+    var refused = false;
     const title = template.name;
     const templates = readDirectory();
 
@@ -32,12 +32,16 @@ app.post("/createTemplate", (req, res) => {
 
     templates.forEach(x => {
       if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
-        exists = true;
+        refused = true;
         res.status(200).send("Template "+title+" already exists! \nChoose different Name.")
+      }
+      else if (title.length < 1 || title.includes(' ')) {
+          refused = true;
+          res.status(200).send("Template name is empty or spaces were used.")
       }
     });
 
-    if(!exists) {
+    if(!refused) {
       fs.writeFile('./templates/'+title+'.json', JSON.stringify(template), (err) => {
       if (err) {
           console.log(err);
