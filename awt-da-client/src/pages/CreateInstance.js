@@ -77,7 +77,7 @@ const CreateInstance = () => {
                     <option>Choose a Template</option>
                 </select>
                     <label id="DurationInSec">Duration in seconds:</label>
-                    <input type="number" id="duration" name="duration" min="1" max="20"></input><br></br><br></br>
+                    <input type="number" id="duration" name="duration" min="1" max="20" defaultValue={5}></input><br></br><br></br>
                     <label id="AddMedia">Add Media Ressource URL</label>
                     <input type="url" id="URL" name="URL"></input><br/> <br/>
                 </form>
