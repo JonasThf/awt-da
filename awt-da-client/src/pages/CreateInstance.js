@@ -71,17 +71,20 @@ const CreateInstance = () => {
              <div id="instance_creation">
                 <h1> Create Instance</h1>
                 <form id="formular">
-                <label id="ChooseTemplate">Choose Template:</label><br></br>
-                <button type="button" onClick={getTemplates}>Get Existing Templates</button><br></br>
+                <label id="PressToGetTemplates">Press to get templates:</label>
+                <button id="GetTemplates" type="button" onClick={getTemplates}>Get Existing Templates</button><br></br><br></br>
+                <label id="ChooseTemplate">Choose Template:</label>
+                
                 <select id="selectTemplate">
                     <option>Choose a Template</option>
                 </select>
+                <br></br><br></br>
                     <label id="DurationInSec">Duration in seconds:</label>
                     <input type="number" id="duration" name="duration" min="1" max="20" defaultValue={5}></input><br></br><br></br>
                     <label id="AddMedia">Add Media Ressource URL</label>
                     <input type="url" id="URL" name="URL"></input><br/> <br/>
                 </form>
-                <button type="button" onClick={submitInstance}>Create Instance</button>
+                <button id="SubmitInstance" type="button" onClick={submitInstance}>Create Instance</button>
             </div>
         </div>
     )

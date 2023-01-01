@@ -73,7 +73,7 @@ async function submit () {
           <label>Mini Game</label>
           </div>
           <br/>
-          <br/>
+      
           <div id="ChooseDaType">
           <label>Choose Da-Type</label>
                     <select id="da-type">
@@ -88,7 +88,7 @@ async function submit () {
         </div>
         <br/>
         <br/>
-        <button onClick={submit}>Submit Template</button>
+        <button id="submittemp" onClick={submit}>Submit Template</button>
       </div>
     </div>
   );
