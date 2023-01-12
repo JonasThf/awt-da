@@ -20,7 +20,7 @@ async function submit () {
     var  template = {
         name: title,
         resize: resizing,
-        ineractions: interactions,
+        interactions: interactions,
         daType: da_type,
         duration: 0, 
         media_ressource: ""
