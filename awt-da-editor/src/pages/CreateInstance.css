@@ -1,16 +1,28 @@
+#createInstance{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+h1 {
+    color:#1d3557;
+    text-align: center;
+  
+}
+
 #GetTemplates
 {
-
+    font-weight: bold;
     min-width: 8em;
     min-height: 2em;
-    background-color: #aea3b0;
+    background-color:rgb(227, 224, 224);
 }
 
 #SubmitInstance
 { min-width: 10em;
     min-height: 3em;
-    background-color: #7d8597;
+    background-color:rgb(227, 224, 224);
     font-size:13px;
+    font-weight: bold;
 }
 
 #PressToGetTemplates{
@@ -38,12 +50,23 @@
     width:7em;
     text-align: center;
 }
-#AddMedia
 
+#AddMedia
 {
     font-weight: bold;
        color: black;
 }
+
 #URL{
-    min-width: 25em;
+    min-width: 12em;
+}
+
+#gettemp{
+    margin-top: 30px;
+    
+
+}
+
+#selectTemplate {
+    margin-top: 20px;
 }

@@ -1,47 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import CreateInstance from './pages/CreateInstance'
 import CreateTemplate from './pages/CreateTemplate';
-import { BrowserRouter, Route, Link, Routes } from "react-router-dom"
+import Box from './pages/Box';
+import { Row, Col} from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
   
   return(
-
-    <BrowserRouter>
-    <div className="App">
-      <nav className ="navbar navbar-expand-sm bg-dark navbar-dark">
-        <ul className='navbar-nav'>
-          <li>
-            <Link style={{textDecoration: 'none'}} to ="/" className='nav-Link'>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link style={{textDecoration: 'none'}} to ="/CreateTemplate" className='nav-Link'>
-              Create Template
-            </Link>
-          </li>
-          <li>
-            <Link style={{textDecoration: 'none'}} to ="/CreateInstance" className='nav-Link'>
-              Create Instance
-            </Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Routes>
-         {/* <Route  path="/" element = {Home()}/> */}
-        <Route  path="/CreateTemplate" element = {CreateTemplate()}/>
-        <Route  path="/CreateInstance" element = {CreateInstance()}/>
-      </Routes>
-
-    </div>
-    </BrowserRouter>
-    
+    <Container fluid id="container">
+      <Row>
+        <Col id="header" sm={12}>Welcome to the Display Ad Editor</Col>
+      </Row>
+      <Row id="row"> 
+        <Col className="px-0" id="createTemplateCol">
+          <CreateTemplate></CreateTemplate>
+        </Col>
+        <Col id="boxCol" className="px-0" xs={6}>
+          <p id="tv">TV</p>
+          <Box></Box>
+        </Col>
+        <Col id="createInstanceCol" className="px-0">
+          <CreateInstance></CreateInstance>
+        </Col>
+      </Row>
+    </Container>
   );
   
+
   
 }
 

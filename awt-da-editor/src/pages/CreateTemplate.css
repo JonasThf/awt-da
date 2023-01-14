@@ -1,3 +1,24 @@
+#createTemplate{
+       margin-left: 30px;
+       margin-right: 30px;
+}
+
+
+h1 {
+       color:#1d3557;
+       text-align: center;
+       padding-top: 20px;
+     
+}
+
+#templatename {
+       margin-top: 20px;
+}
+
+#label{
+       font-weight: bold;
+}
+
 
 
 #TemplateNameLabel
@@ -41,11 +62,6 @@ input[type="checkbox"]+label{
        margin-top:0;
 }
 
-.InteractionCheckboxes{
-       display:inline-block;
-       text-align: left;
-}
-
 .InteractionsLabel{
        text-align: center;
      
@@ -59,7 +75,7 @@ input[type="checkbox"]+label{
 
 select{
 	/* background-color:#d7e3fc; */
-       min-width: 20em;
+       /* min-width: 20em; */
        text-align: center;
        color: black;
        min-height:2em;
@@ -67,16 +83,28 @@ select{
       
 }
 
-/* button{
-       min-width: 10em;
-       min-height: 3em;
-       background-color: #7d8597;
-       font-size:13px;
-} */
-
 #submittemp{
+       color: black;
        min-width: 10em;
        min-height: 3em;
-       background-color: #7d8597;
+       background-color:rgb(227, 224, 224);
        font-size:13px;
+       font-weight: bold;
+       float: right;
+
+}
+
+#selectShape{
+       margin-top: 30px;
+}
+
+#selectInteraction{
+       margin-top: 30px;
+}
+#checkboxGroup{
+       margin-top: 20px;
+}
+
+#checkbox {
+       margin-right: 10px;
 }

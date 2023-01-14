@@ -1,0 +1,16 @@
+#tvbox {
+    height: 100%;
+}
+
+#drag-wrapper{
+    background-color: red;
+    width: 320px;
+    height: 200px;
+}
+
+.item{
+    font-weight: 700;
+    font-size: x-large;
+    text-align: center;
+    padding-top: 50px;
+}
