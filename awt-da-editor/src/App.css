@@ -3,7 +3,6 @@
 }
 
 .App{display:flex; flex-direction:row;}
-<<<<<<< HEAD
 
 #container {
   height: 100vh;
@@ -26,26 +25,23 @@
 #createTemplateCol {
   background-color: rgb(164, 203, 230);
   margin-top: 4%;
-  margin-left: 2%;
+  /*margin-right: 2%;*/
   margin-bottom: 2%;
   border-radius: 25px;
 }
-=======
-
->>>>>>> e972391bd179f6e09db43b7b967d274a55ef7c20
 
 #boxCol {
   border: 2px solid red;
   margin-top: 10%;
-  margin-left: 2%;
-  margin-right: 2%;
+  /*margin-left: 2%;
+  margin-right: 2%;*/
   margin-bottom: 2%;
 }
 
 #createInstanceCol {
   background-color: rgb(164, 203, 230);
   margin-top: 4%;
-  margin-right: 2%;
+  /*margin-left: 2%;*/
   margin-bottom: 2%;
   border-radius: 25px;
 }

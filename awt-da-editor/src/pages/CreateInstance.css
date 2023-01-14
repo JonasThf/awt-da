@@ -59,7 +59,6 @@ h1 {
 
 #URL{
     min-width: 12em;
-<<<<<<< HEAD
 }
 
 #gettemp{
@@ -70,6 +69,15 @@ h1 {
 
 #selectTemplate {
     margin-top: 20px;
-=======
->>>>>>> e972391bd179f6e09db43b7b967d274a55ef7c20
+}
+
+#createinstancebutton{
+    color: black;
+    min-width: 10em;
+    min-height: 3em;
+    background-color:rgb(227, 224, 224);
+    font-size:13px;
+    font-weight: bold;
+    float: right;
+    margin-top: 30px;
 }

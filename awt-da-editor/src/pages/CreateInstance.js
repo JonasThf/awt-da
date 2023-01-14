@@ -3,6 +3,7 @@ import './CreateInstance.css'
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 var parsedTemplates = [];
 var templateStrings = [];
@@ -66,24 +67,50 @@ const CreateInstance = () => {
             console.log(error);
         }
     }
+
+    function uploadMedia() {
+        const formData = new FormData();
+     
+        // Update the formData object
+        formData.append(
+            "myFile",
+            this.state.selectedFile,
+            this.state.selectedFile.name
+        );
+     
+        // Details of the uploaded file
+        console.log(this.state.selectedFile);
+        
+        // Request made to the backend api
+        // Send formData object
+        //axios.post("api/uploadfile", formData);
+    };
+
      
 
     return (
         <div id="createInstance">
             <h1> Create Instance</h1>
-            <form id="formular">
             <Button variant="primary" id="gettemp" onClick={getTemplates}>Get Existing Templates</Button>
             <Form.Select id="selectTemplate">
                 <option>Choose Template</option>
             </Form.Select>
             
             <br></br><br></br>
-                <label id="DurationInSec">Duration in seconds:</label><br></br>
-                <input type="number" id="duration" name="duration" min="1" max="20" defaultValue={5}></input><br></br><br></br>
-                <label id="AddMedia">Add Media Ressource URL</label><br></br>
-                <input type="url" id="URL" name="URL"></input><br/> <br/>
-            </form>
-            <button id="SubmitInstance" type="button" onClick={submitInstance}>Create Instance</button>
+            <Form.Label htmlFor="duration"><b>Duration in Seconds</b></Form.Label>
+            <InputGroup className="mb-3">
+                <Form.Control id="duration"/>
+            </InputGroup>
+            <Form.Group controlId="formFile" className="mb-3">
+                <Form.Label>Choose media to upload</Form.Label>
+                <Form.Control type="file" />
+            </Form.Group>
+            <Form.Group controlId="formFileMultiple" className="mb-3">
+                <Form.Label>Choose media to upload</Form.Label>
+                <Form.Control type="file" multiple />
+            </Form.Group>
+            <Button variant="primary" id="upload" onClick={uploadMedia}>Upload</Button><br></br>
+            <Button variant="primary" id="createinstancebutton" onClick={submitInstance}>Create Instance</Button>
         </div>
     )
 };

@@ -46,10 +46,6 @@ label{
      
 }
 
-#templatename{
-       min-width: 20em;
-       min-height:1.7em;
-}
 input[type="checkbox"]{
        min-width: 2em;
        min-height:1.3em;
@@ -90,7 +86,6 @@ select{
        background-color:rgb(227, 224, 224);
        font-size:13px;
        font-weight: bold;
-<<<<<<< HEAD
        float: right;
 
 }
@@ -109,6 +104,3 @@ select{
 #checkbox {
        margin-right: 10px;
 }
-=======
-}
->>>>>>> e972391bd179f6e09db43b7b967d274a55ef7c20
