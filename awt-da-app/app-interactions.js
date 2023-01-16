@@ -1,4 +1,5 @@
 // scene implementation
+    var testy = false;
 var scene = {
     theAppObject:null,
     appAreaDiv: null,
@@ -10,6 +11,7 @@ var scene = {
     shouldReactToPlaybackButtons: false,
     shouldReactToNumericButtons: false,
     timeout: 0,
+
     initialize: function(appObj) {
         this.theAppObject = appObj;
         this.appAreaDiv = document.getElementById('app_area');
@@ -18,6 +20,7 @@ var scene = {
         rcUtils.registerKeyEventListener();
         // initial state is app_area hidden
         this.hideAppArea();
+        this.showAd();
         // render the scene so it is ready to be shown
         this.render();
     },
@@ -37,13 +40,42 @@ var scene = {
         this.appAreaDiv.style.visibility = 'visible';
         this.redButtonDiv.style.visibility = 'hidden';
         this.isAppAreaVisible = true;
+
         // when shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
     },
+    showAd: function(){
+
+
+    if(testy == true){
+        
+    }
+    else {
+        testy = true;
+    document.addEventListener("keydown", function(event) {
+        // Check if the red button (VK_RED) was pressed
+        if (event.keyCode === VK_RED) {
+            //Create an iframe element
+            var iframe = document.createElement("iframe");
+            //Set the src of the iframe to the other HTML file
+            iframe.src = "app.html";
+            //Append the iframe to the body
+            document.body.appendChild(iframe);
+            //Add an onload event to the iframe
+            iframe.onload = function(){
+                //Access the image by id in the other html file
+                var image = iframe.contentDocument.getElementById("mili");
+                //Unhide the image
+                image.style.display = "block";
+            }
+        }
+        })};
+        },
     hideAppArea: function(){
         this.appAreaDiv.style.visibility = 'hidden';
         this.redButtonDiv.style.visibility = 'visible';
         this.isAppAreaVisible = false;
+        
         // when hidden, app reacts only to red button key press (show app scene)
         rcUtils.setKeyset(this.theAppObject, rcUtils.MASK_CONSTANT_RED);
     },
