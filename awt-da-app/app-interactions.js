@@ -39,12 +39,18 @@ var scene = {
     },
     showAppArea: function(){
         this.appAreaDiv.style.visibility = 'visible';
-        this.ad.style.visibility='visible';
         this.redButtonDiv.style.visibility = 'hidden';
         this.isAppAreaVisible = true;
-
         // when shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
+       
+        //set the timer after how long the ad will show up
+        setTimeout(function(){
+            this.ad.style.visibility='visible';
+        }, 2000);
+        setTimeout(function(){
+            this.ad.style.visibility='hidden';
+        }, 5000); // here should be the number of seconds defined in instance of the ad (but minus 2000)
     },
     hideAppArea: function(){
         this.appAreaDiv.style.visibility = 'hidden';
@@ -291,3 +297,5 @@ function start()
         // this is not an HbbTV client, catch the error.
     }
 }
+
+
