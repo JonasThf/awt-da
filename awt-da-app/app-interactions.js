@@ -1,8 +1,9 @@
 // scene implementation
-    var testy = false;
+
 var scene = {
     theAppObject:null,
     appAreaDiv: null,
+    ad:null,
     isAppAreaVisible: false,
     redButtonDiv: null,
     lastNavigationButtonPressed: null,
@@ -15,12 +16,12 @@ var scene = {
     initialize: function(appObj) {
         this.theAppObject = appObj;
         this.appAreaDiv = document.getElementById('app_area');
+        this.ad=document.getElementById("ad");
         this.redButtonDiv = document.getElementById('red_button_notification_field');
         // register RC button event listener
         rcUtils.registerKeyEventListener();
         // initial state is app_area hidden
         this.hideAppArea();
-        this.showAd();
         // render the scene so it is ready to be shown
         this.render();
     },
@@ -38,41 +39,16 @@ var scene = {
     },
     showAppArea: function(){
         this.appAreaDiv.style.visibility = 'visible';
+        this.ad.style.visibility='visible';
         this.redButtonDiv.style.visibility = 'hidden';
         this.isAppAreaVisible = true;
 
         // when shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
     },
-    showAd: function(){
-
-
-    if(testy == true){
-        
-    }
-    else {
-        testy = true;
-    document.addEventListener("keydown", function(event) {
-        // Check if the red button (VK_RED) was pressed
-        if (event.keyCode === VK_RED) {
-            //Create an iframe element
-            var iframe = document.createElement("iframe");
-            //Set the src of the iframe to the other HTML file
-            iframe.src = "app.html";
-            //Append the iframe to the body
-            document.body.appendChild(iframe);
-            //Add an onload event to the iframe
-            iframe.onload = function(){
-                //Access the image by id in the other html file
-                var image = iframe.contentDocument.getElementById("mili");
-                //Unhide the image
-                image.style.display = "block";
-            }
-        }
-        })};
-        },
     hideAppArea: function(){
         this.appAreaDiv.style.visibility = 'hidden';
+        this.ad.style.visibility='hidden';
         this.redButtonDiv.style.visibility = 'visible';
         this.isAppAreaVisible = false;
         

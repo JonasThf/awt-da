@@ -39,6 +39,9 @@ div#app_area
 {
     visibility: hidden;
 }
+div#ad{
+    visibility: hidden;
+}
 
 /* set red button div style */
 div.red_button_style 
