@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
+
   
   return(
     <Container fluid id="container">
@@ -16,16 +17,16 @@ function App() {
         <Col id="header" sm={12}>Welcome to the Display Ad Editor</Col>
       </Row>
       <Row id="row">
-        <Col xs={1}></Col> 
-        <Col className="px-0" id="createTemplateCol" xs={2}>
+        <Col sm={1}></Col> 
+        <Col className="px-0" id="createTemplateCol" sm={2}>
           <CreateTemplate></CreateTemplate>
         </Col>
-        <Col id="boxCol" className="px-0" xs={6}>
+        <Col id="boxCol" className="px-0" sm={6}>
           <p id="tv">TV</p>
-          <Panel>content</Panel>
-          <Panel>Panel 2</Panel>
+          <Panel className = "Panel">contentffeffefe</Panel>
+          <Panel className = "Panel">Panel 2</Panel>
         </Col>
-        <Col id="createInstanceCol" className="px-0" xs={2}>
+        <Col id="createInstanceCol" className="px-0" sm={2}>
           <CreateInstance></CreateInstance>
         </Col>
         <Col xs={1}></Col> 
