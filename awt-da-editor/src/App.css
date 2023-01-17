@@ -58,3 +58,8 @@
 .createTemplate { 
   background-color:#61dafb;
 }
+#uploadImage{
+  cursor: move;
+  height: 300px;
+  width: 500px;
+}
