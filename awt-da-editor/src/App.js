@@ -14,29 +14,31 @@ function App() {
   const [imgData, setImgData] = React.useState(null);
   
   return(
-    <Filecontext.Provider value={{ imgData, setImgData }}>
-      <Container fluid id="container">
-        <Row>
-          <Col id="header" sm={12}>Welcome to the Display Ad Editor</Col>
-        </Row>
-        <Row id="row">
-          <Col className="px-0" id="createTemplateCol" xs={3}>
-            <CreateTemplate></CreateTemplate>
-          </Col>
-          <Col id="boxCol" className="px-0" xs={6}>
-            <p id="tv">TV</p>
-            <Panel>content</Panel>
-            <Panel>Panel 2</Panel>
-            <Image fluid src={imgData} id="uploadImage"/>
-          </Col>
-          <Col id="createInstanceCol" className="px-0" xs={3}>
-            <CreateInstance></CreateInstance>
-          </Col>
-        </Row>
-      </Container>
-    </Filecontext.Provider>
+    <div className="root">
+      <Filecontext.Provider value={{ imgData, setImgData }}>
+        <Container id="container">
+          <Row>
+            <Col md={12} id="header" >Welcome to the Display Ad Editor</Col>
+          </Row>
+          <Row id="row">
+            <Col className="px-0" id="createTemplateCol" md={3}>
+              <CreateTemplate></CreateTemplate>
+            </Col>
+            <Col id="boxCol" className="px-0" md={6}>
+              <p id="tv">TV</p>
+              <Panel>content</Panel>
+              <Panel>Panel 2</Panel>
+              <Image fluid src={imgData} id="uploadImage"/>
+            </Col>
+            <Col id="createInstanceCol" className="px-0" md={3}>
+              <CreateInstance></CreateInstance>
+            </Col>
+          </Row>
+        </Container>
+      </Filecontext.Provider>
+    </div>
   );
-  
+ 
 
   
 }

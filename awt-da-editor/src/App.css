@@ -4,30 +4,35 @@
 
 .App{display:flex; flex-direction:row;}
 
-#container {
+/* #container {
   height: 100vh;
-}
+} */
 
 #row{
-  height: 90%;
+  height: 100%;
 }
 
 #header {
   font-size: xx-large;
   width: 100%;
   padding: 20px 0;
-  min-height: 10vh;
+  /* min-height: 10vh; */
   text-align: center;
-  background-color: lightgreen;
-  margin-top: 0;
+  background-color: white;
+  margin-top: 30px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px grey;
 }
 
 #createTemplateCol {
-  background-color: rgb(164, 203, 230);
+  border: 1px solid black;
+  background-color: white;
   margin-top: 4%;
-  /*margin-right: 2%;*/
+  /* margin-right: 2%; */
   margin-bottom: 2%;
-  border-radius: 25px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px grey;
 }
 
 #boxCol {
@@ -39,11 +44,14 @@
 }
 
 #createInstanceCol {
-  background-color: rgb(164, 203, 230);
+  border: 1px solid black;
+  background-color: white;
   margin-top: 4%;
   /*margin-left: 2%;*/
   margin-bottom: 2%;
-  border-radius: 25px;
+  border-radius: 4px;
+  min-height: 100%;
+  box-shadow: 2px 2px 5px grey;
 }
 
 #tv {
