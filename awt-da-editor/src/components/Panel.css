@@ -1,9 +1,11 @@
 .panel {
     position: fixed;
-    top: 16px;
-    left: 16px;
     width: 200px;
     height: 200px;
+    max-width: fit-content;
+    min-width: 110px;
+    min-height: 80px;
+    max-height: 770px;
     border: 1px solid black;
     box-sizing: border-box;
   }
