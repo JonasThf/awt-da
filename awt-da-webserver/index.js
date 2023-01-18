@@ -22,18 +22,15 @@ function readDirectory() {
 
 app.post("/createTemplate", (req, res) => {
     const template = req.body;
-    console.log(template)
+    console.log(template);
     var refused = false;
     const title = template.name;
     const templates = readDirectory();
 
-
-    
-
     templates.forEach(x => {
       if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
         refused = true;
-        res.status(200).send("Template "+title+" already exists! \nChoose different Name.")
+        res.status(200).send("Template "+title+" already exists! \nChoose a different Name.")
       }
       else if (title.length < 1 || title.includes(' ')) {
           refused = true;
@@ -45,7 +42,7 @@ app.post("/createTemplate", (req, res) => {
       fs.writeFile('./templates/'+title+'.json', JSON.stringify(template), (err) => {
       if (err) {
           console.log(err);
-          res.status(500).send("Template was not created.");
+          res.status(500).send("Template could not be created.");
       }
       else {
         res.status(200).send("Template was created.");
