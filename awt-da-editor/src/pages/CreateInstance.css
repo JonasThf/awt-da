@@ -51,6 +51,12 @@ h1 {
     text-align: center;
 }
 
+#duration-label {
+    margin-top: 30px;
+}
+    
+
+
 #AddMedia
 {
     font-weight: bold;
@@ -63,7 +69,6 @@ h1 {
 
 #gettemp{
     margin-top: 30px;
-    
 
 }
 
@@ -75,7 +80,7 @@ h1 {
     color: black;
     min-width: 10em;
     min-height: 3em;
-    background-color:rgb(227, 224, 224);
+    background-color:white;;
     font-size:13px;
     font-weight: bold;
     float: right;

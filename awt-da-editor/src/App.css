@@ -1,22 +1,33 @@
 .App {
   text-align: center;
 }
+.root{
+  height: 100vh;
+}
 
 .App{display:flex; flex-direction:row;}
 
-/* #container {
-  height: 100vh;
-} */
-
-#row{
+#container {
   height: 100%;
+  max-width: 100%;
+}
+
+#row1{
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
+#row2{
+  justify-content: center;
+  height: 80%;
 }
 
 #header {
   font-size: xx-large;
-  width: 100%;
+  /* margin-left: auto; */
+  width: 80%;
   padding: 20px 0;
-  /* min-height: 10vh; */
   text-align: center;
   background-color: white;
   margin-top: 30px;
@@ -25,32 +36,33 @@
   box-shadow: 2px 2px 5px grey;
 }
 
-#createTemplateCol {
+#create-template-col {
   border: 1px solid black;
   background-color: white;
   margin-top: 4%;
-  /* margin-right: 2%; */
+  margin-right: 2%;
   margin-bottom: 2%;
   border-radius: 4px;
   box-shadow: 2px 2px 5px grey;
+  height: 80%;
 }
 
-#boxCol {
-  border: 2px solid red;
+#box-col {
+  border: 1px solid black;
+  box-shadow: 2px 2px 5px grey;
   margin-top: 10%;
-  /*margin-left: 2%;
-  margin-right: 2%;*/
   margin-bottom: 2%;
+  height: 65%;
 }
 
-#createInstanceCol {
+#create-instance-col {
   border: 1px solid black;
   background-color: white;
   margin-top: 4%;
-  /*margin-left: 2%;*/
+  margin-left: 2%;
   margin-bottom: 2%;
   border-radius: 4px;
-  min-height: 100%;
+  height: 80%;
   box-shadow: 2px 2px 5px grey;
 }
 
@@ -59,15 +71,10 @@
   margin-top: -70px;
   text-align: center;
 }
-.createInstance {
-  background-color: aquamarine;
 
-}
-.createTemplate { 
-  background-color:#61dafb;
-}
-#uploadImage{
-  cursor: move;
-  height: 300px;
-  width: 500px;
+#create-template-body{
+  text-align: center;
+  color: black;
+  border: 1px solid black;
+  border-radius: 7px;
 }

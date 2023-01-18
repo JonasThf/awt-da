@@ -7,35 +7,59 @@ import { Row, Col} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'react-bootstrap/Image';
-import { Filecontext } from './Filecontext';
+import Modal from 'react-bootstrap/Modal';
 
 
 function App() {
-  const [imgData, setImgData] = React.useState(null);
+  const [frontImg, setFrontImg] = React.useState(null);
+  const [images, setImages2] = React.useState(null);
+  const [createTemplateRespone, setCreateTemplateRespone] = React.useState(null);
+  const [show, setShow] = React.useState(false);
+  const [popupColor, setPopupColor] = React.useState('');
+
+  const handleClose = () => setShow(false);
+
+  const setShowTrue = () => {
+    setShow(true);
+  }
+
+  const setRespone = (respone) => {
+    setCreateTemplateRespone(respone);
+  }
+
+  const setColor = (color) => {
+    setPopupColor(color);
+  }
+
+  const setImages = (images) => {
+    setImages2(images);
+    setFrontImg(images[0]);
+  }
+
+  
   
   return(
     <div className="root">
-      <Filecontext.Provider value={{ imgData, setImgData }}>
-        <Container id="container">
-          <Row>
-            <Col md={12} id="header" >Welcome to the Display Ad Editor</Col>
-          </Row>
-          <Row id="row">
-            <Col className="px-0" id="createTemplateCol" md={3}>
-              <CreateTemplate></CreateTemplate>
-            </Col>
-            <Col id="boxCol" className="px-0" md={6}>
-              <p id="tv">TV</p>
-              <Panel>content</Panel>
-              <Panel>Panel 2</Panel>
-              <Image fluid src={imgData} id="uploadImage"/>
-            </Col>
-            <Col id="createInstanceCol" className="px-0" md={3}>
-              <CreateInstance></CreateInstance>
-            </Col>
-          </Row>
-        </Container>
-      </Filecontext.Provider>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Body id="create-template-body" style={{backgroundColor: popupColor}}>{createTemplateRespone}</Modal.Body>
+      </Modal>
+      <Container id="container">
+        <Row id="row1">
+          <Col md={10} id="header">Welcome to the Display Ad Editor</Col>
+        </Row>
+        <Row id="row2">
+          <Col className="px-0" id="create-template-col" md={2}>
+            <CreateTemplate setShow={setShowTrue} setRespone={setRespone} setColor={setColor}></CreateTemplate>
+          </Col>
+          <Col id="box-col" className="px-0" md={5}>
+            <p id="tv">TV</p>
+            <Panel><Image fluid src={frontImg}/></Panel>
+          </Col>
+          <Col id="create-instance-col" className="px-0" md={2}>
+            <CreateInstance setImages={setImages}></CreateInstance>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
  

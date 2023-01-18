@@ -6,17 +6,14 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Filecontext } from '../Filecontext';
 import { useContext } from 'react';
+import { propTypes } from "react-bootstrap/esm/Image";
 
 var parsedTemplates = [];
 var templateStrings = [];
 
-const CreateInstance = () => {
+const CreateInstance = (props) => {
 
     const [uploadElement, setuploadElement] = React.useState(<div></div>);
-    const [files, setFiles] = React.useState(null);
-    const [picture, setPicture] = React.useState(null);
-    const { setImgData } = useContext(Filecontext)
-    
 
     async function getTemplates() {
         
@@ -119,18 +116,30 @@ const CreateInstance = () => {
         
     }
 
-    const uploadFiles = e => {
-        if (e.target.files[0]) {
-          console.log("picture: ", e.target.files);
-          setPicture(e.target.files[0]);
-          const reader = new FileReader();
-          reader.addEventListener("load", () => {
-            setImgData(reader.result);
-          });
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      };
+    const uploadFiles = imageFiles => {
 
+        // Get files in array form
+        let images = Array.from(imageFiles.target.files);
+
+        // Map each file to a promise and read file data 
+        Promise.all(images.map(file => {
+            return (new Promise((resolve,reject) => {
+                const reader = new FileReader();
+                reader.addEventListener('load', (ev) => {
+                    resolve(ev.target.result);
+                });
+                reader.addEventListener('error', reject);
+                reader.readAsDataURL(file);
+            }));
+        }))
+        .then(images => {
+
+            // Once all promises are resolved, update state with image array //
+            props.setImages(images);
+        });
+    }
+    
+    
     return (
         <div id="createInstance">
             <h1> Create Instance</h1>
@@ -138,14 +147,12 @@ const CreateInstance = () => {
             <Form.Select id="selectTemplate" onChange={showUpload}>
                 <option>Choose Template</option>
             </Form.Select>
-            
-            <br></br><br></br>
-            <Form.Label htmlFor="duration"><b>Duration in Seconds</b></Form.Label>
+            <Form.Label htmlFor="duration" id="duration-label">Duration in Seconds</Form.Label>
             <InputGroup className="mb-3">
-                <Form.Control id="duration"/>
+                <Form.Control id="duration" type="number" min="5" max="60"/>
             </InputGroup>
             {uploadElement}
-            <Button variant="primary" id="upload" onClick={uploadMedia}>Upload</Button><br></br>
+            {/* <Button variant="primary" id="upload" onClick={uploadMedia}>Upload</Button><br></br> */}
             <Button variant="primary" id="createinstancebutton" onClick={submitInstance}>Create Instance</Button>
         </div>
     )
