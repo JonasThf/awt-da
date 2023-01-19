@@ -4,11 +4,19 @@ import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { Filecontext } from '../Filecontext';
+import { useContext } from 'react';
 
 var parsedTemplates = [];
 var templateStrings = [];
 
 const CreateInstance = () => {
+
+    const [uploadElement, setuploadElement] = React.useState(<div></div>);
+    const [files, setFiles] = React.useState(null);
+    const [picture, setPicture] = React.useState(null);
+    const { setImgData } = useContext(Filecontext)
+    
 
     async function getTemplates() {
         
@@ -86,13 +94,48 @@ const CreateInstance = () => {
         //axios.post("api/uploadfile", formData);
     };
 
-     
+    function showUpload() {
+        var select = document.getElementById("selectTemplate");
+        if(select.value === 'Choose Template' ) {
+            setuploadElement(<div></div>);  
+        } else {
+            for (let i = 0; i < parsedTemplates.length; i++) {
+                if(parsedTemplates[i].name === select.value) {
+                    var selectedTemplate = parsedTemplates[i];
+                    if(selectedTemplate.interactions.includes('Change Image')) {
+                        setuploadElement(<Form.Group controlId="formFileMultiple" className="mb-3">
+                                            <Form.Label>Choose media to upload</Form.Label>
+                                            <Form.Control type="file" multiple onChange={uploadFiles}/>
+                                        </Form.Group>);
+                    } else {
+                        setuploadElement(<Form.Group controlId="formFile" className="mb-3">
+                                            <Form.Label>Choose media to upload</Form.Label>
+                                            <Form.Control type="file" onChange={uploadFiles}/>
+                                        </Form.Group>);
+                    }
+                }
+            }
+        }
+        
+    }
+
+    const uploadFiles = e => {
+        if (e.target.files[0]) {
+          console.log("picture: ", e.target.files);
+          setPicture(e.target.files[0]);
+          const reader = new FileReader();
+          reader.addEventListener("load", () => {
+            setImgData(reader.result);
+          });
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      };
 
     return (
         <div id="createInstance">
             <h1> Create Instance</h1>
             <Button variant="primary" id="gettemp" onClick={getTemplates}>Get Existing Templates</Button>
-            <Form.Select id="selectTemplate">
+            <Form.Select id="selectTemplate" onChange={showUpload}>
                 <option>Choose Template</option>
             </Form.Select>
             
@@ -101,14 +144,7 @@ const CreateInstance = () => {
             <InputGroup className="mb-3">
                 <Form.Control id="duration"/>
             </InputGroup>
-            <Form.Group controlId="formFile" className="mb-3">
-                <Form.Label>Choose media to upload</Form.Label>
-                <Form.Control type="file" />
-            </Form.Group>
-            <Form.Group controlId="formFileMultiple" className="mb-3">
-                <Form.Label>Choose media to upload</Form.Label>
-                <Form.Control type="file" multiple />
-            </Form.Group>
+            {uploadElement}
             <Button variant="primary" id="upload" onClick={uploadMedia}>Upload</Button><br></br>
             <Button variant="primary" id="createinstancebutton" onClick={submitInstance}>Create Instance</Button>
         </div>
