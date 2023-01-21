@@ -59,9 +59,10 @@ const CreateTemplate = (props) => {
           </Form.Group>
         </Form>
         <Form.Select id="select-shape">
-          <option>Choose a Shape</option>
+          <option>Choose a Banner-Type</option>
           <option value="1">Standard</option>
           <option value="2">L-Banner</option>
+          <option value="3">Half Screen</option>
         </Form.Select>
         <Form.Select id="select-interaction">
           <option>Choose Interaction</option>
@@ -71,9 +72,7 @@ const CreateTemplate = (props) => {
         <Form.Group id="checkboxGroup">
           <Form.Check id="resize-checkbox" type="checkbox" label="Image Resizing" />
         </Form.Group>
-      <br/>
-      <br/>
-      <Button variant="primary" id="submittemp" onClick={submit}>Submit Template</Button>
+        <Button variant="primary" id="submit-template-button" onClick={submit}>Submit Template</Button>
     </div>
   );
 };

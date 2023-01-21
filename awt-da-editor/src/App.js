@@ -2,12 +2,11 @@ import React from "react";
 import './App.css';
 import CreateInstance from './pages/CreateInstance'
 import CreateTemplate from './pages/CreateTemplate';
-import Panel from "./components/Panel";
 import { Row, Col} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
+import Television from "./components/Television";
 
 
 function App() {
@@ -52,8 +51,12 @@ function App() {
             <CreateTemplate setShow={setShowTrue} setRespone={setRespone} setColor={setColor}></CreateTemplate>
           </Col>
           <Col id="box-col" className="px-0" md={5}>
-            <p id="tv">TV</p>
-            <Panel><Image fluid src={frontImg}/></Panel>
+            <Row id="row3">
+              <p id="tv">TV</p>
+            </Row>
+            <Row id="row4">
+              <Television frontImg={frontImg}></Television>
+            </Row>
           </Col>
           <Col id="create-instance-col" className="px-0" md={2}>
             <CreateInstance setImages={setImages}></CreateInstance>
