@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./CreateTemplate.css";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Panel from "../components/Panel";
 
 
 /* eslint-disable */
-const CreateTemplate = () => {
+const CreateTemplate = (props) => {
+
+  const {panel} = props
+
 
 async function submit () {
     
     var title = document.getElementById("templatename").value
-    var resizing = document.getElementById("image").checked
-    var interactions = document.getElementById("interaction").value
-    var da_type = document.getElementById("da-type").value
+    var resizing = document.getElementById("checkbox").checked
+    var interactions = document.getElementById("selectInteraction").value
+    var da_type = document.getElementById("selectShape").value
+    var height = panel.height
+    var width = panel.width
+    console.log(panel.height)
+    console.log(panel.width)
+    //var height = Panel.getElementById(panelRef).height
 
     var  template = {
         "name": title,
@@ -22,10 +31,10 @@ async function submit () {
         "interactions": interactions,
         "duration": 0, 
         "media_ressource": "",
-        "width": "50%",
+        "width": width,
         "ad_text": "Text for advertisement",
         "font-size": "30px",
-        "height": "70px", 
+        "height": height, 
 
 
     }
@@ -68,7 +77,9 @@ async function submit () {
         </Form.Group>
       <br/>
       <br/>
-      <Button variant="primary" id="submittemp" onClick={submit}>Submit Template</Button>
+      <Button variant="primary" id="submittemp" onClick={() => {
+        submit(); 
+      }}>Submit Template</Button>
     </div>
   );
 };

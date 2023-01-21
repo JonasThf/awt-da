@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import './App.css';
 import CreateInstance from './pages/CreateInstance'
 import CreateTemplate from './pages/CreateTemplate';
@@ -9,10 +9,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from 'react-bootstrap/Image';
 import { Filecontext } from './Filecontext';
 
-
 function App() {
   const [imgData, setImgData] = React.useState(null);
+  const [panel, setPanelRef] = React.useState({height: "200px", width: "100px"})
   
+
   return(
     <div className="root">
       <Filecontext.Provider value={{ imgData, setImgData }}>
@@ -22,13 +23,12 @@ function App() {
           </Row>
           <Row id="row">
             <Col className="px-0" id="createTemplateCol" md={3}>
-              <CreateTemplate></CreateTemplate>
+              <CreateTemplate setPanelRef = {setPanelRef} panel = {panel}></CreateTemplate>
             </Col>
             <Col id="boxCol" className="px-0" md={6}>
               <p id="tv">TV</p>
-              <Panel>content</Panel>
-              <Panel>Panel 2</Panel>
-              <Image fluid src={imgData} id="uploadImage"/>
+              <Panel panelHeightWidth = {panel} setPanelRef = {setPanelRef}>Panel 2</Panel>
+              {/*<Image fluid src={imgData} id="uploadImage"/>*/}
             </Col>
             <Col id="createInstanceCol" className="px-0" md={3}>
               <CreateInstance></CreateInstance>

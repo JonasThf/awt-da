@@ -1,11 +1,11 @@
 .panel {
     position: fixed;
-    width: 200px;
-    height: 200px;
-    max-width: 551px;
+    width: 655px;
+    height: 40px;
+    max-width: 655px;
     min-width: 110px;
     min-height: 80px;
-    max-height: 770px;
+    max-height: 409px;
     border: 1px solid black;
     box-sizing: border-box;
   }

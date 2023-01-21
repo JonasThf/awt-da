@@ -1,14 +1,17 @@
-import React, { useRef } from 'react';
 
-import PanelHeader from './PanelHeader';
 import Resizer from './Resizer/Resizer';
-
 import { Direction } from './Resizer/Constants.js';
-
 import './Panel.css';
+import React, { useState, useEffect, useRef } from 'react';
+import { Button } from 'react-bootstrap';
 
-const Panel = ({ children }) => {
+
+const Panel = (props) => {
+  const {panelHeightWidth, setPanelRef, onDrag ,children} = props;
   const panelRef = useRef(null);
+  //useEffect(() => {setPanelRef({height: panelRef.current.height, width: panelRef.current.clientWidth})}, [panelRef.current.height, panelRef.current.clientWidth]) 
+  const [mouseDown, setMouseDown] = useState(false);
+  
 
   const handleDrag = (movementX, movementY) => {
     const panel = panelRef.current;
@@ -18,13 +21,42 @@ const Panel = ({ children }) => {
 
     panel.style.left = `${x + movementX}px`;
     panel.style.top = `${y + movementY}px`;
+    
   };
+  useEffect(() => {
+    const handleMouseUp = () => setMouseDown(false);
+
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.addEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    const ratio = window.devicePixelRatio
+
+    const handleMouseMove = (e) => onDrag(e.movementX / ratio, e.movementY / ratio);
+
+    if (mouseDown) {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [mouseDown, onDrag]);
+
+  const handleMouseDown = () => setMouseDown(true);
+
+
 
   const handleResize = (direction, movementX, movementY) => {
     const panel = panelRef.current;
     if (!panel) return;
 
     const { width, height, x, y } = panel.getBoundingClientRect();
+  
 
     const resizeTop = () => {
       panel.style.height = `${height - movementY}px`;
@@ -81,20 +113,20 @@ const Panel = ({ children }) => {
         resizeLeft();
         break;
 
-      default:
-        break;
+  
       }
+    //console.log("first", panelHeightWidth)
+    //console.log(setPanelRef)
+    setPanelRef({height: panel.clientHeight, width: panel.clientWidth})
+    //console.log(panelHeightWidth)
   };
 
   return (
-    <div className="panel" ref={panelRef}>
-      <div className="panel__container">
+    <div className="panel" id ="panel"ref={panelRef}>
+      <div className="panel__container" onDrag={handleDrag} >
         <Resizer onResize={handleResize} />
-        
-        <PanelHeader onDrag={handleDrag} />
-
-        <div className="panel__content">
-          {children}
+        <div className="panel__content" onMouseDown={handleMouseDown}>
+        {children}
         </div>
       </div>
     </div>
