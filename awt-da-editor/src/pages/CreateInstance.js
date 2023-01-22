@@ -4,9 +4,6 @@ import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Filecontext } from '../Filecontext';
-import { useContext } from 'react';
-import { propTypes } from "react-bootstrap/esm/Image";
 
 var parsedTemplates = [];
 var templateStrings = [];

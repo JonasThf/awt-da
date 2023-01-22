@@ -7,16 +7,21 @@ import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Television from "./components/Television";
-
+import Resizable from "./components/Resizable";
 
 function App() {
   const [frontImg, setFrontImg] = React.useState(null);
   const [images, setImages2] = React.useState(null);
   const [createTemplateRespone, setCreateTemplateRespone] = React.useState(null);
-  const [panel, setPanelRef] = React.useState({height: "200px", width: "100px"})
+  const [resizer, setResizer] = React.useState({
+    width: 200,
+    height: 200,
+    x: 10,
+    y: 10});
   
   const [show, setShow] = React.useState(false);
   const [popupColor, setPopupColor] = React.useState('');
+  const [bannerState, setBannerState] = React.useState(null);
 
   const handleClose = () => setShow(false);
 
@@ -50,15 +55,17 @@ function App() {
         </Row>
         <Row id="row2">
           <Col className="px-0" id="create-template-col" md={2}>
-            <CreateTemplate setShow={setShowTrue} setRespone={setRespone} setColor={setColor}></CreateTemplate>
+            <CreateTemplate setResizer={setResizer} resizer={resizer} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
           </Col>
           <Col id="box-col" className="px-0" md={5}>
             <Row id="row3">
               <p id="tv">TV</p>
             </Row>
             <Row id="row4">
-              <Television frontImg={frontImg}></Television>
-            </Row>
+              { bannerState === "1" ? <Resizable setResizer={setResizer}></Resizable> : null}
+              <Television frontImg={frontImg} bannerState={bannerState}></Television>
+              
+            </Row> 
           </Col>
           <Col id="create-instance-col" className="px-0" md={2}>
             <CreateInstance setImages={setImages}></CreateInstance>

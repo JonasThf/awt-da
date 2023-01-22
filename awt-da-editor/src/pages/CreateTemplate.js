@@ -3,29 +3,46 @@ import "./CreateTemplate.css";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Panel from "../components/Panel";
-import Modal from 'react-bootstrap/Modal';
 
 
 /* eslint-disable */
 const CreateTemplate = (props) => {
 
-  const {panel} = props
 
+
+  function setStandardBannerSelected() {
+    let select = document.getElementById('select-shape');
+    switch (select.value) {
+      case "1":
+        props.setBannerState("1");
+        
+        break;
+
+      case "2":
+        props.setBannerState("2");
+        break;
+
+      case "3":
+        props.setBannerState("3");
+        break;
+      default:
+        props.setBannerState(null);
+      break;
+    }
+}
 
 async function submit () {
     
-    var title = document.getElementById("templatename").value
-    var resizing = document.getElementById("checkbox").checked
-    var interactions = document.getElementById("selectInteraction").value
-    var da_type = document.getElementById("selectShape").value
-    var height = panel.height
-    var width = panel.width
-    console.log(panel.height)
-    console.log(panel.width)
-    //var height = Panel.getElementById(panelRef).height
+    let title = document.getElementById("template-name").value;
+    let resizing = document.getElementById("resize-checkbox").checked;
+    let shape = document.getElementById("select-shape").value;
+    let interactions = document.getElementById("select-interaction").value;
+    let height = props.resizer.height;
+    let width = props.resizer.width;
+    let x = props.resizer.x;
+    let y = props.resizer.y;
 
-      var  template = {
+      let  template = {
           "name": title,
           "shape": shape,
           "image_resize": resizing,
@@ -33,9 +50,10 @@ async function submit () {
           "duration": 0, 
           "media_ressource_type": "",
           "number_of_images": 0,
-          "width": "",
-          "height": "",
-          // "ad_text": "Text for advertisement"
+          "width": width,
+          "height": height,
+          "x": x,
+          "y": y
       }
 
       var templateAsString = JSON.stringify(template)
@@ -67,7 +85,7 @@ async function submit () {
             <Form.Control type="text" placeholder="Example Template Name" id="template-name"/>
           </Form.Group>
         </Form>
-        <Form.Select id="select-shape">
+        <Form.Select id="select-shape" onChange={setStandardBannerSelected}>
           <option>Choose a Banner-Type</option>
           <option value="1">Standard</option>
           <option value="2">L-Banner</option>
