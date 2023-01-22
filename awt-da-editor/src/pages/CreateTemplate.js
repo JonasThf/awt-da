@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./CreateTemplate.css";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Panel from "../components/Panel";
 import Modal from 'react-bootstrap/Modal';
 
 
 /* eslint-disable */
 const CreateTemplate = (props) => {
 
-  async function submit () {
-      
-      var title = document.getElementById("template-name").value
-      var resizing = document.getElementById("resize-checkbox").checked
-      var shape = document.getElementById("select-shape").value
-      var interactions = document.getElementById("select-interaction").value
+  const {panel} = props
+
+
+async function submit () {
+    
+    var title = document.getElementById("templatename").value
+    var resizing = document.getElementById("checkbox").checked
+    var interactions = document.getElementById("selectInteraction").value
+    var da_type = document.getElementById("selectShape").value
+    var height = panel.height
+    var width = panel.width
+    console.log(panel.height)
+    console.log(panel.width)
+    //var height = Panel.getElementById(panelRef).height
 
       var  template = {
           "name": title,
@@ -72,7 +81,9 @@ const CreateTemplate = (props) => {
         <Form.Group id="checkboxGroup">
           <Form.Check id="resize-checkbox" type="checkbox" label="Image Resizing" />
         </Form.Group>
-        <Button variant="primary" id="submit-template-button" onClick={submit}>Submit Template</Button>
+        <Button variant="primary" id="submit-template-button" onClick={() => {
+        submit(); 
+      }}>Submit Template</Button>
     </div>
   );
 };

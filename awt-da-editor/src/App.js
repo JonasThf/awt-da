@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import './App.css';
 import CreateInstance from './pages/CreateInstance'
 import CreateTemplate from './pages/CreateTemplate';
@@ -13,6 +13,8 @@ function App() {
   const [frontImg, setFrontImg] = React.useState(null);
   const [images, setImages2] = React.useState(null);
   const [createTemplateRespone, setCreateTemplateRespone] = React.useState(null);
+  const [panel, setPanelRef] = React.useState({height: "200px", width: "100px"})
+  
   const [show, setShow] = React.useState(false);
   const [popupColor, setPopupColor] = React.useState('');
 
@@ -36,7 +38,7 @@ function App() {
   }
 
   
-  
+
   return(
     <div className="root">
       <Modal show={show} onHide={handleClose}>

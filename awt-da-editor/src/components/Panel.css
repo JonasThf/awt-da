@@ -1,25 +1,25 @@
 .panel {
-  position: fixed;
-  width: 200px;
-  height: 200px;
-  max-width: 551px;
-  min-width: 110px;
-  min-height: 80px;
-  max-height: 770px;
-  border: 1px solid black;
-  box-sizing: border-box;
-}
-
-.panel__container {
-  height: 100%;
-  position: relative;
-}
-
-.panel__header {
-  padding: 4px;
-  background-color: #e2e0e0;
-}
-
-.panel__content {
-  padding: 4px;
-}
+    position: fixed;
+    width: 655px;
+    height: 40px;
+    max-width: 655px;
+    min-width: 110px;
+    min-height: 80px;
+    max-height: 409px;
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+  
+  .panel__container {
+    height: 100%;
+    position: relative;
+  }
+  
+  .panel__header {
+    padding: 4px;
+    background-color: #e2e0e0;
+  }
+  
+  .panel__content {
+    padding: 4px;
+  }
