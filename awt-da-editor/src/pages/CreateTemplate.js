@@ -35,7 +35,7 @@ const CreateTemplate = (props) => {
       try {
           const response = await axios.post("http://localhost:3001/createTemplate", template, {headers: {'Content-Type': 'application/json'}});
           document.getElementById("formular").reset();
-          if(response.data.includes('!')) {
+          if(response.data.includes('!') || response.data.includes('empty')) {
             props.setColor('rgb(253, 192, 184)');
           } else {
             props.setColor('rgb(198, 253, 184)');
