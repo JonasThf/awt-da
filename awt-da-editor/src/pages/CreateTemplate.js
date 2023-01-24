@@ -1,95 +1,107 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./CreateTemplate.css";
 import axios from "axios";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 
 /* eslint-disable */
-const CreateTemplate = () => {
+const CreateTemplate = (props) => {
+
+
+
+  function setStandardBannerSelected() {
+    let select = document.getElementById('select-shape');
+    switch (select.value) {
+      case "1":
+        props.setBannerState("1");
+        
+        break;
+
+      case "2":
+        props.setBannerState("2");
+        break;
+
+      case "3":
+        props.setBannerState("3");
+        break;
+      default:
+        props.setBannerState(null);
+      break;
+    }
+}
 
 async function submit () {
     
-    var title = document.getElementById("templatename").value
-    var resizing = document.getElementById("image").checked
-    var interactions = []
-    if (document.getElementById("links_to_open").checked == true) interactions.push("links")
-    if (document.getElementById("different_tabs").checked == true) interactions.push("tabs")
-    if (document.getElementById("fill_in_form").checked == true) interactions.push("form")
-    if (document.getElementById("mini_game").checked == true) interactions.push("game")
-    var da_type = document.getElementById("da-type").value
+    let title = document.getElementById("template-name").value;
+    let resizing = document.getElementById("resize-checkbox").checked;
+    let shape = document.getElementById("select-shape").value;
+    let interactions = document.getElementById("select-interaction").value;
+    let height = props.resizer.height;
+    let width = props.resizer.width;
+    let x = props.resizer.x;
+    let y = props.resizer.y;
 
-    var  template = {
-        name: title,
-        resize: resizing,
-        interactions: interactions,
-        daType: da_type,
-        duration: 0, 
-        media_ressource: ""
-    }
+      let  template = {
+          "name": title,
+          "shape": shape,
+          "image_resize": resizing,
+          "interactions": interactions,
+          "duration": 0, 
+          "media_ressource_type": "",
+          "number_of_images": 0,
+          "width": width,
+          "height": height,
+          "x": x,
+          "y": y
+      }
 
-    var templateAsString = JSON.stringify(template)
-    console.log(templateAsString);
+      var templateAsString = JSON.stringify(template)
+      console.log(templateAsString);
 
-    try {
-        const response = await axios.post("http://localhost:3001/createTemplate", template, {headers: {'Content-Type': 'application/json'}});
-        document.getElementById("formular").reset();
-        alert(response.data);
+      try {
+          const response = await axios.post("http://localhost:3001/createTemplate", template, {headers: {'Content-Type': 'application/json'}});
+          document.getElementById("formular").reset();
+          if(response.data.includes('!') || response.data.includes('empty')) {
+            props.setColor('rgb(253, 192, 184)');
+          } else {
+            props.setColor('rgb(198, 253, 184)');
+          }
+          props.setShow();
+          props.setRespone(response.data);
+      }
+      catch (error) {
+          console.log(error);
+      }
     }
-    catch (error) {
-        console.log(error);
-    }
-  }
 
 
   return (
-    <div className="createTemplate">
-      <div id="template_creation">
-        <h1>Create Template</h1>
-        <div id="TemplateForm">
-        <form id="formular" >
-          {/* <fieldset class="TemplateFieldset"> */}
-          <label id="TemplateNameLabel">Template Name</label>
-          <input type="text" id="templatename"></input>
-          <br />
-          <br />
-          <div id="ImageResizeClass">
-          <input type="checkbox" id="image"></input>
-          <label id="ImageResizeLabel">Image Resize</label>
-          </div>
-          <br />
-          <div id="InteractionCheckboxes">
-          <label id="InteractionsLabel">Interactions</label>
-         
-          <label></label>
-          <input type="checkbox" id="links_to_open"></input>
-          <label>Links to open</label>
-          <br/>
-          <input type="checkbox" id="different_tabs"></input>
-          <label>Different Tabs</label>
-          <br />
-          <input type="checkbox" id="fill_in_form"></input>
-          <label>Fill in Form</label>
-          <br/>
-          <input type="checkbox" id="mini_game"></input>
-          <label>Mini Game</label>
-          </div>
-          <br/>
-      
-          <div id="ChooseDaType">
-          <label>Choose Da-Type</label>
-                    <select id="da-type">
-                        <option disabled value="option"> -- select an option -- </option>
-                        <option value="half-screen">Half screen banner</option>
-                        <option value="l-banner">L-Banner</option>
-                        <option value="below-screen">Below Sreeen</option>
-                    </select><br></br>
-          </div>
-          {/* </fieldset>  */}
-        </form>
-        </div>
-        <br/>
-        <br/>
-        <button id="submittemp" onClick={submit}>Submit Template</button>
-      </div>
+    <div id="createTemplate">
+      <h1>Create Template</h1>
+        <Form id="formular" >
+          <Form.Group className="mb-3" id="template-name-group">
+            <Form.Label htmlFor="template-name" id="label">Template Name</Form.Label>
+            <Form.Control type="text" placeholder="Example Template Name" id="template-name"/>
+          </Form.Group>
+        </Form>
+        <Form.Select id="select-shape" onChange={setStandardBannerSelected}>
+          <option>Choose a Banner-Type</option>
+          <option value="1">Standard</option>
+          <option value="2">L-Banner</option>
+          <option value="3">Half Screen</option>
+        </Form.Select>
+        <Form.Select id="select-interaction">
+          <option>Choose Interaction</option>
+          <option value="1">Change image when pressing color buttons</option>
+          <option value="2">No Interaction</option>
+        </Form.Select>
+        <Form.Group id="checkboxGroup">
+          <Form.Check id="resize-checkbox" type="checkbox" label="Image Resizing" />
+        </Form.Group>
+        <Button variant="primary" id="submit-template-button" onClick={() => {
+        submit(); 
+      }}>Submit Template</Button>
     </div>
   );
 };
