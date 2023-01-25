@@ -10,14 +10,14 @@ const app = express();
 app.use(cors()) 
 app.use(bodyParser.json());
 
-function readDirectory() {
-    let templates = [];
-    let fileNames = fs.readdirSync('./templates/');
+function readDirectory(directory) {
+    let files = [];
+    let fileNames = fs.readdirSync(directory);
     fileNames.forEach(file => {
-        let fileData = fs.readFileSync('./templates/'+file, 'utf8');
-        templates.push(fileData);
+        let fileData = fs.readFileSync(directory+file, 'utf8');
+        files.push(fileData);
     });
-    return templates;
+    return files;
 };
 
 app.post("/createTemplate", (req, res) => {
@@ -25,7 +25,7 @@ app.post("/createTemplate", (req, res) => {
     console.log(template);
     var refused = false;
     const title = template.name;
-    const templates = readDirectory();
+    const templates = readDirectory('./templates/');
 
     templates.forEach(x => {
       if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
@@ -54,7 +54,7 @@ app.post("/createTemplate", (req, res) => {
 
 app.get("/getTemplates", async (req, res) => {
     try {
-        res.status(200).send((readDirectory()));
+        res.status(200).send((readDirectory('./templates/')));
     } catch (e) {
         res.send({message: "Error in Fetching user"});
     }
@@ -78,8 +78,13 @@ app.post("/createInstance", (req, res) => {
   });
 
 
-app.get("/getInstance", (req, res) => {
-res.json({ message: "Hello from server!" });
+app.get("/getInstance/:instanceID", (req, res) => {
+  console.log(req.params);
+  // TODO
+  let instances = readDirectory('./instances/');
+  console.log(instances);
+  let instance = instances.
+  res.json(req.params);
 });
 
 
