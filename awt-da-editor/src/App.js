@@ -10,8 +10,6 @@ import Television from "./components/Television";
 import Resizable from "./components/Resizable";
 
 function App() {
-  const [frontImg, setFrontImg] = React.useState(null);
-  const [images, setImages2] = React.useState(null);
   const [createTemplateRespone, setCreateTemplateRespone] = React.useState(null);
   const [resizer, setResizer] = React.useState({
     width: 200,
@@ -22,6 +20,7 @@ function App() {
   const [show, setShow] = React.useState(false);
   const [popupColor, setPopupColor] = React.useState('');
   const [bannerState, setBannerState] = React.useState(null);
+  const [preview, setPreview] = React.useState(<div></div>);
 
   const handleClose = () => setShow(false);
 
@@ -35,11 +34,6 @@ function App() {
 
   const setColor = (color) => {
     setPopupColor(color);
-  }
-
-  const setImages = (images) => {
-    setImages2(images);
-    setFrontImg(images[0]);
   }
 
   
@@ -63,12 +57,12 @@ function App() {
             </Row>
             <Row id="row4">
               { bannerState === "1" ? <Resizable setResizer={setResizer}></Resizable> : null}
-              <Television frontImg={frontImg} bannerState={bannerState}></Television>
-              
+              <Television bannerState={bannerState}></Television>
+              {preview}
             </Row> 
           </Col>
           <Col id="create-instance-col" className="px-0" md={2}>
-            <CreateInstance setImages={setImages}></CreateInstance>
+            <CreateInstance setPreview={setPreview}></CreateInstance>
           </Col>
         </Row>
       </Container>

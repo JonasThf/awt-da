@@ -34,8 +34,9 @@ const CreateTemplate = (props) => {
 async function submit () {
     
     let title = document.getElementById("template-name").value;
-    let resizing = document.getElementById("resize-checkbox").checked;
     let shape = document.getElementById("select-shape").value;
+    let resizing = false;
+    if (shape === '2') resizing = true;
     let interactions = document.getElementById("select-interaction").value;
     let height = props.resizer.height;
     let width = props.resizer.width;
@@ -77,31 +78,29 @@ async function submit () {
 
 
   return (
-    <div id="createTemplate">
+    <div id="create-template">
       <h1>Create Template</h1>
         <Form id="formular" >
           <Form.Group className="mb-3" id="template-name-group">
             <Form.Label htmlFor="template-name" id="label">Template Name</Form.Label>
             <Form.Control type="text" placeholder="Example Template Name" id="template-name"/>
           </Form.Group>
+          <Form.Select id="select-shape" onChange={setStandardBannerSelected}>
+            <option>Choose a Banner-Type</option>
+            <option value="1">Standard</option>
+            <option value="2">L-Banner</option>
+            <option value="3">Half Screen</option>
+          </Form.Select>
+          <Form.Select id="select-interaction">
+            <option>Choose Interaction</option>
+            <option value="1">Change image when pressing color buttons</option>
+            <option value="2">No Interaction</option>
+          </Form.Select>
+          <Button variant="primary" id="submit-template-button" onClick={() => { 
+            submit(); 
+            props.setBannerState('0'); 
+            }}>Submit Template</Button>
         </Form>
-        <Form.Select id="select-shape" onChange={setStandardBannerSelected}>
-          <option>Choose a Banner-Type</option>
-          <option value="1">Standard</option>
-          <option value="2">L-Banner</option>
-          <option value="3">Half Screen</option>
-        </Form.Select>
-        <Form.Select id="select-interaction">
-          <option>Choose Interaction</option>
-          <option value="1">Change image when pressing color buttons</option>
-          <option value="2">No Interaction</option>
-        </Form.Select>
-        <Form.Group id="checkboxGroup">
-          <Form.Check id="resize-checkbox" type="checkbox" label="Image Resizing" />
-        </Form.Group>
-        <Button variant="primary" id="submit-template-button" onClick={() => {
-        submit(); 
-      }}>Submit Template</Button>
     </div>
   );
 };

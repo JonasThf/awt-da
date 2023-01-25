@@ -11,6 +11,7 @@ var templateStrings = [];
 const CreateInstance = (props) => {
 
     const [uploadElement, setuploadElement] = React.useState(<div></div>);
+    const [images, setImages] = React.useState(null);
 
     async function getTemplates() {
         
@@ -57,64 +58,80 @@ const CreateInstance = (props) => {
         }
         
         selectedTemplate.duration = document.getElementById('duration').value;
-        selectedTemplate.media_ressource = document.getElementById('URL').value;
+        if (selectedTemplate.interactions === '1') {
+            selectedTemplate.media_ressource = images;
+        }
+        selectedTemplate.media_ressource = images;
+        
         console.log(JSON.stringify(selectedTemplate));
 
         try {
-            const response = await axios.post("http://localhost:3001/createInstance", selectedTemplate, {headers: {'Content-Type': 'application/json'}});
+            const response = await axios.post(
+                "http://localhost:3001/createInstance",
+                selectedTemplate,
+                {headers: {'Content-Type': 'application/json'},
+                maxContentLength: 100000000,
+                maxBodyLength: 1000000000
+            });
             document.getElementById("formular").reset();
             alert(response.data);
         }
         catch (error) {
             console.log(error);
         }
+        document.getElementById('instance-form').reset();
+        showPreview(images);
     }
 
-    function uploadMedia() {
-        const formData = new FormData();
-     
-        // Update the formData object
-        formData.append(
-            "myFile",
-            this.state.selectedFile,
-            this.state.selectedFile.name
-        );
-     
-        // Details of the uploaded file
-        console.log(this.state.selectedFile);
-        
-        // Request made to the backend api
-        // Send formData object
-        //axios.post("api/uploadfile", formData);
-    };
+    function getTemplateByName(name) {
+        for (let i = 0; i < parsedTemplates.length; i++) {
+            if(parsedTemplates[i].name === name) {
+                return parsedTemplates[i];
+            }
+        }
+    }
 
     function showUpload() {
-        var select = document.getElementById("selectTemplate");
+        let select = document.getElementById("selectTemplate");
         if(select.value === 'Choose Template' ) {
             setuploadElement(<div></div>);  
         } else {
-            for (let i = 0; i < parsedTemplates.length; i++) {
-                if(parsedTemplates[i].name === select.value) {
-                    var selectedTemplate = parsedTemplates[i];
-                    if(selectedTemplate.interactions.includes('Change Image')) {
-                        setuploadElement(<Form.Group controlId="formFileMultiple" className="mb-3">
-                                            <Form.Label>Choose media to upload</Form.Label>
-                                            <Form.Control type="file" multiple onChange={uploadFiles}/>
-                                        </Form.Group>);
-                    } else {
-                        setuploadElement(<Form.Group controlId="formFile" className="mb-3">
-                                            <Form.Label>Choose media to upload</Form.Label>
-                                            <Form.Control type="file" onChange={uploadFiles}/>
-                                        </Form.Group>);
-                    }
-                }
+            let selectedTemplate = getTemplateByName(select.value);
+            if(selectedTemplate.interactions === '1') {
+                setuploadElement(<Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label>Choose media to upload</Form.Label>
+                                    <Form.Control type="file" multiple onChange={uploadFiles}/>
+                                </Form.Group>);
+            } else {
+                setuploadElement(<Form.Group controlId="formFile" className="mb-3">
+                                    <Form.Label>Choose media to upload</Form.Label>
+                                    <Form.Control type="file" onChange={uploadFiles}/>
+                                </Form.Group>);
             }
         }
-        
+    }
+
+    function showPreview(images) {
+        let select = document.getElementById("selectTemplate");
+        console.log(images);
+        let frontImg = images[0];
+        if(select.value === 'Choose Template' ) {
+            props.setPreview(<div></div>)
+        } else {
+            let selectedTemplate = getTemplateByName(select.value);
+            props.setPreview(<img id="preview" style={{
+                height: selectedTemplate.height, 
+                width: selectedTemplate.width, 
+                left: selectedTemplate.x, 
+                top: selectedTemplate.y, 
+                position: "absolute",
+                border: "1px solid black"
+            }} alt='preview' src={frontImg}></img>);
+        }
+        return null;
     }
 
     const uploadFiles = imageFiles => {
-
         // Get files in array form
         let images = Array.from(imageFiles.target.files);
 
@@ -132,7 +149,8 @@ const CreateInstance = (props) => {
         .then(images => {
 
             // Once all promises are resolved, update state with image array //
-            props.setImages(images);
+            setImages(images);
+            showPreview(images);
         });
     }
     
@@ -140,17 +158,20 @@ const CreateInstance = (props) => {
     return (
         <div id="createInstance">
             <h1> Create Instance</h1>
-            <Button variant="primary" id="gettemp" onClick={getTemplates}>Get Existing Templates</Button>
-            <Form.Select id="selectTemplate" onChange={showUpload}>
-                <option>Choose Template</option>
-            </Form.Select>
-            <Form.Label htmlFor="duration" id="duration-label">Duration in Seconds</Form.Label>
-            <InputGroup className="mb-3">
-                <Form.Control id="duration" type="number" min="5" max="60"/>
-            </InputGroup>
-            {uploadElement}
-            {/* <Button variant="primary" id="upload" onClick={uploadMedia}>Upload</Button><br></br> */}
-            <Button variant="primary" id="createinstancebutton" onClick={submitInstance}>Create Instance</Button>
+            <Form id="instance-form">
+                <Button variant="primary" id="gettemp" onClick={getTemplates}>Get Existing Templates</Button>
+                <Form.Select id="selectTemplate" onChange={() => {
+                    showUpload();
+                    }}>
+                    <option>Choose Template</option>
+                </Form.Select>
+                <Form.Label htmlFor="duration" id="duration-label">Duration in Seconds</Form.Label>
+                <InputGroup className="mb-3">
+                    <Form.Control id="duration" type="number" min="5" max="60"/>
+                </InputGroup>
+                {uploadElement}
+                <Button variant="primary" id="createinstancebutton" onClick={submitInstance}>Create Instance</Button>
+            </Form>
         </div>
     )
 };
