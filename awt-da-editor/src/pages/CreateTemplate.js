@@ -33,30 +33,36 @@ const CreateTemplate = (props) => {
 
 async function submit () {
     
-    let title = document.getElementById("template-name").value;
+  let  template = {
+    "name":"",
+    "shape": "",
+    "image_resize": false,
+    "interactions": "",
+    "duration": 0, 
+    "media_ressource_type": "",
+    "number_of_images": 0,
+    "width": 0,
+    "height": 0,
+    "x": 0,
+    "y": 0
+}
+    template.name= document.getElementById("template-name").value;
     let shape = document.getElementById("select-shape").value;
-    let resizing = false;
-    if (shape === '2') resizing = true;
-    let interactions = document.getElementById("select-interaction").value;
-    let height = props.resizer.height;
-    let width = props.resizer.width;
-    let x = props.resizer.x;
-    let y = props.resizer.y;
-
-      let  template = {
-          "name": title,
-          "shape": shape,
-          "image_resize": resizing,
-          "interactions": interactions,
-          "duration": 0, 
-          "media_ressource_type": "",
-          "number_of_images": 0,
-          "width": width,
-          "height": height,
-          "x": x,
-          "y": y
-      }
-
+    template.shape = document.getElementById("select-shape").value;
+    if (shape === '2') template.image_resize = true;
+    template.interactions = document.getElementById("select-interaction").value;
+    if(document.getElementById("select-shape").value === "2") {
+       template.height = "504px"
+       template.width = "824px"
+       template.x = props.resizer.x
+       template.y = props.resizer.y
+    }else {
+    template.height= props.resizer.height;
+    template.width = props.resizer.width;
+    template.x = props.resizer.x;
+    template.y = props.resizer.y;
+    }
+     
       var templateAsString = JSON.stringify(template)
       console.log(templateAsString);
 
