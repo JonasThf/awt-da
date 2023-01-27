@@ -62,7 +62,7 @@ function App() {
             </Row> 
           </Col>
           <Col id="create-instance-col" className="px-0" md={2}>
-            <CreateInstance setPreview={setPreview}></CreateInstance>
+            <CreateInstance setPreview={setPreview} setShow={setShowTrue} setColor={setColor} setRespone={setRespone}></CreateInstance>
           </Col>
         </Row>
       </Container>

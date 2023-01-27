@@ -39,7 +39,7 @@ const CreateInstance = (props) => {
     }
     
     function showTemplates(parsedTemplates) {
-        var select = document.getElementById("selectTemplate");
+        var select = document.getElementById("select-template");
         for (let i = 0; i < parsedTemplates.length; i++) {
             var el = document.createElement("option");
             el.textContent = parsedTemplates[i].name;
@@ -52,7 +52,7 @@ const CreateInstance = (props) => {
     async function submitInstance() {
         var selectedTemplate;
         for (let i = 0; i < parsedTemplates.length; i++) {
-            if (parsedTemplates[i].name === document.getElementById('selectTemplate').value) {
+            if (parsedTemplates[i].name === document.getElementById('select-template').value) {
                 selectedTemplate = parsedTemplates[i];
             }
         }
@@ -73,8 +73,13 @@ const CreateInstance = (props) => {
                 maxContentLength: 100000000,
                 maxBodyLength: 1000000000
             });
-            document.getElementById("formular").reset();
-            alert(response.data);
+            if(response.data.includes('Instance could not be created.')) {
+                props.setColor('rgb(253, 192, 184)');
+              } else {
+                props.setColor('rgb(198, 253, 184)');
+              }
+              props.setShow();
+              props.setRespone(response.data);
         }
         catch (error) {
             console.log(error);
@@ -92,9 +97,10 @@ const CreateInstance = (props) => {
     }
 
     function showUpload() {
-        let select = document.getElementById("selectTemplate");
+        let select = document.getElementById("select-template");
+        props.setPreview(<div></div>);
         if(select.value === 'Choose Template' ) {
-            setuploadElement(<div></div>);  
+            setuploadElement(null);
         } else {
             let selectedTemplate = getTemplateByName(select.value);
             if(selectedTemplate.interactions === '1') {
@@ -112,29 +118,25 @@ const CreateInstance = (props) => {
     }
 
     function showPreview(images) {
-        let select = document.getElementById("selectTemplate");
-        console.log(images);
+        let select = document.getElementById("select-template");
         let frontImg = images[0];
-        if(select.value === 'Choose Template' ) {
-            props.setPreview(<div></div>)
-        } else {
-            let selectedTemplate = getTemplateByName(select.value);
-            props.setPreview(<img id="preview" style={{
-                height: selectedTemplate.height, 
-                width: selectedTemplate.width, 
-                left: selectedTemplate.x, 
-                top: selectedTemplate.y, 
-                position: "absolute",
-                border: "1px solid black"
-            }} alt='preview' src={frontImg}></img>);
-        }
+        let selectedTemplate = getTemplateByName(select.value);
+        props.setPreview(<img id="preview" style={{
+            height: selectedTemplate.height, 
+            width: selectedTemplate.width, 
+            left: selectedTemplate.x, 
+            top: selectedTemplate.y, 
+            position: "absolute",
+            border: "1px solid black"
+        }} alt='preview' src={frontImg}></img>);
+    
         return null;
     }
 
     const uploadFiles = imageFiles => {
         // Get files in array form
         let images = Array.from(imageFiles.target.files);
-
+        console.log('test');
         // Map each file to a promise and read file data 
         Promise.all(images.map(file => {
             return (new Promise((resolve,reject) => {
@@ -150,6 +152,7 @@ const CreateInstance = (props) => {
 
             // Once all promises are resolved, update state with image array //
             setImages(images);
+            console.log(images);
             showPreview(images);
         });
     }
@@ -160,7 +163,7 @@ const CreateInstance = (props) => {
             <h1> Create Instance</h1>
             <Form id="instance-form">
                 <Button variant="primary" id="gettemp" onClick={getTemplates}>Get Existing Templates</Button>
-                <Form.Select id="selectTemplate" onChange={() => {
+                <Form.Select id="select-template" onChange={() => {
                     showUpload();
                     }}>
                     <option>Choose Template</option>
