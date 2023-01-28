@@ -23,14 +23,15 @@ const CreateInstance = (props) => {
                     let parsedTemplate = JSON.parse(templateStrings[i]);
                     parsedTemplates.push(parsedTemplate);
                 }
-                showTemplates(parsedTemplates);
+                addChildren(parsedTemplates);
             }
             if (parsedTemplates.length !== 0 && parsedTemplates.length < templateStrings.length) {
+                removeChildren(parsedTemplates);
                 parsedTemplates = [];
                 for (let i = 0; i < templateStrings.length ; i++) {
                     parsedTemplates.push(JSON.parse(templateStrings[i]));
                 }
-                showTemplates(parsedTemplates);
+                addChildren(parsedTemplates);
             }
         }
         catch (error) {
@@ -38,7 +39,14 @@ const CreateInstance = (props) => {
         }
     }
     
-    function showTemplates(parsedTemplates) {
+    function removeChildren(parsedTemplates) {
+        var select = document.getElementById("select-template");
+        for (let i = 0; i < parsedTemplates.length; i++) {
+            select.removeChild(document.getElementById(parsedTemplates[i].name));
+        }
+    }
+
+    function addChildren(parsedTemplates) {
         var select = document.getElementById("select-template");
         for (let i = 0; i < parsedTemplates.length; i++) {
             var el = document.createElement("option");
@@ -98,7 +106,8 @@ const CreateInstance = (props) => {
 
     function showUpload() {
         let select = document.getElementById("select-template");
-        props.setPreview(<div></div>);
+        props.setPreview(null);
+        setuploadElement(<div></div>);
         if(select.value === 'Choose Template' ) {
             setuploadElement(null);
         } else {
@@ -152,7 +161,7 @@ const CreateInstance = (props) => {
 
             // Once all promises are resolved, update state with image array //
             setImages(images);
-            console.log(images);
+            console.log('Images: ',images);
             showPreview(images);
         });
     }

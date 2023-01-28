@@ -56,7 +56,7 @@ async function submit () {
        template.width = "824px"
        template.x = props.resizer.x
        template.y = props.resizer.y
-    }else {
+    } else {
     template.height= props.resizer.height;
     template.width = props.resizer.width;
     template.x = props.resizer.x;
