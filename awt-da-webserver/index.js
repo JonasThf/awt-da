@@ -1,3 +1,5 @@
+
+const createVast = require('vast-builder');
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -79,6 +81,40 @@ app.post("/createInstance", (req, res) => {
 
 
 app.get("/getInstance", (req, res) => {
+
+  
+  const vast3 = createVast.v3();
+  vast3.attachAd()
+  .attachInLine()
+  .addImpression()
+  .addAdSystem()
+  .addAdTitle('Title')
+  .attachCreatives()
+  .attachCreative()
+  .attachLinear()
+  .attachTrackingEvents()
+  .attachTracking('content',{event:'start'}).back()
+  .addDuration('00:30:00')
+  .attachMediaFiles()
+  .attachMediaFile('my_video', {
+    delivery: 'streaming',
+    type: 'video/mp4',
+    width: '600',
+    height: '400'
+  })
+  .back()
+  .attachIcons()
+  .attachIcon({
+    program: 'my_program',
+    width: '50',
+    height: '50',
+    xPosition: 'bottom',
+    yPosition: 'left'
+  })
+  .attachStaticResource('ressource_link', {creativeType:'image/jpeg'})
+ 
+const render = vast3.toXml();
+
 res.json({ message: "Hello from server!" });
 });
 
@@ -86,3 +122,4 @@ res.json({ message: "Hello from server!" });
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
