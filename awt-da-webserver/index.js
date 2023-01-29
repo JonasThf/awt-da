@@ -82,45 +82,65 @@ app.post("/createInstance", (req, res) => {
 
 
 app.get("/getInstance", (req, res) => {
-  let instancesNames = readDirectory('./instances/');
-  const time = req.body.time;
-  if(time.) {
+  let instances = readDirectory('./instances/');
+  console.log('length',instances.length)
+  let instance = null;
+  const range = instances.length;
+  const minutes = new Date(req.query.date).getMinutes();
+  
+  if (instances.length === 0) {
+    //res.json({ message: "No instances available!" });
+  }
+
+  if(minutes % 2 === 0){
+    
+    let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
+    console.log(number);
+    console.log("even");
+    instance = JSON.parse(instances[number]);
+    
+    
+  } else {
+    
+    var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
+    console.log(number);
+    console.log("odd");
+    instance = JSON.parse(instances[number]);
+    
 
   }
+ console.log(instance.name)
   
-  const vast3 = createVast.v3();
-  vast3.attachAd()
+  const vast4 = createVast.v4();
+  vast4.attachAd()
   .attachInLine()
   .addImpression()
   .addAdSystem()
-  .addAdTitle('Title')
+  .addAdTitle(instance.name)
   .attachCreatives()
   .attachCreative()
   .attachLinear()
   .attachTrackingEvents()
   .attachTracking('content',{event:'start'}).back()
-  .addDuration('00:30:00')
+  .addDuration(instance.duration)
   .attachMediaFiles()
   .attachMediaFile('my_video', {
     delivery: 'streaming',
     type: 'video/mp4',
-    width: '600',
-    height: '400'
+    width: instance.width,
+    height: instance.height,
+    // xPosition: instance.x,
+    // yPosition: instance.y
   })
   .back()
   .attachIcons()
-  .attachIcon({
-    program: 'my_program',
-    width: '50',
-    height: '50',
-    xPosition: 'bottom',
-    yPosition: 'left'
-  })
+  .attachIcon()
   .attachStaticResource('ressource_link', {creativeType:'image/jpeg'})
  
-const render = vast3.toXml();
+const render = vast4.toXml();
+console.log(render)
 
-res.json({ message: "Hello from server!" });
+// res.json({ message: "Hello from server!" });
 });
 
 
