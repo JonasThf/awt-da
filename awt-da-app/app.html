@@ -4,5 +4,47 @@
     <title>HbbTV App</title>
     <meta http-equiv="Content-Type" content="application/vnd.hbbtv.xml+xhtml; utf-8" />
     <link rel="stylesheet" href="app.css" />
-    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="app-buttons.js"></script>
+    <script type="text/javascript" src="app-interactions.js"></script>
 </head>
+
+<body onload="start();">
+    <div>
+        <object type="application/oipfApplicationManager" id="applicationManager"> </object>
+    </div>
+    <!-- we shall define a safe area for the main scene -->
+    <div class="safe_area" id="app_area">
+        <!-- title -->
+        <div class="title_text">RC interaction demo</div>
+        <!-- status -->
+        <div class="status_text">Navigation button: <span id="navigation_field"></span></div>
+        <div class="status_text">Playback control button: <span id="playback_field"></span></div>
+        <div class="status_text">Numeric button: <span id="numeric_field"></span></div>
+        <div class="status_text" id="prevent_field"></div>
+        <!-- bottom legend -->
+        <div class="bottom_legend">
+            <div class="legend_cell">
+                <div class="legend_button_red"></div>
+                <span class="legend_text">Hide this scene</span>
+            </div>
+            <div class="legend_cell">
+                <div class="legend_button_green"></div>
+                <span class="legend_text" id="toggle_playback_field"></span>
+            </div>
+            <div class="legend_cell">
+                <div class="legend_button_yellow"></div>
+                <span class="legend_text" id="toggle_numeric_field"></span>
+            </div>
+            <div class="legend_cell">
+                <div class="legend_button_blue"></div>
+                <span class="legend_text">Prevent all buttons</span>
+            </div>
+        </div>
+    </div>
+    <div class="red_button_style" id="red_button_notification_field">Press the red button on the RC to start!</div>
+    <div id="ad">
+ <img id="mili" src="https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-superJumbo.jpg?quality=75&auto=webp" alt="Italian Trulli">
+    </div>
+   
+</body>
+</html>
