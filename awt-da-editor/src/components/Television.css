@@ -1,0 +1,35 @@
+#television{
+  border: 1px solid black;
+  box-shadow: 2px 2px 5px grey;
+  height: 100%;
+  padding: 0;
+
+}
+#safearea {
+  display: flex;
+  width: 100%;
+  height:100%;
+}
+
+#safebox {
+  position: absolute;
+  margin-top: 20%;
+  margin-left: 38%;
+  text-align: center;
+  padding: 80px 0;
+  z-index: 500;
+  justify-self: center;
+}
+
+#l-banner {
+  position: absolute;
+  background-color: blue;
+  right: 0;
+  z-index: 100;
+  width: 670px;
+  height: 360px;
+}
+#img {
+  max-width: 824px;
+  max-height: 504px;
+}
