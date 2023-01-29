@@ -1,0 +1,11 @@
+node_modules
+*.md
+*.json
+.travis.yml
+.babelrc
+.prettierrc
+.gitignore
+test/*.xml
+dist/*
+dist_old/*
+performance/*

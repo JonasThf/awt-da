@@ -1,3 +1,4 @@
+
 // scene implementation
 
 var scene = {
@@ -277,7 +278,7 @@ function handleKeyCode(kc) {
 }
 
 // app entry function
-function start() 
+async function start() 
 {
     try {
         // attempt to acquire the Application object
@@ -289,6 +290,7 @@ function start()
         } 
         else {
             // we have the Application object, and we can initialize the scene and show our app
+            await fetchAd()
             scene.initialize(appObject);
             appObject.show();
         }
@@ -296,6 +298,10 @@ function start()
     catch (e) {
         // this is not an HbbTV client, catch the error.
     }
+}
+async function fetchAd(){
+    
+
 }
 
 
