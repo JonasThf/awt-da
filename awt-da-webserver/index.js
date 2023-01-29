@@ -56,7 +56,7 @@ app.get("/getTemplates", async (req, res) => {
     try {
         res.status(200).send((readDirectory('./templates/')));
     } catch (e) {
-        res.send({message: "Error in Fetching user"});
+        res.send({message: "Error in Fetching templates."});
     }
 });
 
@@ -78,11 +78,11 @@ app.post("/createInstance", (req, res) => {
   });
 
 
-app.get("/getInstance/:instanceID", (req, res) => {
+app.get("/getInstance/:InstanceID", (req, res) => {
   console.log(req.params);
   // TODO
-  let instances = readDirectory('./instances/');
-  console.log(instances);
+  let instanceNames = readDirectory('./instances/');
+  console.log(instanceNames);
   let instance = instances.
   res.json(req.params);
 });
