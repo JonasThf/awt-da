@@ -8,6 +8,19 @@ import Form from 'react-bootstrap/Form';
 /* eslint-disable */
 const CreateTemplate = (props) => {
 
+  let  template = {
+    "name":"",
+    "shape": "",
+    "image_resize": false,
+    "interactions": "",
+    "duration": 0, 
+    "media_ressource_type": "",
+    "number_of_images": 0,
+    "width": 0,
+    "height": 0,
+    "x": 0,
+    "y": 0
+}
 
 
   function setStandardBannerSelected() {
@@ -33,19 +46,7 @@ const CreateTemplate = (props) => {
 
 async function submit () {
     
-  let  template = {
-    "name":"",
-    "shape": "",
-    "image_resize": false,
-    "interactions": "",
-    "duration": 0, 
-    "media_ressource_type": "",
-    "number_of_images": 0,
-    "width": 0,
-    "height": 0,
-    "x": 0,
-    "y": 0
-}
+ 
     template.name= document.getElementById("template-name").value;
     let shape = document.getElementById("select-shape").value;
     template.shape = document.getElementById("select-shape").value;
