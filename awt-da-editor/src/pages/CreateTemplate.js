@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./CreateTemplate.css";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';

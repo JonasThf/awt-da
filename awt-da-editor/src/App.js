@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import './App.css';
 import CreateInstance from './pages/CreateInstance'
 import CreateTemplate from './pages/CreateTemplate';
@@ -7,7 +7,6 @@ import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import Television from "./components/Television";
-import Resizable from "./components/Resizable";
 
 function App() {
   const [createTemplateRespone, setCreateTemplateRespone] = React.useState(null);
