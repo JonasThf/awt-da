@@ -59,9 +59,7 @@ const Resizable = (props) => {
       position={{ x: state.x, y: state.y }}
       onDragStop={(e, d) => {setOnDragStop(e,d)}}
       onResizeStop={(e, direction, ref, delta, position) => {setOnResizeStop(e, direction, ref, delta, position)}}
-      id="resizable"
-  >
-    001
+      id="resizable">AD
     </Rnd>
   )
 }

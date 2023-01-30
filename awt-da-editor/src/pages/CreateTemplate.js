@@ -14,8 +14,7 @@ const CreateTemplate = (props) => {
     "image_resize": false,
     "interactions": "",
     "duration": 0, 
-    "media_ressource_type": "",
-    "number_of_images": 0,
+    "media_urls": [],
     "width": 0,
     "height": 0,
     "x": 0,
@@ -23,12 +22,11 @@ const CreateTemplate = (props) => {
 }
 
 
-  function setStandardBannerSelected() {
+  function setBannerSelected() {
     let select = document.getElementById('select-shape');
     switch (select.value) {
       case "1":
         props.setBannerState("1");
-        
         break;
 
       case "2":
@@ -38,45 +36,47 @@ const CreateTemplate = (props) => {
       case "3":
         props.setBannerState("3");
         break;
+
       default:
         props.setBannerState(null);
-      break;
+        break;
     }
 }
 
 async function submit () {
     
- 
     template.name= document.getElementById("template-name").value;
-    let shape = document.getElementById("select-shape").value;
     template.shape = document.getElementById("select-shape").value;
-    if (shape === '2') template.image_resize = true;
     template.interactions = document.getElementById("select-interaction").value;
-    if(document.getElementById("select-shape").value === "2") {
-       template.height = "504px"
-       template.width = "824px"
-       template.x = props.resizer.x
-       template.y = props.resizer.y
+
+    if(template.shape === "2") {
+      template.image_resize = true;
+      template.height = "100%";
+      template.width = "100%";
+      template.x = 0;
+      template.y = 0;
     } else {
-    template.height= props.resizer.height;
-    template.width = props.resizer.width;
-    template.x = props.resizer.x;
-    template.y = props.resizer.y;
+      template.height= props.resizer.height;
+      template.width = props.resizer.width;
+      template.x = props.resizer.x;
+      template.y = props.resizer.y;
     }
-     
       var templateAsString = JSON.stringify(template)
       console.log(templateAsString);
 
       try {
           const response = await axios.post("http://localhost:3001/createTemplate", template, {headers: {'Content-Type': 'application/json'}});
-          document.getElementById("formular").reset();
+          
           if(response.data.includes('!') || response.data.includes('empty')) {
             props.setColor('rgb(253, 192, 184)');
           } else {
             props.setColor('rgb(198, 253, 184)');
+            document.getElementById("formular").reset();
           }
+
           props.setShow();
           props.setRespone(response.data);
+          props.setBannerState('0');
       }
       catch (error) {
           console.log(error);
@@ -90,9 +90,9 @@ async function submit () {
         <Form id="formular" >
           <Form.Group className="mb-3" id="template-name-group">
             <Form.Label htmlFor="template-name" id="label">Template Name</Form.Label>
-            <Form.Control type="text" placeholder="Example Template Name" id="template-name"/>
+            <Form.Control type="text" placeholder="Example Name" id="template-name"/>
           </Form.Group>
-          <Form.Select id="select-shape" onChange={setStandardBannerSelected}>
+          <Form.Select id="select-shape" onChange={setBannerSelected}>
             <option>Choose a Banner-Type</option>
             <option value="1">Standard</option>
             <option value="2">L-Banner</option>
@@ -103,10 +103,7 @@ async function submit () {
             <option value="1">Change image when pressing color buttons</option>
             <option value="2">No Interaction</option>
           </Form.Select>
-          <Button variant="primary" id="submit-template-button" onClick={() => { 
-            submit(); 
-            props.setBannerState('0'); 
-            }}>Submit Template</Button>
+          <Button variant="primary" id="submit-template-button" onClick={submit}>Submit Template</Button>
         </Form>
     </div>
   );

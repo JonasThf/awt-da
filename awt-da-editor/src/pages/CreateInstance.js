@@ -10,8 +10,8 @@ var templateStrings = [];
 
 const CreateInstance = (props) => {
 
-    const [uploadElement, setuploadElement] = React.useState(<div></div>);
-    const [images, setImages] = React.useState(null);
+    const [urlInput, setUrlInput] = React.useState(null);
+    const [showHidePreview, setShowHidePreview] = React.useState(true);
 
     async function getTemplates() {
         
@@ -58,18 +58,19 @@ const CreateInstance = (props) => {
     }
 
     async function submitInstance() {
-        var selectedTemplate;
+        let selectedTemplate = null;
+        
         for (let i = 0; i < parsedTemplates.length; i++) {
             if (parsedTemplates[i].name === document.getElementById('select-template').value) {
                 selectedTemplate = parsedTemplates[i];
             }
         }
         
-        selectedTemplate.duration = document.getElementById('duration').value;
-        if (selectedTemplate.interactions === '1') {
-            selectedTemplate.media_ressource = images;
-        }
-        selectedTemplate.media_ressource = images;
+        // Set duration in miliseconds
+        selectedTemplate.duration = (document.getElementById('duration').value)*1000;
+
+        // Set media URLs
+        selectedTemplate.media_urls = loadMedia();
         
         console.log(JSON.stringify(selectedTemplate));
 
@@ -93,7 +94,8 @@ const CreateInstance = (props) => {
             console.log(error);
         }
         document.getElementById('instance-form').reset();
-        showPreview(images);
+        setUrlInput(null);
+        props.setPreview(null);
     }
 
     function getTemplateByName(name) {
@@ -104,85 +106,177 @@ const CreateInstance = (props) => {
         }
     }
 
-    function showUpload() {
+    // function showUpload() {
+    //     let select = document.getElementById("select-template");
+    //     props.setPreview(null);
+    //     setuploadElement(<div></div>);
+    //     if(select.value === 'Choose Template' ) {
+    //         setuploadElement(null);
+    //     } else {
+    //         let selectedTemplate = getTemplateByName(select.value);
+    //         if(selectedTemplate.interactions === '1') {
+    //             setuploadElement(<Form.Group controlId="formFileMultiple" className="mb-3">
+    //                                 <Form.Label>Choose media to upload</Form.Label>
+    //                                 <Form.Control type="file" multiple onChange={uploadFiles}/>
+    //                             </Form.Group>);
+    //         } else {
+    //             setuploadElement(<Form.Group controlId="formFile" className="mb-3">
+    //                                 <Form.Label>Choose media to upload</Form.Label>
+    //                                 <Form.Control type="file" onChange={uploadFiles}/>
+    //                             </Form.Group>);
+    //         }
+    //     }
+    // }
+    
+    // const uploadFiles = imageFiles => {
+    //     // Get files in array form
+    //     let images = Array.from(imageFiles.target.files);
+    //     console.log('test');
+    //     // Map each file to a promise and read file data 
+    //     Promise.all(images.map(file => {
+    //         return (new Promise((resolve,reject) => {
+    //             const reader = new FileReader();
+    //             reader.addEventListener('load', (ev) => {
+    //                 resolve(ev.target.result);
+    //             });
+    //             reader.addEventListener('error', reject);
+    //             reader.readAsDataURL(file);
+    //         }));
+    //     }))
+    //     .then(images => {
+
+    //         // Once all promises are resolved, update state with image array //
+    //         setImages(images);
+    //         console.log('Images: ',images);
+    //         showPreview(images);
+    //     });
+    // }
+
+    function showInputURL() {
         let select = document.getElementById("select-template");
-        props.setPreview(null);
-        setuploadElement(<div></div>);
-        if(select.value === 'Choose Template' ) {
-            setuploadElement(null);
-        } else {
+
+        // Switch button if selected-template is switched and button is false
+        if(!showHidePreview) {
+            setShowHidePreview(true);
+        }
+
+        if (!(select.value === 'Choose Template')) {
             let selectedTemplate = getTemplateByName(select.value);
-            if(selectedTemplate.interactions === '1') {
-                setuploadElement(<Form.Group controlId="formFileMultiple" className="mb-3">
-                                    <Form.Label>Choose media to upload</Form.Label>
-                                    <Form.Control type="file" multiple onChange={uploadFiles}/>
-                                </Form.Group>);
+            let url_input = <Form.Group className="mb-3" id="url-upload-group">
+                                <Form.Control className="input-url" type="url" placeholder="Example URL"/>
+                            </Form.Group>;
+
+            // Show empty preview box based on selected template
+            if (selectedTemplate.shape === '2') {
+                props.setPreview(null);
+                props.setPreviewLBanner(<div style={{
+                    position: 'absolute',
+                    backgroundColor: 'gray',
+                    right: '1px',
+                    top: '1px',
+                    width: '80%',
+                    height: '70%', 
+                    padding: 0,
+                    zIndex: 4
+                }}></div>);
             } else {
-                setuploadElement(<Form.Group controlId="formFile" className="mb-3">
-                                    <Form.Label>Choose media to upload</Form.Label>
-                                    <Form.Control type="file" onChange={uploadFiles}/>
-                                </Form.Group>);
+                props.setPreviewLBanner(null);
+                props.setPreview(<div style={{
+                    height: selectedTemplate.height, 
+                    width: selectedTemplate.width, 
+                    left: selectedTemplate.x, 
+                    top: selectedTemplate.y, 
+                    position: "absolute",
+                    border: "1px solid black",
+                    padding: 0
+                }}></div>);
             }
+            
+            if(selectedTemplate.interactions === '1') {
+                setUrlInput(
+                <div className="url-input-div">
+                    {url_input}
+                    {url_input}
+                    {url_input}
+                </div>
+                );
+            } else if (selectedTemplate.interactions === '2') {
+                setUrlInput(
+                    <div className="url-input-div">
+                        {url_input}
+                    </div>
+                );
+            } else {
+                setUrlInput(<div className="url-input-div"></div>);
+            }
+        } else {
+            setUrlInput(null);
+            props.setPreview(null);
+            props.setPreviewLBanner(null);
         }
     }
 
-    function showPreview(images) {
-        let select = document.getElementById("select-template");
-        let frontImg = images[0];
-        let selectedTemplate = getTemplateByName(select.value);
-        props.setPreview(<img id="preview" style={{
-            height: selectedTemplate.height, 
-            width: selectedTemplate.width, 
-            left: selectedTemplate.x, 
-            top: selectedTemplate.y, 
-            position: "absolute",
-            border: "1px solid black"
-        }} alt='preview' src={frontImg}></img>);
-    
-        return null;
+    function loadMedia() {
+        let media_urls = [];
+        let url_input_elements = document.getElementsByClassName("input-url");
+
+        for (let i = 0; i < url_input_elements.length; i++) {
+            if(!(url_input_elements[i].value === '')) {
+                media_urls.push(url_input_elements[i].value);
+            }
+        }
+        return media_urls;
     }
 
-    const uploadFiles = imageFiles => {
-        // Get files in array form
-        let images = Array.from(imageFiles.target.files);
-        console.log('test');
-        // Map each file to a promise and read file data 
-        Promise.all(images.map(file => {
-            return (new Promise((resolve,reject) => {
-                const reader = new FileReader();
-                reader.addEventListener('load', (ev) => {
-                    resolve(ev.target.result);
-                });
-                reader.addEventListener('error', reject);
-                reader.readAsDataURL(file);
-            }));
-        }))
-        .then(images => {
+    function showPreview() {
+        if (showHidePreview) {
+            let select = document.getElementById("select-template");
+            let selectedTemplate = getTemplateByName(select.value);
 
-            // Once all promises are resolved, update state with image array //
-            setImages(images);
-            console.log('Images: ',images);
-            showPreview(images);
-        });
+            let media_urls = loadMedia();
+            
+            if (media_urls[0]) {
+                let frontImgURL = media_urls[0];
+                props.setPreview(<img style={{
+                    height: selectedTemplate.height, 
+                    width: selectedTemplate.width, 
+                    left: selectedTemplate.x, 
+                    top: selectedTemplate.y, 
+                    position: "absolute",
+                    border: "1px solid black",
+                    padding: 0,
+                    zIndex: -1
+                }} alt='preview' src={frontImgURL}></img>);
+            }
+        } else {
+            props.setPreview(null);
+        }
+        return;
     }
-    
-    
+
     return (
-        <div id="createInstance">
+        <div id="create-instance">
             <h1> Create Instance</h1>
             <Form id="instance-form">
-                <Button variant="primary" id="gettemp" onClick={getTemplates}>Get Existing Templates</Button>
+                <Button variant="primary" id="get-templates-button" onClick={getTemplates}>Get Existing Templates</Button>
                 <Form.Select id="select-template" onChange={() => {
-                    showUpload();
+                    showInputURL();
+                    // showUpload();
                     }}>
                     <option>Choose Template</option>
                 </Form.Select>
-                <Form.Label htmlFor="duration" id="duration-label">Duration in Seconds</Form.Label>
                 <InputGroup className="mb-3">
-                    <Form.Control id="duration" type="number" min="5" max="60"/>
+                    <Form.Control id="duration" type="number" placeholder="Duration in Seconds" min="5" max="60"/>
                 </InputGroup>
-                {uploadElement}
-                <Button variant="primary" id="createinstancebutton" onClick={submitInstance}>Create Instance</Button>
+                { urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
+                {urlInput}
+                {/* {uploadElement} */}
+                <Button variant="primary" id="show-preview-button" onClick={() => {
+                    setShowHidePreview(!showHidePreview);
+                    showPreview();
+                    }}>{ showHidePreview ? "Show Preview" : "Hide Preview" }
+                </Button>
+                <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
             </Form>
         </div>
     )

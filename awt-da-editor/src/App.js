@@ -20,7 +20,8 @@ function App() {
   const [show, setShow] = React.useState(false);
   const [popupColor, setPopupColor] = React.useState('');
   const [bannerState, setBannerState] = React.useState(null);
-  const [preview, setPreview] = React.useState(<div></div>);
+  const [preview, setPreview] = React.useState(null);
+  const [previewLBanner, setPreviewLBanner] = React.useState(null);
 
   const handleClose = () => setShow(false);
 
@@ -56,13 +57,11 @@ function App() {
               <p id="tv">TV</p>
             </Row>
             <Row id="row4">
-              { bannerState === "1" ? <Resizable setResizer={setResizer}></Resizable> : null}
-              <Television bannerState={bannerState}></Television>
-              {preview}
+              <Television bannerState={bannerState} setResizer={setResizer} preview={preview} previewLBanner={previewLBanner}></Television>
             </Row> 
           </Col>
           <Col id="create-instance-col" className="px-0" md={2}>
-            <CreateInstance setPreview={setPreview} setShow={setShowTrue} setColor={setColor} setRespone={setRespone}></CreateInstance>
+            <CreateInstance setPreview={setPreview} setShow={setShowTrue} setColor={setColor} setRespone={setRespone} setPreviewLBanner={setPreviewLBanner}></CreateInstance>
           </Col>
         </Row>
       </Container>
