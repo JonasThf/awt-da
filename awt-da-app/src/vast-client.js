@@ -7,7 +7,8 @@ const vastClient = new vastParser.VASTClient();
 
 vastClient.get(`http://localhost:3001/getInstance?date=${date.toISOString()}`)
   .then(res => {
-    console.log(res)
+    //const response = JSON.parse(res)
+    console.log(response)
     // Do something with the parsed VAST response
   })
   .catch(err => {

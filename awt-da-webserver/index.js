@@ -80,12 +80,11 @@ app.post("/createInstance", (req, res) => {
   });
 
 
-
 app.get("/getInstance", (req, res) => {
   let instances = readDirectory('./instances/');
   console.log('length',instances.length)
   let instance = null;
-
+  const vast4 = createVast.v4();
   const range = instances.length;
   const minutes = new Date(req.query.date).getMinutes();
   
@@ -100,29 +99,114 @@ app.get("/getInstance", (req, res) => {
     var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
     instance = JSON.parse(instances[number]);
   }
-  
-  const vast4 = createVast.v4();
-  vast4.attachAd()
-  .attachInLine()
-  .addImpression()
-  .addAdSystem()
-  .addAdTitle(instance.name)
-  .attachCreatives()
-  .attachCreative()
-  .attachLinear()
-  .attachTrackingEvents()
-  .attachTracking().back()
-  .addDuration(instance.duration)
-  .attachMediaFiles()
-  .attachMediaFile(instance.media_urls[0]) // Hier müsste etwas generisches rein, dass immer ein neues .attachMediaFile baut je mehr urls es gibt
-  .back()
-  .attachIcons()
-  .attachIcon()
-  .attachStaticResource('ressource_link', {creativeType:'image/jpeg'})
- 
+  //const vast4 = setIcons (instance.media_urls.length, instance)
+  switch(instance.media_urls.length){
+    case 1: 
+    vast4.attachAd()
+      .attachInLine()
+      .addImpression()
+      .addAdSystem()
+      .addAdTitle(instance.title)
+      .attachCreatives()
+      .attachCreative()
+      .attachLinear()
+      .attachTrackingEvents()
+      .attachTracking().back()
+      .addDuration(instance.duration*1000)
+      .attachMediaFiles()
+      .attachMediaFile()// Hier müsste etwas generisches rein, dass immer ein neues .attachMediaFile baut je mehr urls es gibt
+      .back()
+      .attachIcons()
+      .attachIcon({
+        program: "instance1",
+        width: instance.width,
+        height: instance.height,
+        xPosition: instance.x,
+        yPosition: instance.y
+      })
+      .attachStaticResource(instance.media_urls[0], {creativeType:'image/jpeg'})
+      break;
+      
+    case 2: 
+    vast4.attachAd()
+      .attachInLine()
+      .addImpression()
+      .addAdSystem()
+      .addAdTitle(instance.title)
+      .attachCreatives()
+      .attachCreative()
+      .attachLinear()
+      .attachTrackingEvents()
+      .attachTracking().back()
+      .addDuration(instance.duration*1000)
+      .attachMediaFiles()
+      .attachMediaFile()
+      .back()
+      .attachIcons()
+      .attachIcon({
+        program: "instance1",
+        width: instance.width,
+        height: instance.height,
+        xPosition: instance.x,
+        yPosition: instance.y
+      }, {
+        program: "instance2",
+        width: instance.width,
+        height: instance.height,
+        xPosition: instance.x,
+        yPosition: instance.y
+
+      })
+      .attachStaticResource(instance.media_urls[0], {creativeType:'image/jpeg'}, 
+      instance.media_urls[1],{creativeType:'image/jpeg'}
+      )
+      break;
+    case 3: 
+    vast4.attachAd()
+      .attachInLine()
+      .addImpression()
+      .addAdSystem()
+      .addAdTitle(instance.title)
+      // .attachCreatives()
+      // .attachCreative()
+      // .attachLinear()
+      // .attachTrackingEvents()
+      // .attachTracking().back()
+      .addDuration(instance.duration*1000)
+      // .attachMediaFiles()
+      // .attachMediaFile()
+      .back()
+      .attachIcons()
+      .attachIcon({
+        program: "instance1",
+        width: instance.width,
+        height: instance.height,
+        xPosition: instance.x,
+        yPosition: instance.y
+      },{
+        program: "instance2",
+        width: instance.width,
+        height: instance.height,
+        xPosition: instance.x,
+        yPosition: instance.y
+      }, 
+      {
+        program: "instance3",
+        width: instance.width,
+        height: instance.height,
+        xPosition: instance.x,
+        yPosition: instance.y
+      }
+      )
+      .attachStaticResource(
+        instance.media_urls[0], {creativeType:'image/jpeg'},
+        instance.media_urls[1],{creativeType:'image/jpeg'},
+        instance.media_urls[2], {creativeType:'image/jpeg'}
+      )
+      break;
+  }
   const render = vast4.toXml();
   console.log(render)
-
   res.send(vast4);
 });
 
