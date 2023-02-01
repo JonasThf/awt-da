@@ -13,7 +13,7 @@ const CreateTemplate = (props) => {
     "shape": "",
     "image_resize": false,
     "interactions": "",
-    "duration": 0, 
+    "duration": "00:00:00", 
     "media_urls": [],
     "width": 0,
     "height": 0,
