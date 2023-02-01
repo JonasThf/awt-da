@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
-import CreateInstance from './pages/CreateInstance'
-import CreateTemplate from './pages/CreateTemplate';
+import CreateInstance from './components/CreateInstance'
+import CreateTemplate from './components/CreateTemplate';
 import { Row, Col} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,8 +13,8 @@ function App() {
   const [resizer, setResizer] = React.useState({
     width: 200,
     height: 200,
-    x: 10,
-    y: 10});
+    x: 0,
+    y: 0});
   
   const [show, setShow] = React.useState(false);
   const [popupColor, setPopupColor] = React.useState('');
@@ -49,7 +49,7 @@ function App() {
         </Row>
         <Row id="row2">
           <Col className="px-0" id="create-template-col" md={2}>
-            <CreateTemplate setResizer={setResizer} resizer={resizer} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
+            <CreateTemplate resizer={resizer} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
           </Col>
           <Col id="box-col" className="px-0" md={5}>
             <Row id="row3">

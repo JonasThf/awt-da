@@ -66,8 +66,15 @@ const CreateInstance = (props) => {
             }
         }
         
-        // Set duration in miliseconds
-        selectedTemplate.duration = (document.getElementById('duration').value)*1000;
+        // Set duration in format hh:mm:ss
+        function formatSeconds(seconds) {
+            let hours = Math.floor(seconds / 3600);
+            let minutes = Math.floor((seconds % 3600) / 60);
+            let remainingSeconds = seconds % 60;
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+          }
+        //Set duration
+        selectedTemplate.duration = formatSeconds((document.getElementById('duration').value));
 
         // Set media URLs
         selectedTemplate.media_urls = loadMedia();
