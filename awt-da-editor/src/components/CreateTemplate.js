@@ -25,15 +25,15 @@ const CreateTemplate = (props) => {
   function setBannerSelected() {
     let select = document.getElementById('select-shape');
     switch (select.value) {
-      case "1":
+      case "standard":
         props.setBannerState("1");
         break;
 
-      case "2":
+      case "l-banner":
         props.setBannerState("2");
         break;
 
-      case "3":
+      case "half-screen":
         props.setBannerState("3");
         break;
 
@@ -49,7 +49,7 @@ async function submit () {
     template.shape = document.getElementById("select-shape").value;
     template.interactions = document.getElementById("select-interaction").value;
 
-    if(template.shape === "2") {
+    if(template.shape === "l-banner") {
       template.image_resize = true;
       template.height = "100%";
       template.width = "100%";
@@ -94,9 +94,9 @@ async function submit () {
           </Form.Group>
           <Form.Select id="select-shape" onChange={setBannerSelected}>
             <option>Choose a Banner-Type</option>
-            <option value="1">Standard</option>
-            <option value="2">L-Banner</option>
-            <option value="3">Half Screen</option>
+            <option value="standard">Standard</option>
+            <option value="l-banner">L-Banner</option>
+            <option value="half-screen">Half Screen</option>
           </Form.Select>
           <Form.Select id="select-interaction">
             <option>Choose Interaction</option>

@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
-import CreateInstance from './pages/CreateInstance'
-import CreateTemplate from './pages/CreateTemplate';
+import CreateInstance from './components/CreateInstance'
+import CreateTemplate from './components/CreateTemplate';
 import { Row, Col} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
