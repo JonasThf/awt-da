@@ -85,11 +85,11 @@ app.post("/createInstance", (req, res) => {
     const image = "image/jpeg"
     let xmlTag = ``;
     for (let i = 0; i<urlTags.length; i++){
-      xmlTag += `<Icon width =${instance.width} height=${instance.height} xPosition='${instance.x}' yPosition='${instance.y}' duration="${instance.duration}">
+      xmlTag += `<Icon width ="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
                     <StaticResource creativeType="${image}">
-                       <URL>"${urlTags[i]}"</URL>
+                       <URL>${urlTags[i]}</URL>
                     </StaticResource>
-                </Icon>`;
+                </Icon>\n                  `;
     }
     return xmlTag;
   }
@@ -106,15 +106,15 @@ function createXml(instance){
   <${root} version="${version}">
     <Ad id="${instance.name}">
       <InLine>
-        <AdSystem>"${system}"</AdSystem>
+        <AdSystem>${system}</AdSystem>
         <AdTitle>${instance.name}</AdTitle>
         <Description>${shape}</Description>
         <Creatives>
-          <Creative sequence ="${"1"}">
+          <Creative sequence ="${1}">
             <Linear>
-              <Duration>${template.duration}</Duration>
+              <Duration>${instance.duration}</Duration>
               <Icons>
-                  ${iconTags}
+                ${iconTags}
               </Icons>
             </Linear>
           </Creative>
@@ -133,23 +133,32 @@ app.get("/getInstance", (req, res) => {
   const range = instances.length;
 
   const minutes = new Date(req.query.date).getMinutes();
-  
-  if (instances.length === 0) {
-    res.send({ message: "No instances available!" });
-  }
-  // for random xml response
-  if(minutes % 2 === 0){
-    let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
-    instance = JSON.parse(instances[number]);
-  } else {
-    var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
-    instance = JSON.parse(instances[number]);
-  }
+  if(instances != null){
+    if (instances.length === 0) {
+      res.send({ message: "No instances available!" });
+    }
+    if(instances.length === 1){
+      instance = JSON.parse(instances[0])
+    }
+    else{
+    // for random xml response
+      if(minutes % 2 === 0){
+        let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
+        instance = JSON.parse(instances[number]);
+      } else {
+        var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
+        instance = JSON.parse(instances[number]);
+      }
 
-  let xmlResponse = createXml(instance)
+    }
+    let xmlResponse = createXml(instance)
   console.log(xmlResponse)
   res.send(xmlResponse);
+
+}
+  //res.send({message: "No instances"})
 });
+  
 
 
 app.listen(PORT, () => {

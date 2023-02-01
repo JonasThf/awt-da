@@ -1,3 +1,8 @@
+//for VAST request
+const VAST = require('vast-client');
+const date = new Date();
+const vastClient = new VAST.VASTClient();
+const vastParser = new VAST.VASTParser();
 
 // scene implementation
 
@@ -281,6 +286,7 @@ function handleKeyCode(kc) {
 async function start() 
 {
     try {
+
         // attempt to acquire the Application object
         var appManager = document.getElementById('applicationManager');
         var appObject = appManager.getOwnerApplication(document);
@@ -290,17 +296,26 @@ async function start()
         } 
         else {
             // we have the Application object, and we can initialize the scene and show our app
-            await fetchAd()
+            
             scene.initialize(appObject);
             appObject.show();
+            await fetchAd()
         }
     }
     catch (e) {
         // this is not an HbbTV client, catch the error.
     }
 }
+
 async function fetchAd(){
     
+vastClient.get(`http://localhost:3001/getInstance?date=${date.toISOString()}`)
+      .then(res => {
+        console.log(res.ads[0].creatives[0].icons)
+      })
+      .catch(function(error) {
+        console.log(error)
+      });
 
 }
 

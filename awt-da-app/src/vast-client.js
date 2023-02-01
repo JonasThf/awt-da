@@ -1,16 +1,15 @@
-const vastParser = require('vast-client');
+const VAST = require('vast-client');
 
 const date = new Date();
-console.log(date.toISOString());
 
-const vastClient = new vastParser.VASTClient();
+const vastClient = new VAST.VASTClient();
+const vastParser = new VAST.VASTParser();
 
 vastClient.get(`http://localhost:3001/getInstance?date=${date.toISOString()}`)
-  .then(res => {
-    //const response = JSON.parse(res)
-    console.log(response)
-    // Do something with the parsed VAST response
-  })
-  .catch(err => {
-    // Deal with the error
-  });
+      .then(res => {
+        console.log(res.ads[0].creatives[0].icons)
+      })
+      .catch(function(error) {
+        console.log(error)
+      });
+
