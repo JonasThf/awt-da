@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const cors = require('cors');
+const { version } = require('os');
 
 const PORT = process.env.PORT || 3001;
 
@@ -79,136 +80,85 @@ app.post("/createInstance", (req, res) => {
       });
   });
 
+  function createIcons(instance){
+    const urlTags = instance.media_urls;
+    const image = "image/jpeg"
+    let xmlTag = ``;
+    for (let i = 0; i<urlTags.length; i++){
+      xmlTag += `<Icon width ="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
+                    <StaticResource creativeType="${image}">
+                       <URL>${urlTags[i]}</URL>
+                    </StaticResource>
+                </Icon>\n                  `;
+    }
+    return xmlTag;
+  }
+function createXml(instance){
+  const root = "VAST";
+  const version = "4.1";
+  const system = "Node.js Express Server";
+  let shape = instance.shape;
+  let iconTags = createIcons(instance)
+  
+ 
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+  <${root} version="${version}">
+    <Ad id="${instance.name}">
+      <InLine>
+        <AdSystem>${system}</AdSystem>
+        <AdTitle>${instance.name}</AdTitle>
+        <Description>${shape}</Description>
+        <Creatives>
+          <Creative sequence ="${1}">
+            <Linear>
+              <Duration>${instance.duration}</Duration>
+              <Icons>
+                ${iconTags}
+              </Icons>
+            </Linear>
+          </Creative>
+        </Creatives>  
+      </InLine>  
+    </Ad>
+  </${root}>`;
+
+  return xml;
+}
 
 app.get("/getInstance", (req, res) => {
   let instances = readDirectory('./instances/');
   console.log('length',instances.length)
   let instance = null;
-  const vast4 = createVast.v4();
   const range = instances.length;
+
   const minutes = new Date(req.query.date).getMinutes();
-  
-  if (instances.length === 0) {
-    //res.json({ message: "No instances available!" });
-  }
-
-  if(minutes % 2 === 0){
-    let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
-    instance = JSON.parse(instances[number]);
-  } else {
-    var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
-    instance = JSON.parse(instances[number]);
-  }
-  //const vast4 = setIcons (instance.media_urls.length, instance)
-  switch(instance.media_urls.length){
-    case 1: 
-    vast4.attachAd()
-      .attachInLine()
-      .addImpression()
-      .addAdSystem()
-      .addAdTitle(instance.title)
-      .attachCreatives()
-      .attachCreative()
-      .attachLinear()
-      .attachTrackingEvents()
-      .attachTracking().back()
-      .addDuration(instance.duration*1000)
-      .attachMediaFiles()
-      .attachMediaFile()// Hier müsste etwas generisches rein, dass immer ein neues .attachMediaFile baut je mehr urls es gibt
-      .back()
-      .attachIcons()
-      .attachIcon({
-        program: "instance1",
-        width: instance.width,
-        height: instance.height,
-        xPosition: instance.x,
-        yPosition: instance.y
-      })
-      .attachStaticResource(instance.media_urls[0], {creativeType:'image/jpeg'})
-      break;
-      
-    case 2: 
-    vast4.attachAd()
-      .attachInLine()
-      .addImpression()
-      .addAdSystem()
-      .addAdTitle(instance.title)
-      .attachCreatives()
-      .attachCreative()
-      .attachLinear()
-      .attachTrackingEvents()
-      .attachTracking().back()
-      .addDuration(instance.duration*1000)
-      .attachMediaFiles()
-      .attachMediaFile()
-      .back()
-      .attachIcons()
-      .attachIcon({
-        program: "instance1",
-        width: instance.width,
-        height: instance.height,
-        xPosition: instance.x,
-        yPosition: instance.y
-      }, {
-        program: "instance2",
-        width: instance.width,
-        height: instance.height,
-        xPosition: instance.x,
-        yPosition: instance.y
-
-      })
-      .attachStaticResource(instance.media_urls[0], {creativeType:'image/jpeg'}, 
-      instance.media_urls[1],{creativeType:'image/jpeg'}
-      )
-      break;
-    case 3: 
-    vast4.attachAd()
-      .attachInLine()
-      .addImpression()
-      .addAdSystem()
-      .addAdTitle(instance.title)
-      // .attachCreatives()
-      // .attachCreative()
-      // .attachLinear()
-      // .attachTrackingEvents()
-      // .attachTracking().back()
-      .addDuration(instance.duration*1000)
-      // .attachMediaFiles()
-      // .attachMediaFile()
-      .back()
-      .attachIcons()
-      .attachIcon({
-        program: "instance1",
-        width: instance.width,
-        height: instance.height,
-        xPosition: instance.x,
-        yPosition: instance.y
-      },{
-        program: "instance2",
-        width: instance.width,
-        height: instance.height,
-        xPosition: instance.x,
-        yPosition: instance.y
-      }, 
-      {
-        program: "instance3",
-        width: instance.width,
-        height: instance.height,
-        xPosition: instance.x,
-        yPosition: instance.y
+  if(instances != null){
+    if (instances.length === 0) {
+      res.send({ message: "No instances available!" });
+    }
+    if(instances.length === 1){
+      instance = JSON.parse(instances[0])
+    }
+    else{
+    // for random xml response
+      if(minutes % 2 === 0){
+        let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
+        instance = JSON.parse(instances[number]);
+      } else {
+        var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
+        instance = JSON.parse(instances[number]);
       }
-      )
-      .attachStaticResource(
-        instance.media_urls[0], {creativeType:'image/jpeg'},
-        instance.media_urls[1],{creativeType:'image/jpeg'},
-        instance.media_urls[2], {creativeType:'image/jpeg'}
-      )
-      break;
-  }
-  const render = vast4.toXml();
-  console.log(render)
-  res.send(vast4);
+
+    }
+    let xmlResponse = createXml(instance)
+  console.log(xmlResponse)
+  res.send(xmlResponse);
+
+}
+  //res.send({message: "No instances"})
 });
+  
 
 
 app.listen(PORT, () => {
