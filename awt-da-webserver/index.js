@@ -64,12 +64,13 @@ app.get("/getTemplates", async (req, res) => {
 });
 
 app.post("/createInstance", (req, res) => {
-    const instance = req.body;
-    console.log(instance);
-    let fileNames = fs.readdirSync('./instances/');
-    let addTitle = 'instance_';
-    const title = addTitle+(fileNames.length+1)+'_'+instance.name;
-    fs.writeFile('./instances/'+title+'.json', JSON.stringify(instance), (err) => {
+
+  const instance = req.body;
+  console.log(instance);
+  let fileNames = fs.readdirSync('./instances/');
+  let addTitle = 'instance_';
+  const title = addTitle+(fileNames.length+1)+'_'+instance.name;
+  fs.writeFile('./instances/'+title+'.json', JSON.stringify(instance), (err) => {
         if (err) {
             console.log(err);
             res.status(500).send("Instance was not created.");
@@ -78,21 +79,23 @@ app.post("/createInstance", (req, res) => {
           res.status(200).send("Instance was created.");
         }
       });
-  });
+});
 
-  function createIcons(instance){
-    const urlTags = instance.media_urls;
-    const image = "image/jpeg"
-    let xmlTag = ``;
-    for (let i = 0; i<urlTags.length; i++){
-      xmlTag += `<Icon width ="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
-                    <StaticResource creativeType="${image}">
-                       <URL>${urlTags[i]}</URL>
-                    </StaticResource>
-                </Icon>\n                  `;
-    }
-    return xmlTag;
+function createIcons(instance){
+  const urlTags = instance.media_urls;
+  const image = "image/jpeg"
+  let xmlTag = ``;
+  for (let i = 0; i<urlTags.length; i++){
+    xmlTag += `<Icon width="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
+                  <StaticResource creativeType="${image}">
+                      <URL>${urlTags[i]}</URL>
+                  </StaticResource>
+              </Icon>\n                  `;
   }
+  return xmlTag;
+}
+
+
 function createXml(instance){
   const root = "VAST";
   const version = "4.1";
@@ -100,8 +103,6 @@ function createXml(instance){
   let shape = instance.shape;
   let iconTags = createIcons(instance)
   
- 
-
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
   <${root} version="${version}">
     <Ad id="${instance.name}">
@@ -139,8 +140,7 @@ app.get("/getInstance", (req, res) => {
     }
     if(instances.length === 1){
       instance = JSON.parse(instances[0])
-    }
-    else{
+    } else {
     // for random xml response
       if(minutes % 2 === 0){
         let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
@@ -149,14 +149,13 @@ app.get("/getInstance", (req, res) => {
         var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
         instance = JSON.parse(instances[number]);
       }
-
     }
-    let xmlResponse = createXml(instance)
-  console.log(xmlResponse)
-  res.send(xmlResponse);
-
-}
-  //res.send({message: "No instances"})
+    let xmlResponse = createXml(instance);
+    console.log(xmlResponse);
+    res.send(xmlResponse);
+  } else {
+    res.send({message: "No instances"});
+  }
 });
   
 
