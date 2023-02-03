@@ -66,8 +66,15 @@ const CreateInstance = (props) => {
             }
         }
         
-        // Set duration in miliseconds
-        selectedTemplate.duration = (document.getElementById('duration').value)*1000;
+        // Set duration in format hh:mm:ss
+        function formatSeconds(seconds) {
+            let hours = Math.floor(seconds / 3600);
+            let minutes = Math.floor((seconds % 3600) / 60);
+            let remainingSeconds = seconds % 60;
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+          }
+        //Set duration
+        selectedTemplate.duration = formatSeconds((document.getElementById('duration').value));
 
         // Set media URLs
         selectedTemplate.media_urls = loadMedia();
@@ -271,13 +278,13 @@ const CreateInstance = (props) => {
                 { urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
                 {urlInput}
                 {/* {uploadElement} */}
+                </Form>
                 <Button variant="primary" id="show-preview-button" onClick={() => {
                     setShowHidePreview(!showHidePreview);
                     showPreview();
                     }}>{ showHidePreview ? "Show Preview" : "Hide Preview" }
                 </Button>
                 <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
-            </Form>
         </div>
     )
 };

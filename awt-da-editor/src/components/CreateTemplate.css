@@ -1,8 +1,15 @@
 #create-template{
+       position: relative;
+       display: flex;
+       flex-direction: column;
        margin-left: 30px;
        margin-right: 30px;
+       height: 100%;
 }
 
+#formular {
+       margin-top: 25px;
+}
 
 h1 {
        color:#1d3557;
@@ -74,14 +81,16 @@ select{
 }
 
 #submit-template-button{
+       position: absolute;
        color: black;
-       min-width: 10em;
+       width: 10em;
        min-height: 3em;
        background-color:white;
        font-size:13px;
        font-weight: bold;
-       float: right;
-       margin-top: 20%;
+       right: 0;
+       bottom: 0;
+       margin-bottom: 30px;
 
 }
 
