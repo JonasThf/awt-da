@@ -103,8 +103,8 @@ async function submit () {
             <option value="1">Change image when pressing color buttons</option>
             <option value="2">No Interaction</option>
           </Form.Select>
-          <Button variant="primary" id="submit-template-button" onClick={submit}>Submit Template</Button>
         </Form>
+        <Button variant="primary" id="submit-template-button" onClick={submit}>Submit Template</Button>
     </div>
   );
 };

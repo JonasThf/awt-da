@@ -6,7 +6,7 @@ import Resizable from "./Resizable";
 const Television = (props) => {
 
     // const [shape, setShape] = React.useState(null);
-
+    // const [safeArea, setSafeArea] = React.useState(null);
     // const showShape = () => {
     //     if (props.bannerState === "1") {
     //         setShape(<Resizable setResizer={props.setResizer}>State 1</Resizable>);
@@ -17,10 +17,10 @@ const Television = (props) => {
     //     }
     //     return null;
     // }
-
+   
     return(
         <div id="television">
-            { props.bannerState === '1' ? <Resizable setResizer={props.setResizer}></Resizable> : null}
+            { props.bannerState === '1' ? <Resizable setResizer={props.setResizer} safeArea={document.getElementById('safe-area')}></Resizable> : null}
             { props.bannerState === '2' ? <div id="l-banner">Broadcast</div> : null}
             { props.bannerState === '3' ? <div id="half-screen-top">AD</div> : null}
             {props.previewLBanner}

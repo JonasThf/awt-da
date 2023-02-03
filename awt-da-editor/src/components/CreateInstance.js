@@ -278,13 +278,13 @@ const CreateInstance = (props) => {
                 { urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
                 {urlInput}
                 {/* {uploadElement} */}
+                </Form>
                 <Button variant="primary" id="show-preview-button" onClick={() => {
                     setShowHidePreview(!showHidePreview);
                     showPreview();
                     }}>{ showHidePreview ? "Show Preview" : "Hide Preview" }
                 </Button>
                 <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
-            </Form>
         </div>
     )
 };

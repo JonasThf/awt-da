@@ -21,10 +21,25 @@ const Resizable = (props) => {
       background: "#f0f0f0"
     };
 
+  
+  function isIntersecting(el1, el2) {
+    console.log(el1,el2);
+    const rect1 = el1.getBoundingClientRect()
+    const rect2 = el2.getBoundingClientRect();
+    
+    return !(
+      (rect1.bottom < rect2.top) || (rect1.top > rect2.bottom) ||
+      (rect1.right < rect2.left) || (rect1.left > rect2.right)
+    );
+  }
+
+
   function setOnDragStop(e,d) {
     let oldWidth = Number(state.width.split('px')[0]);
     let oldHeight = Number(state.height.split('px')[0]);
-    if(oldWidth + d.x < 824 && oldHeight + d.y < 504 && d.x > 0 && d.y > 0) {
+    let safeArea = props.safeArea;
+    let resizable = document.getElementById('resizable');
+    if(oldWidth + d.x < 1024 && oldHeight + d.y < 648 && d.x > 0 && d.y > 0 && !(isIntersecting(safeArea, resizable))) {
       setState({width: state.width, height: state.height, x: d.x, y: d.y })
       props.setResizer({height: state.height, width: state.width, x: d.x, y: d.y});
     } else {
@@ -36,9 +51,9 @@ const Resizable = (props) => {
   function setOnResizeStop(e, direction, ref, delta, position) {
     let oldWidth = Number(ref.style.width.split('px')[0]);
     let oldHeight = Number(ref.style.height.split('px')[0]);
-    // console.log('old: ', state.width, state.height, state.x, state.y);
-    // console.log('new: ',ref.style.width, ref.style.height, position.x, position.y);
-    if(oldWidth + state.x < 824 && oldHeight + state.y < 504 && position.x > 0 && position.y > 0) {
+    let safeArea = props.safeArea;
+    let resizable = document.getElementById('resizable');
+    if(oldWidth + state.x < 1024 && oldHeight + state.y < 648 && position.x > 0 && position.y > 0 && !(isIntersecting(safeArea, resizable))) {
       setState({
         width: ref.style.width,
         height: ref.style.height,

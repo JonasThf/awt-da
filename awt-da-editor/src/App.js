@@ -51,7 +51,7 @@ function App() {
           <Col className="px-0" id="create-template-col" md={2}>
             <CreateTemplate resizer={resizer} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
           </Col>
-          <Col id="box-col" className="px-0" md={5}>
+          <Col id="box-col" className="px-0" md={7}>
             <Row id="row3">
               <p id="tv">TV</p>
             </Row>
