@@ -174,7 +174,7 @@ const CreateInstance = (props) => {
                             </Form.Group>;
 
             // Show empty preview box based on selected template
-            if (selectedTemplate.shape === '2') {
+            if (selectedTemplate.shape === 'l-banner') {
                 props.setPreview(null);
                 props.setPreviewLBanner(<div style={{
                     position: 'absolute',
