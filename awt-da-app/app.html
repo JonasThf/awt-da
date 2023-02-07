@@ -6,14 +6,7 @@
     <link rel="stylesheet" href="./src/app.css" />
     <script type="text/javascript" src="./src/scripts/app-buttons.js"></script>
     <script type="text/javascript" src="./src/scripts/app-interactions.js"></script>
-    <script type="text/javascript" src="./src/scripts/vast-client.js"></script>
-    <script type="text/javascript" src="vast-client-browser.min.js"></script>
-    <!-- <script type="text/javascript" src="./src/scripts/vastclient.js"></script> -->
-    <!-- <script data-main="src/scripts/vastclient" src="./src/scripts/require.js"></script> -->
-    <!-- <script type="module" src="./src/vast-client.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vast-client@3.2.0/dist/vast-client.min.js"></script>
-    <script src="./dist/rmp-vast.min.js"></script> -->
-    <!-- <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
+    <script type="text/javascript" src="./src/scripts/vastclient.js"></script>
 </head>
 
 <body onload="start();">
@@ -50,9 +43,7 @@
         </div>
     </div>
     <div class="red_button_style" id="red_button_notification_field">Press the red button on the RC to start!</div>
-    <div id="ad">
-        <img id="mili" src="https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-superJumbo.jpg?quality=75&auto=webp" alt="Italian Trulli">
+    <div id="ad" onload="getInstance();">
     </div>
-   
 </body>
 </html>

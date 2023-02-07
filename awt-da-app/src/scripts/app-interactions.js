@@ -1,8 +1,4 @@
 
-
-
-
-// icons = ["https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20779/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20789/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360"]
 // scene implementation
 var scene = {
     theAppObject:null,
@@ -31,21 +27,6 @@ var scene = {
         // render the scene so it is ready to be shown
         this.render();
     },
-    getInstance: function(){
-        const date = new Date();
-        icons = [];
-        console.log(date);
-        let VastClient = new VAST.VASTClient();
-        VastClient.get(`http://localhost:3001/getInstance?date=${date.toISOString()}`)
-            .then(res => {
-              console.log(res.ads[0].creatives[0].icons)
-              icons = res.ads[0].creatives[0].icons;
-            })
-            .catch(function(error) {
-              console.log(error)
-            });
-        return icons;
-    },
     getRelevantButtonsMask: function(){
         // mask includes color buttons
         var mask = rcUtils.MASK_CONSTANT_RED + rcUtils.MASK_CONSTANT_GREEN + rcUtils.MASK_CONSTANT_YELLOW + rcUtils.MASK_CONSTANT_BLUE;
@@ -65,12 +46,12 @@ var scene = {
         // when shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
 
-        let icons = this.getInstance();
-        //let icons = ["https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20779/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20789/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360"]
-        console.log(icons);
-        let image = document.createElement('img');
-        image.src = icons[0];
-        ad.appendChild(image);
+        // let icons = this.getInstance();
+        // //let icons = ["https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20779/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20789/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360"]
+        // console.log(icons);
+        // let image = document.createElement('img');
+        // image.src = icons[0];
+        // ad.appendChild(image);
         //set the timer after how long the ad will show up
         setTimeout(function(){
             this.ad.style.visibility='visible';
@@ -135,23 +116,23 @@ var scene = {
         // do prevent field
         preventField.innerHTML = 'Please press the blue button to prevent the app from receiving button events for 10 seconds.';
 
-        let icons = getInstance();
-        console.log(icons);
-        console.log('test');
-        let image = document.createElement('img');
-        image.src = icons[0].staticResource;
-        ad.appendChild(image);
+        // let icons = getInstance();
+        // console.log(icons);
+        // console.log('test');
+        // let image = document.createElement('img');
+        // image.src = icons[0].staticResource;
+        // ad.appendChild(image);
 
-        image.addEventListener('load', function() {
-            // Show the image
-            image.style.display = 'block';
-        });
+        // image.addEventListener('load', function() {
+        //     // Show the image
+        //     image.style.display = 'block';
+        // });
             
-        // Listen for a user interaction with the ad
-        image.addEventListener('click', function() {
-            // Remove the image element from the DOM
-            document.body.removeChild(image);
-        });
+        // // Listen for a user interaction with the ad
+        // image.addEventListener('click', function() {
+        //     // Remove the image element from the DOM
+        //     document.body.removeChild(image);
+        // });
 
     },
     timerTick: function() {
