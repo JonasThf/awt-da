@@ -17,11 +17,11 @@ function getInstance() {
               var imageURL = imageURLs[i].textContent;
               var image = document.createElement("img");
               image.src = imageURL;
-              image.height = icons[i].attributes.height.textContent + "px";
-              image.width = icons[i].attributes.width.textContent + "px";
-              image.left = icons[i].attributes.xPosition.textContent + "px";
-              image.top = icons[i].attributes.yPosition.textContent + "px";
-              image.animationDuration = icons[i].attributes.duration.textContent;
+              image.style.height = icons[i].attributes.height.textContent + "px";
+              image.style.width = icons[i].attributes.width.textContent + "px";
+              image.style.left = icons[i].attributes.xPosition.textContent + "px";
+              image.style.top = icons[i].attributes.yPosition.textContent + "px";
+              image.style.duration = icons[i].attributes.duration.textContent;
               document.getElementById("ad").appendChild(image);
               
           }
@@ -30,11 +30,11 @@ function getInstance() {
           var image = document.createElement("img");
           image.src = imageURL;
           document.getElementById("ad").appendChild(image);
-          image.height = icons[0].attributes.height.textContent + "px";
-          image.width = icons[0].attributes.width.textContent + "px";
-          image.left = icons[0].attributes.xPosition.textContent + "px";
-          image.top = icons[0].attributes.yPosition.textContent + "px";
-          image.animationDuration = icons[0].attributes.duration.textContent;
+          image.style.height = icons[0].attributes.height.textContent + "px";
+          image.style.width= icons[0].attributes.width.textContent + "px";
+          image.style.left = icons[0].attributes.xPosition.textContent + "px";
+          image.style.top = icons[0].attributes.yPosition.textContent + "px";
+          image.style.duration = icons[0].attributes.duration.textContent;
       } else {
           console.log('No image URLs found.');
       }
