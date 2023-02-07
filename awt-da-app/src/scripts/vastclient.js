@@ -9,22 +9,44 @@ function getInstance() {
       var xmlDoc = parser.parseFromString(xhr.responseText, "text/xml")
       console.log(xmlDoc);
       var imageURLs = xmlDoc.getElementsByTagName("StaticResource");
+      var icons = xmlDoc.getElementsByTagName("Icon");
+      console.log("ICON 0", icons[0].attributes.height.textContent)
       console.log(imageURLs);
       if (imageURLs.length >= 1) {
           for(let i = 0; i < imageURLs.length; i++) {
               var imageURL = imageURLs[i].textContent;
               var image = document.createElement("img");
               image.src = imageURL;
+              image.height = icons[i].attributes.height.textContent + "px";
+              image.width = icons[i].attributes.width.textContent + "px";
+              image.left = icons[i].attributes.xPosition.textContent + "px";
+              image.top = icons[i].attributes.yPosition.textContent + "px";
+              image.animationDuration = icons[i].attributes.duration.textContent;
               document.getElementById("ad").appendChild(image);
+              
           }
       } else if (imageURLs.length === 1) {
           var imageURL = xmlDoc.getElementsByTagName("StaticResource")[0].textContent;
           var image = document.createElement("img");
           image.src = imageURL;
           document.getElementById("ad").appendChild(image);
+          image.height = icons[0].attributes.height.textContent + "px";
+          image.width = icons[0].attributes.width.textContent + "px";
+          image.left = icons[0].attributes.xPosition.textContent + "px";
+          image.top = icons[0].attributes.yPosition.textContent + "px";
+          image.animationDuration = icons[0].attributes.duration.textContent;
       } else {
           console.log('No image URLs found.');
       }
+
+      console.log("imagee1", image)
+
+      //hier kann ich dann das style attribut setzen mit den Variablem
+
+      console.log("image 222", image)
+
+      //hier dann ein Style attribut erstellen mit den sizes und den duration
+      //dann noch gucken welcher banner bei L banner dann einfach 100 % müssen dann aber den TV resizen das noch nicht ganz klar
     }
   };
   xhr.send();
