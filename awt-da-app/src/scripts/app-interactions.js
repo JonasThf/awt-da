@@ -52,13 +52,16 @@ var scene = {
         // let image = document.createElement('img');
         // image.src = icons[0];
         // ad.appendChild(image);
-        //set the timer after how long the ad will show up
-        setTimeout(function(){
-            this.ad.style.visibility='visible';
-        }, 2000);
-        setTimeout(function(){
-            this.ad.style.visibility='hidden';
-        }, 5000); // here should be the number of seconds defined in instance of the ad (but minus 2000)
+        //set the timer after how long the ad will show up#
+        setInterval(function() {
+            getInstance();
+        }, 10000);
+        // setTimeout(function(){
+        //     this.ad.style.visibility='visible';
+        // }, 2000);
+        // setTimeout(function(){
+        //     this.ad.style.visibility='hidden';
+        // }, 5000); // here should be the number of seconds defined in instance of the ad (but minus 2000)
     },
     hideAppArea: function(){
         this.appAreaDiv.style.visibility = 'hidden';

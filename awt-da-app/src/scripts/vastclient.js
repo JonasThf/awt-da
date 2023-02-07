@@ -12,29 +12,47 @@ function getInstance() {
       var icons = xmlDoc.getElementsByTagName("Icon");
       console.log("ICON 0", icons[0].attributes.height.textContent)
       console.log(imageURLs);
+      let shape = xmlDoc.getElementsByTagName('Description').textContent;
+      if (shape === 'l-banner') {
+        let background = document.getElementById('background-video');
+        background.style.position = 'absolute';
+        background.style.width = '80%';
+        background.style.height = '70%';
+        background.style.zIndex = 100;
+        background.style.padding = 0;
+      } else {
+        let background = document.getElementById('background-video');
+        background.style.position = 'absolute';
+        background.style.width = '100%';
+        background.style.height = '100%';
+      }
       if (imageURLs.length >= 1) {
           for(let i = 0; i < imageURLs.length; i++) {
               var imageURL = imageURLs[i].textContent;
               var image = document.createElement("img");
               image.src = imageURL;
-              image.style.height = icons[i].attributes.height.textContent + "px";
-              image.style.width = icons[i].attributes.width.textContent + "px";
+              image.style.height = icons[i].attributes.height.textContent;
+              image.style.width = icons[i].attributes.width.textContent;
               image.style.left = icons[i].attributes.xPosition.textContent + "px";
               image.style.top = icons[i].attributes.yPosition.textContent + "px";
-              image.style.duration = icons[i].attributes.duration.textContent;
+              image.style.position = "absolute";
+              // image.style.duration = icons[i].attributes.duration.textContent;
               document.getElementById("ad").appendChild(image);
               
           }
+          setDuration(icons[0].attributes.duration.textContent);
       } else if (imageURLs.length === 1) {
           var imageURL = xmlDoc.getElementsByTagName("StaticResource")[0].textContent;
           var image = document.createElement("img");
           image.src = imageURL;
           document.getElementById("ad").appendChild(image);
-          image.style.height = icons[0].attributes.height.textContent + "px";
-          image.style.width= icons[0].attributes.width.textContent + "px";
+          image.style.height = icons[0].attributes.height.textContent;
+          image.style.width= icons[0].attributes.width.textContent;
           image.style.left = icons[0].attributes.xPosition.textContent + "px";
           image.style.top = icons[0].attributes.yPosition.textContent + "px";
-          image.style.duration = icons[0].attributes.duration.textContent;
+          image.style.position = "absolute";
+          // image.style.duration = icons[0].attributes.duration.textContent;
+          setDuration(icons[0].attributes.duration.textContent);
       } else {
           console.log('No image URLs found.');
       }
@@ -52,4 +70,19 @@ function getInstance() {
   xhr.send();
 }
 
-getInstance();    // Es geht komischerweise nur wenn diese Zeile hier drin ist, ansonsten findet er die methode nicht. Es liegt daran dass es im div ist nur nicht im body.
+function setDuration(duration) {
+  let split = duration.split(':');
+  let parsedDuration = +(split[0] * 60 * 60 + +split[1] * 60 + +split[2]) * 1000;
+  let ad = document.getElementById('ad');
+
+  setTimeout(function(){
+  ad.style.visibility='visible';
+  }, 2000);
+
+  setTimeout(function(){
+  ad.style.visibility='hidden';
+  }, parsedDuration+2000);
+
+}
+
+// Es geht komischerweise nur wenn diese Zeile hier drin ist, ansonsten findet er die methode nicht. Es liegt daran dass es im div ist nur nicht im body.
