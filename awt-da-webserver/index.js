@@ -4,7 +4,6 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const cors = require('cors');
-const { version } = require('os');
 
 const PORT = process.env.PORT || 3001;
 
@@ -86,9 +85,11 @@ function createIcons(instance){
   const image = "image/jpeg"
   let xmlTag = ``;
   for (let i = 0; i<urlTags.length; i++){
+    //replace '&' with '&#38;' in URLs since they have to be escaped
+    let urlTag = urlTags[i].replaceAll('&', '&#38;');
     xmlTag += `<Icon width="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
                   <StaticResource creativeType="${image}">
-                      <URL>${urlTags[i]}</URL>
+                      <URL>${urlTag}</URL>
                   </StaticResource>
               </Icon>\n                  `;
   }
