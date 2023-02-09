@@ -39,7 +39,7 @@ const Resizable = (props) => {
     let oldHeight = Number(state.height.split('px')[0]);
     let safeArea = props.safeArea;
     let resizable = document.getElementById('resizable');
-    if(oldWidth + d.x < 1024 && oldHeight + d.y < 648 && d.x > 0 && d.y > 0 && !(isIntersecting(safeArea, resizable))) {
+    if(oldWidth + d.x < 1288 && oldHeight + d.y < 728 && d.x > 0 && d.y > 0 && !(isIntersecting(safeArea, resizable))) {
       setState({width: state.width, height: state.height, x: d.x, y: d.y })
       props.setResizer({height: state.height, width: state.width, x: d.x, y: d.y});
     } else {
@@ -53,7 +53,7 @@ const Resizable = (props) => {
     let oldHeight = Number(ref.style.height.split('px')[0]);
     let safeArea = props.safeArea;
     let resizable = document.getElementById('resizable');
-    if(oldWidth + state.x < 1024 && oldHeight + state.y < 648 && position.x > 0 && position.y > 0 && !(isIntersecting(safeArea, resizable))) {
+    if(oldWidth + state.x < 1288 && oldHeight + state.y < 728 && position.x > 0 && position.y > 0 && !(isIntersecting(safeArea, resizable))) {
       setState({
         width: ref.style.width,
         height: ref.style.height,

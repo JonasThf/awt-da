@@ -17,15 +17,20 @@
 
 #row1{
   justify-content: center;
-  width: 100%;
+  /* width: 100%;
   margin: 0;
-  flex-wrap: nowrap;
+  flex-wrap: nowrap; */
 }
 
 #row2{
   justify-content: center;
   height: 100%;
-  padding-bottom: 4%;
+  /* padding-bottom: 4%; */
+  /* margin: 0;
+  padding: 0;
+  width: 100%; */
+
+
 }
 
 #header {
@@ -42,21 +47,26 @@
 }
 
 #create-template-col {
-  border: 1px solid black;
+  /* border: 1px solid black;
   background-color: white;
-  margin-bottom: 2%;
   border-radius: 4px;
-  box-shadow: 2px 2px 5px grey;
+  box-shadow: 2px 2px 5px grey; */
   height: 100%;
+  padding-bottom: 20px;
 }
 
+/* #box-col {
+  min-width: 1288px; 
+  min-height: 728px;
+} */
+
 #create-instance-col {
-  border: 1px solid black;
+  /* border: 1px solid black;
   background-color: white;
-  margin-bottom: 2%;
-  border-radius: 4px;
+  border-radius: 4px; */
   height: 100%;
-  box-shadow: 2px 2px 5px grey;
+  /* box-shadow: 2px 2px 5px grey; */
+  padding-bottom: 20px;
 }
 
 #create-template-body{

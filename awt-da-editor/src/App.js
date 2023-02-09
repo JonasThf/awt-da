@@ -48,10 +48,10 @@ function App() {
           <Col md={10} id="header">Welcome to the Display Ad Editor</Col>
         </Row>
         <Row id="row2">
-          <Col className="px-0" id="create-template-col" md={2}>
+          <Col id="create-template-col" className="px-0" md={2}>
             <CreateTemplate resizer={resizer} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
           </Col>
-          <Col id="box-col" className="px-0" md={7}>
+          <Col id="box-col" className="px-0" md={8}>
             <Row id="row3">
               <p id="tv">TV</p>
             </Row>

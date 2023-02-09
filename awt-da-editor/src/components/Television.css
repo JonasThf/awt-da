@@ -3,10 +3,10 @@
   position: relative;
   border: 1px solid black;
   box-shadow: 2px 2px 5px grey;
-  min-width: 1024px; 
-  min-height: 648px;
-  max-width: 1024px; 
-  max-height: 648px;
+  min-width: 1288px; 
+  min-height: 728px;
+  max-width: 1288px; 
+  max-height: 728px;
   padding: 0;
 
 }

@@ -179,8 +179,8 @@ const CreateInstance = (props) => {
                 props.setPreviewLBanner(<div style={{
                     position: 'absolute',
                     backgroundColor: 'gray',
-                    right: '1px',
-                    top: '1px',
+                    right: '0px',
+                    top: '0px',
                     width: '80%',
                     height: '70%', 
                     padding: 0,
@@ -278,13 +278,13 @@ const CreateInstance = (props) => {
                 { urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
                 {urlInput}
                 {/* {uploadElement} */}
-                </Form>
-                <Button variant="primary" id="show-preview-button" onClick={() => {
-                    setShowHidePreview(!showHidePreview);
-                    showPreview();
-                    }}>{ showHidePreview ? "Show Preview" : "Hide Preview" }
-                </Button>
-                <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
+            </Form>
+            <Button variant="primary" id="show-preview-button" onClick={() => {
+                setShowHidePreview(!showHidePreview);
+                showPreview();
+                }}>{ showHidePreview ? "Show Preview" : "Hide Preview" }
+            </Button>
+            <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
         </div>
     )
 };
