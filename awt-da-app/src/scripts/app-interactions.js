@@ -4,6 +4,8 @@ var scene = {
     theAppObject:null,
     appAreaDiv: null,
     ad:null,
+    refreshIntervalId: null,
+    currentImageIndex: 0,
     isAppAreaVisible: false,
     redButtonDiv: null,
     lastNavigationButtonPressed: null,
@@ -45,30 +47,22 @@ var scene = {
         this.isAppAreaVisible = true;
         // when shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
-
-        // let icons = this.getInstance();
-        // //let icons = ["https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20779/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360","https://images.pexels.com/photos/20789/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=360"]
-        // console.log(icons);
-        // let image = document.createElement('img');
-        // image.src = icons[0];
-        // ad.appendChild(image);
-        //set the timer after how long the ad will show up#
-        setInterval(function() {
+        
+        // start interval call when app is visible
+        this.refreshIntervalId = setInterval(function() {
+            this.currentImageIndex = 0;
             getInstance();
         }, 10000);
-        // setTimeout(function(){
-        //     this.ad.style.visibility='visible';
-        // }, 2000);
-        // setTimeout(function(){
-        //     this.ad.style.visibility='hidden';
-        // }, 5000); // here should be the number of seconds defined in instance of the ad (but minus 2000)
+
     },
     hideAppArea: function(){
         this.appAreaDiv.style.visibility = 'hidden';
         this.ad.style.visibility='hidden';
         this.redButtonDiv.style.visibility = 'visible';
         this.isAppAreaVisible = false;
-        
+
+        // stop interval call when app is hidden
+        clearInterval(this.refreshIntervalId);
         // when hidden, app reacts only to red button key press (show app scene)
         rcUtils.setKeyset(this.theAppObject, rcUtils.MASK_CONSTANT_RED);
     },
@@ -117,26 +111,7 @@ var scene = {
             toggleNumericField.innerHTML = 'Enable numeric buttons';
         }
         // do prevent field
-        preventField.innerHTML = 'Please press the blue button to prevent the app from receiving button events for 10 seconds.';
-
-        // let icons = getInstance();
-        // console.log(icons);
-        // console.log('test');
-        // let image = document.createElement('img');
-        // image.src = icons[0].staticResource;
-        // ad.appendChild(image);
-
-        // image.addEventListener('load', function() {
-        //     // Show the image
-        //     image.style.display = 'block';
-        // });
-            
-        // // Listen for a user interaction with the ad
-        // image.addEventListener('click', function() {
-        //     // Remove the image element from the DOM
-        //     document.body.removeChild(image);
-        // });
-
+        preventField.innerHTML = 'Please press the blue button to change ad images.';
     },
     timerTick: function() {
         // check if timeout occured
@@ -198,11 +173,23 @@ function handleKeyCode(kc) {
                 break;
             case VK_BLUE:
                 // blue button prevents user input for 10 seconds
-                rcUtils.setKeyset(scene.theAppObject, 0); // this will prevent the app from receiving furher RC button events
-                scene.timeout = 10;
-                scene.timerTick();
-                // no need to rerender complete scene
-                shouldRender = false;
+                // rcUtils.setKeyset(scene.theAppObject, 0); // this will prevent the app from receiving furher RC button events
+                // scene.timeout = 10;
+                // scene.timerTick();
+
+                // PROBLEM: the scene.currentImageIndex does not get set to 0 properly after the ad disappears.
+                console.log('before function call: ', scene.currentImageIndex);
+                let images = document.getElementById('ad').getElementsByTagName('img');
+                if (images.length > 1) {
+                    console.log('before change: ', scene.currentImageIndex);
+                    images[scene.currentImageIndex].style.display = "none";
+                    scene.currentImageIndex = (scene.currentImageIndex + 1) % images.length;
+                    images[scene.currentImageIndex].style.display = "block";
+                    console.log('after change: ', scene.currentImageIndex);
+                }
+                console.log(images);
+                
+                // shouldRender = false;
                 break;
             case VK_LEFT:
                 // left button

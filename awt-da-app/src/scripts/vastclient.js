@@ -5,84 +5,88 @@ function getInstance() {
   xhr.setRequestHeader("Content-Type", "text/xml");
   xhr.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
-      var parser = new DOMParser();
-      var xmlDoc = parser.parseFromString(xhr.responseText, "text/xml")
+      let parser = new DOMParser();
+      let xmlDoc = parser.parseFromString(xhr.responseText, "text/xml")
       console.log(xmlDoc);
-      var imageURLs = xmlDoc.getElementsByTagName("StaticResource");
-      var icons = xmlDoc.getElementsByTagName("Icon");
-      console.log("ICON 0", icons[0].attributes.height.textContent)
-      console.log(imageURLs);
-      let shape = xmlDoc.getElementsByTagName('Description').textContent;
-      if (shape === 'l-banner') {
-        let background = document.getElementById('background-video');
-        background.style.position = 'absolute';
-        background.style.width = '80%';
-        background.style.height = '70%';
-        background.style.zIndex = 100;
-        background.style.padding = 0;
-      } else {
-        let background = document.getElementById('background-video');
-        background.style.position = 'absolute';
-        background.style.width = '100%';
-        background.style.height = '100%';
-      }
-      if (imageURLs.length >= 1) {
+      let imageURLs = xmlDoc.getElementsByTagName("StaticResource");
+      let icons = xmlDoc.getElementsByTagName("Icon");
+      let shape = xmlDoc.getElementsByTagName("Description")[0].textContent;
+      
+      if (icons.length > 0) {
+        if( imageURLs.length > 0) {
           for(let i = 0; i < imageURLs.length; i++) {
-              var imageURL = imageURLs[i].textContent;
-              var image = document.createElement("img");
-              image.src = imageURL;
-              image.style.height = icons[i].attributes.height.textContent;
-              image.style.width = icons[i].attributes.width.textContent;
-              image.style.left = icons[i].attributes.xPosition.textContent + "px";
-              image.style.top = icons[i].attributes.yPosition.textContent + "px";
-              image.style.position = "absolute";
-              // image.style.duration = icons[i].attributes.duration.textContent;
-              document.getElementById("ad").appendChild(image);
-              
+            addImage(imageURLs[i].textContent, icons, shape);
           }
-          setDuration(icons[0].attributes.duration.textContent);
-      } else if (imageURLs.length === 1) {
-          var imageURL = xmlDoc.getElementsByTagName("StaticResource")[0].textContent;
-          var image = document.createElement("img");
-          image.src = imageURL;
-          document.getElementById("ad").appendChild(image);
-          image.style.height = icons[0].attributes.height.textContent;
-          image.style.width= icons[0].attributes.width.textContent;
-          image.style.left = icons[0].attributes.xPosition.textContent + "px";
-          image.style.top = icons[0].attributes.yPosition.textContent + "px";
-          image.style.position = "absolute";
-          // image.style.duration = icons[0].attributes.duration.textContent;
-          setDuration(icons[0].attributes.duration.textContent);
-      } else {
+          let images = document.getElementById('ad').getElementsByTagName('img');
+          console.log(images);
+          // show first image
+          images[0].style.display = "block";
+          showAd(icons[0].attributes.duration.textContent); 
+        } else {
           console.log('No image URLs found.');
+        } 
+      } else {
+        console.log('No icons found.')
       }
-
-      console.log("imagee1", image)
-
-      //hier kann ich dann das style attribut setzen mit den Variablem
-
-      console.log("image 222", image)
-
-      //hier dann ein Style attribut erstellen mit den sizes und den duration
-      //dann noch gucken welcher banner bei L banner dann einfach 100 % müssen dann aber den TV resizen das noch nicht ganz klar
     }
   };
   xhr.send();
 }
 
-function setDuration(duration) {
+function addImage(imageURL, icons, shape) {
+  var image = document.createElement("img");
+  image.src = imageURL;
+  image.style.height = icons[0].attributes.height.textContent;
+  image.style.width = icons[0].attributes.width.textContent;
+  image.style.left = icons[0].attributes.xPosition.textContent + "px";
+  image.style.top = icons[0].attributes.yPosition.textContent + "px";
+  image.style.position = "absolute";
+  image.style.zIndex = 0;
+
+  // hide image by default
+  image.style.display = "none";
+
+  document.getElementById("ad").appendChild(image);
+  console.log("image: ", image);
+  if (shape === 'l-banner') {
+    setBackground(true);
+  } else {
+    setBackground(false);
+  }
+}
+
+function deleteImage() {
+  let ad = document.getElementById('ad');
+  ad.replaceChildren();
+}
+
+function setBackground(LBanner) {
+  let background = document.getElementById('background-img');
+  if(LBanner) {
+    background.style.position = "absolute";
+    background.style.right = 0;
+    background.style.top = 0;
+    background.style.width = '80%';
+    background.style.height = '70%';
+    background.style.zIndex = 1;
+  } else {
+    background.style.position = 'absolute';
+    background.style.width = '100%';
+    background.style.height = '100%';
+    background.style.zIndex = -1;
+  }
+}
+
+function showAd(duration) {
   let split = duration.split(':');
   let parsedDuration = +(split[0] * 60 * 60 + +split[1] * 60 + +split[2]) * 1000;
   let ad = document.getElementById('ad');
-
-  setTimeout(function(){
   ad.style.visibility='visible';
-  }, 2000);
-
+  
   setTimeout(function(){
-  ad.style.visibility='hidden';
-  }, parsedDuration+2000);
+    ad.style.visibility='hidden';
+    deleteImage();
+    setBackground(false);
+  }, parsedDuration);
 
 }
-
-// Es geht komischerweise nur wenn diese Zeile hier drin ist, ansonsten findet er die methode nicht. Es liegt daran dass es im div ist nur nicht im body.
