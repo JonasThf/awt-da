@@ -1,5 +1,3 @@
-
-const createVast = require('vast-builder');
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -9,82 +7,86 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(cors()) 
+app.use(cors())
 app.use(bodyParser.json());
 
+// Read the current server directory and store the files
 function readDirectory(directory) {
-    let files = [];
-    let fileNames = fs.readdirSync(directory);
-    fileNames.forEach(file => {
-        let fileData = fs.readFileSync(directory+file, 'utf8');
-        files.push(fileData);
-    });
-    return files;
+  let files = [];
+  let fileNames = fs.readdirSync(directory);
+  fileNames.forEach(file => {
+    let fileData = fs.readFileSync(directory + file, 'utf8');
+    files.push(fileData);
+  });
+  return files;
 };
 
+// Middleware to submit a template
 app.post("/createTemplate", (req, res) => {
-    const template = req.body;
-    console.log(template);
-    var refused = false;
-    const title = template.name;
-    const templates = readDirectory('./templates/');
+  const template = req.body;
+  var refused = false;
+  const title = template.name;
+  const templates = readDirectory('./templates/');
 
-    templates.forEach(x => {
-      if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
-        refused = true;
-        res.status(200).send("Template "+title+" already exists! \nChoose a different Name.")
-      }
-      else if (title.length < 1 || title.includes(' ')) {
-          refused = true;
-          res.status(200).send("Template name is empty or spaces were used.")
-      }
-    });
+  templates.forEach(x => {
+    if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
+      refused = true;
+      res.status(200).send("Template " + title + " already exists! \nChoose a different Name.")
+    }
+    else if (title.length < 1 || title.includes(' ')) {
+      refused = true;
+      res.status(200).send("Template name is empty or spaces were used.")
+    }
+  });
 
-    if(!refused) {
-      fs.writeFile('./templates/'+title+'.json', JSON.stringify(template), (err) => {
+  if (!refused) {
+    fs.writeFile('./templates/' + title + '.json', JSON.stringify(template), (err) => {
       if (err) {
-          console.log(err);
-          res.status(500).send("Template could not be created.");
+        console.log(err);
+        res.status(500).send("Template could not be created.");
       }
       else {
         res.status(200).send("Template was created.");
       }
     });
-    }
+  }
 });
 
-
+// Middleware to pull all templates
 app.get("/getTemplates", async (req, res) => {
-    try {
-        res.status(200).send((readDirectory('./templates/')));
-    } catch (e) {
-        res.send({message: "Error in Fetching templates."});
-    }
+  try {
+    res.status(200).send((readDirectory('./templates/')));
+  } catch (e) {
+    res.send({ message: "Error in Fetching templates." });
+  }
 });
 
+// Middleware to submit an instance
 app.post("/createInstance", (req, res) => {
-
   const instance = req.body;
-  console.log(instance);
   let fileNames = fs.readdirSync('./instances/');
   let addTitle = 'instance_';
-  const title = addTitle+(fileNames.length+1)+'_'+instance.name;
-  fs.writeFile('./instances/'+title+'.json', JSON.stringify(instance), (err) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send("Instance was not created.");
-        }
-        else {
-          res.status(200).send("Instance was created.");
-        }
-      });
+
+  // Create unique instance names
+  const title = addTitle + (fileNames.length + 1) + '_' + instance.name;
+
+  fs.writeFile('./instances/' + title + '.json', JSON.stringify(instance), (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Instance was not created.");
+    }
+    else {
+      res.status(200).send("Instance was created.");
+    }
+  });
 });
 
-function createIcons(instance){
+// Helper function to create XML icons for the VAST XML
+function createIcons(instance) {
   const urlTags = instance.media_urls;
   const image = "image/jpeg"
   let xmlTag = ``;
-  for (let i = 0; i<urlTags.length; i++){
+  for (let i = 0; i < urlTags.length; i++) {
     //replace '&' with '&#38;' in URLs since they have to be escaped
     let urlTag = urlTags[i].replaceAll('&', '&#38;');
     xmlTag += `<Icon width="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
@@ -96,14 +98,14 @@ function createIcons(instance){
   return xmlTag;
 }
 
-
-function createXml(instance){
+// Function to create a VAST XML filled with instance parameters
+function createXml(instance) {
   const root = "VAST";
   const version = "4.1";
   const system = "Node.js Express Server";
   let shape = instance.shape;
   let iconTags = createIcons(instance)
-  
+
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
   <${root} version="${version}">
     <Ad id="${instance.name}">
@@ -128,38 +130,36 @@ function createXml(instance){
   return xml;
 }
 
+// Send an instance back in VAST format
 app.get("/getInstance", (req, res) => {
   let instances = readDirectory('./instances/');
-  console.log('length',instances.length)
   let instance = null;
   const range = instances.length;
 
   const minutes = new Date(req.query.date).getMinutes();
-  if(instances != null){
+  if (instances != null) {
     if (instances.length === 0) {
       res.send({ message: "No instances available!" });
     }
-    if(instances.length === 1){
+    if (instances.length === 1) {
       instance = JSON.parse(instances[0])
     } else {
-    // for random xml response
-      if(minutes % 2 === 0){
-        let number = Math.floor( Math.random() * (range-1) / 2 ) * 2;
+      // Randomize xml response based on time
+      if (minutes % 2 === 0) {
+        let number = Math.floor(Math.random() * (range - 1) / 2) * 2;
         instance = JSON.parse(instances[number]);
       } else {
-        var number = (Math.floor( (Math.random() * (range-1)/ 2 )) * 2)+1;
+        var number = (Math.floor((Math.random() * (range - 1) / 2)) * 2) + 1;
         instance = JSON.parse(instances[number]);
       }
     }
+    // Create VAST XML
     let xmlResponse = createXml(instance);
-    console.log(xmlResponse);
     res.send(xmlResponse);
   } else {
-    res.send({message: "No instances"});
+    res.send({ message: "No instances" });
   }
 });
-  
-
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
