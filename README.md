@@ -10,7 +10,7 @@ The underlying concept of our architecture:
 
 First layout of our editor:
 
-![Editor](./docs/singlepage_layout.png)
+![Editor](./docs/editor.png)
 
 ## Disclaimer
 
