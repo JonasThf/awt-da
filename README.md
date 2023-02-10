@@ -6,7 +6,7 @@ Create customized display ads for an HbbTV application.
 
 The underlying concept of our architecture:
 
-![Concept](./docs/architecture.png)
+![Concept](./docs/Architecture.png)
 
 First layout of our editor:
 
