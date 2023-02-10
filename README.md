@@ -8,7 +8,7 @@ The underlying concept of our architecture:
 
 ![Concept](./docs/architecture.png)
 
-First layout of our editor:
+Preview of our editor:
 
 ![Editor](./docs/editor.PNG)
 
