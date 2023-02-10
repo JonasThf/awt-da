@@ -2,7 +2,7 @@ import React from "react";
 import './App.css';
 import CreateInstance from './components/CreateInstance'
 import CreateTemplate from './components/CreateTemplate';
-import { Row, Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
@@ -14,12 +14,22 @@ function App() {
     width: 200,
     height: 200,
     x: 0,
-    y: 0});
-  
+    y: 0
+  });
+
+  // State for popup when creating template/instance
   const [show, setShow] = React.useState(false);
+
+  // State for the color of the popup when creating template/instance
   const [popupColor, setPopupColor] = React.useState('');
+
+  // State for selected banner type
   const [bannerState, setBannerState] = React.useState(null);
+
+  // State for preview of selected template in create-instance-form
   const [preview, setPreview] = React.useState(null);
+
+  // State for preview of selected template in create-instance-form when template contains l-banner
   const [previewLBanner, setPreviewLBanner] = React.useState(null);
 
   const handleClose = () => setShow(false);
@@ -36,12 +46,10 @@ function App() {
     setPopupColor(color);
   }
 
-  
-
-  return(
+  return (
     <div className="root">
       <Modal show={show} onHide={handleClose}>
-        <Modal.Body id="create-template-body" style={{backgroundColor: popupColor}}>{createTemplateRespone}</Modal.Body>
+        <Modal.Body id="create-template-body" style={{ backgroundColor: popupColor }}>{createTemplateRespone}</Modal.Body>
       </Modal>
       <Container id="container">
         <Row id="row1">
@@ -57,7 +65,7 @@ function App() {
             </Row>
             <Row id="row4">
               <Television bannerState={bannerState} setResizer={setResizer} preview={preview} previewLBanner={previewLBanner}></Television>
-            </Row> 
+            </Row>
           </Col>
           <Col id="create-instance-col" className="px-0" md={2}>
             <CreateInstance setPreview={setPreview} setShow={setShowTrue} setColor={setColor} setRespone={setRespone} setPreviewLBanner={setPreviewLBanner}></CreateInstance>
@@ -66,9 +74,6 @@ function App() {
       </Container>
     </div>
   );
- 
-
-  
 }
 
 export default App;

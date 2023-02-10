@@ -1,4 +1,4 @@
-#create-template{
+#create-template {
        position: relative;
        display: flex;
        flex-direction: column;
@@ -16,101 +16,51 @@
 }
 
 h1 {
-       color:#1d3557;
+       color: #1d3557;
        text-align: center;
        padding-top: 20px;
-     
 }
 
-#template-name-group{
+#template-name-group {
        margin-top: 20px;
 }
 
-#TemplateNameLabel
-{
-       font-weight: bold;
-       color: black;
-}
-#ImageResizeLabel
-{
-       font-weight: bold;
-       color: black;
-
-}
-
-#InteractionsLabel{
-       color: black;
-       font-weight: bold;
-}
-
-label{
-       display:block;
+#template-name-label {
+       display: block;
        text-align: center;
        font-size: large;
        margin-bottom: 3px;
-     
 }
 
-input[type="checkbox"]{
-       min-width: 2em;
-       min-height:1.3em;
-      
-}
-
-input[type="checkbox"]+label{
-       display:inline-block;
-       padding-top: 0;
-       margin-top:0;
-}
-
-.InteractionsLabel{
+#template-name::placeholder {
        text-align: center;
-     
 }
 
-#ChooseDaType{
-       font-weight: bold;
-       color: black;
-       font-size: large;
-}
-
-select{
-	/* background-color:#d7e3fc; */
-       /* min-width: 20em; */
+select {
        text-align: center;
        color: black;
-       min-height:2em;
-       border-color:black;
-      
+       min-height: 2em;
+       border-color: black;
 }
 
-#submit-template-button{
+#submit-template-button {
        position: absolute;
        color: black;
        width: 10em;
        min-height: 3em;
-       background-color:white;
-       font-size:13px;
+       background-color: white;
+       font-size: 13px;
        font-weight: bold;
        right: 0;
        bottom: 0;
        margin-bottom: 30px;
        margin-right: 20px;
-
 }
 
-#select-shape{
+#select-shape {
        margin-top: 30px;
 }
 
-#select-interaction{
+#select-interaction {
        margin-top: 30px;
-}
-#checkboxGroup{
-       margin-top: 20px;
-}
-
-#resize-checkbox {
-       min-width: 20px;
-       margin-right: 10px;
 }

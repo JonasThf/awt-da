@@ -1,11 +1,15 @@
 .App {
   text-align: center;
 }
-.root{
+
+.root {
   height: 100vh;
 }
 
-.App{display:flex; flex-direction:row;}
+.App {
+  display: flex;
+  flex-direction: row;
+}
 
 #container {
   display: flex;
@@ -15,22 +19,13 @@
   margin: 0;
 }
 
-#row1{
+#row1 {
   justify-content: center;
-  /* width: 100%;
-  margin: 0;
-  flex-wrap: nowrap; */
 }
 
-#row2{
+#row2 {
   justify-content: center;
   height: 100%;
-  /* padding-bottom: 4%; */
-  /* margin: 0;
-  padding: 0;
-  width: 100%; */
-
-
 }
 
 #header {
@@ -47,39 +42,23 @@
 }
 
 #create-template-col {
-  /* border: 1px solid black;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 2px 2px 5px grey; */
   height: 100%;
   padding-bottom: 20px;
 }
-
-/* #box-col {
-  min-width: 1288px; 
-  min-height: 728px;
-} */
 
 #create-instance-col {
-  /* border: 1px solid black;
-  background-color: white;
-  border-radius: 4px; */
   height: 100%;
-  /* box-shadow: 2px 2px 5px grey; */
   padding-bottom: 20px;
 }
 
-#create-template-body{
+#create-template-body {
   text-align: center;
   color: black;
   border: 1px solid black;
   border-radius: 7px;
 }
 
-#row3{
-}
-
-#row4{
+#row4 {
   justify-content: center;
   position: relative;
   height: 90%;
