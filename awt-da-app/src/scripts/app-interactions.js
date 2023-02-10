@@ -1,11 +1,11 @@
 
-// scene implementation
+// Scene implementation
 var scene = {
-    theAppObject:null,
+    theAppObject: null,
     appAreaDiv: null,
-    ad:null,
-    refreshIntervalId: null,
-    currentImageIndex: 0,
+    ad: null,                    // Holds the ad object
+    refreshIntervalId: null,    // Defines the ID for the intervall call of getInstance
+    currentImageIndex: 0,       // Defines the current index of the image that is shown in the ad
     isAppAreaVisible: false,
     redButtonDiv: null,
     lastNavigationButtonPressed: null,
@@ -14,59 +14,59 @@ var scene = {
     shouldReactToPlaybackButtons: false,
     shouldReactToNumericButtons: false,
     timeout: 0,
-    
-    initialize: function(appObj) {
+
+    initialize: function (appObj) {
         this.theAppObject = appObj;
         this.appAreaDiv = document.getElementById('app_area');
         this.ad = document.getElementById("ad");
         this.redButtonDiv = document.getElementById('red_button_notification_field');
-        // register RC button event listener
+        // Register RC button event listener
         rcUtils.registerKeyEventListener();
-        
-        // initial state is app_area hidden
+
+        // Initial state is app_area hidden
         this.hideAppArea();
 
-        // render the scene so it is ready to be shown
+        // Render the scene so it is ready to be shown
         this.render();
     },
-    getRelevantButtonsMask: function(){
-        // mask includes color buttons
+    getRelevantButtonsMask: function () {
+        // Mask includes color buttons
         var mask = rcUtils.MASK_CONSTANT_RED + rcUtils.MASK_CONSTANT_GREEN + rcUtils.MASK_CONSTANT_YELLOW + rcUtils.MASK_CONSTANT_BLUE;
-        // and navigation
+        // And navigation
         mask += rcUtils.MASK_CONSTANT_NAVIGATION;
-        // add playback buttons if scene should react to them
-        if (this.shouldReactToPlaybackButtons) {mask += rcUtils.MASK_CONSTANT_PLAYBACK;}
-        // add numeric buttons if scene should react to them
-        if (this.shouldReactToNumericButtons) {mask += rcUtils.MASK_CONSTANT_NUMERIC;}
-        // return calculated button mask  
+        // Add playback buttons if scene should react to them
+        if (this.shouldReactToPlaybackButtons) { mask += rcUtils.MASK_CONSTANT_PLAYBACK; }
+        // Add numeric buttons if scene should react to them
+        if (this.shouldReactToNumericButtons) { mask += rcUtils.MASK_CONSTANT_NUMERIC; }
+        // Return calculated button mask  
         return mask;
     },
-    showAppArea: function(){
+    showAppArea: function () {
         this.appAreaDiv.style.visibility = 'visible';
         this.redButtonDiv.style.visibility = 'hidden';
         this.isAppAreaVisible = true;
-        // when shown, app reacts to all buttons relevant on the scene
+        // When shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
-        
-        // start interval call when app is visible
-        this.refreshIntervalId = setInterval(function() {
+
+        // Start interval call when app is visible to show a random ad
+        this.refreshIntervalId = setInterval(function () {
             this.currentImageIndex = 0;
             getInstance();
         }, 10000);
 
     },
-    hideAppArea: function(){
+    hideAppArea: function () {
         this.appAreaDiv.style.visibility = 'hidden';
-        this.ad.style.visibility='hidden';
+        this.ad.style.visibility = 'hidden';
         this.redButtonDiv.style.visibility = 'visible';
         this.isAppAreaVisible = false;
 
-        // stop interval call when app is hidden
+        // Stop interval call when app is hidden
         clearInterval(this.refreshIntervalId);
-        // when hidden, app reacts only to red button key press (show app scene)
+        // When hidden, app reacts only to red button key press (show app scene)
         rcUtils.setKeyset(this.theAppObject, rcUtils.MASK_CONSTANT_RED);
     },
-    render: function(){
+    render: function () {
         var navigationField = document.getElementById('navigation_field');
         var playbackField = document.getElementById('playback_field');
         var togglePlaybackField = document.getElementById('toggle_playback_field');
@@ -74,15 +74,15 @@ var scene = {
         var toggleNumericField = document.getElementById('toggle_numeric_field');
         var preventField = document.getElementById('prevent_field');
 
-        
-        // do navigation buttons
+
+        // Do navigation buttons
         if (this.lastNavigationButtonPressed === null) {
             navigationField.innerHTML = 'Please press one of the navigation buttons (arrows, OK/ENTER, back).';
         }
         else {
             navigationField.innerHTML = this.lastNavigationButtonPressed;
         }
-        // do playback buttons
+        // Do playback buttons
         if (this.shouldReactToPlaybackButtons) {
             if (this.lastPlaybackButtonPressed === null) {
                 playbackField.innerHTML = 'Please press one of the playback buttons (trick play controls).';
@@ -93,10 +93,10 @@ var scene = {
             togglePlaybackField.innerHTML = 'Disable playback buttons';
         }
         else {
-            playbackField.innerHTML = 'Please press the green button to enable playback buttons.';            
+            playbackField.innerHTML = 'Please press the green button to enable playback buttons.';
             togglePlaybackField.innerHTML = 'Enable playback buttons';
         }
-        // do numeric buttons
+        // Do numeric buttons
         if (this.shouldReactToNumericButtons) {
             if (this.lastNumericButtonPressed === null) {
                 numericField.innerHTML = 'Please press one of the numeric buttons (0 ... 9).';
@@ -107,28 +107,28 @@ var scene = {
             toggleNumericField.innerHTML = 'Disable numeric buttons';
         }
         else {
-            numericField.innerHTML = 'Please press the yellow button to enable numeric buttons.';            
+            numericField.innerHTML = 'Please press the yellow button to enable numeric buttons.';
             toggleNumericField.innerHTML = 'Enable numeric buttons';
         }
-        // do prevent field
+        // Do prevent field
         preventField.innerHTML = 'Please press the blue button to change ad images.';
     },
-    timerTick: function() {
-        // check if timeout occured
+    timerTick: function () {
+        // Check if timeout occured
         if (scene.timeout > 0) {
-            // not yet, display message
+            // Not yet, display message
             var preventField = document.getElementById('prevent_field');
             preventField.innerHTML = 'The app shall not receive RC button events for ' + scene.timeout + ' seconds.';
-            // decrement timeout and reschedule for 1 second
+            // Decrement timeout and reschedule for 1 second
             scene.timeout--;
             setTimeout(scene.timerTick, 1000);
         }
         else {
-            // timeout occured, start reacting to buttons again
+            // Timeout occured, start reacting to buttons again
             rcUtils.setKeyset(scene.theAppObject, scene.getRelevantButtonsMask());
-            // and rerender scene
+            // And rerender scene
             scene.render();
-        }    
+        }
     }
 };
 
@@ -136,21 +136,21 @@ var scene = {
 function handleKeyCode(kc) {
     try {
         var shouldRender = true;
-        // process buttons
+        // Process buttons
         switch (kc) {
-                case VK_RED:
-                // red button shows & hides the app scene
+            case VK_RED:
+                // Red button shows & hides the app scene
                 if (scene.isAppAreaVisible) {
                     scene.hideAppArea();
                 }
                 else {
                     scene.showAppArea();
                 }
-                // no need to rerender complete scene
+                // No need to rerender complete scene
                 shouldRender = false;
                 break;
             case VK_GREEN:
-                // green button toggles playback buttons
+                // Green button toggles playback buttons
                 if (scene.shouldReactToPlaybackButtons) {
                     scene.shouldReactToPlaybackButtons = false;
                 }
@@ -161,7 +161,7 @@ function handleKeyCode(kc) {
                 rcUtils.setKeyset(scene.theAppObject, scene.getRelevantButtonsMask());
                 break;
             case VK_YELLOW:
-                // yellow button toggles numeric buttons
+                // Yellow button toggles numeric buttons
                 if (scene.shouldReactToNumericButtons) {
                     scene.shouldReactToNumericButtons = false;
                 }
@@ -177,7 +177,7 @@ function handleKeyCode(kc) {
                 // scene.timeout = 10;
                 // scene.timerTick();
 
-                // PROBLEM: the scene.currentImageIndex does not get set to 0 properly after the ad disappears.
+                // PROBLEM: the scene.currentImageIndex does not get set to 0 properly after the ad disappears
                 console.log('before function call: ', scene.currentImageIndex);
                 let images = document.getElementById('ad').getElementsByTagName('img');
                 if (images.length > 1) {
@@ -188,23 +188,23 @@ function handleKeyCode(kc) {
                     console.log('after change: ', scene.currentImageIndex);
                 }
                 console.log(images);
-                
-                // shouldRender = false;
+
+                // ShouldRender = false;
                 break;
             case VK_LEFT:
-                // left button
+                // Left button
                 scene.lastNavigationButtonPressed = 'LEFT';
                 break;
             case VK_RIGHT:
-                // right button
+                // Right button
                 scene.lastNavigationButtonPressed = 'RIGHT';
                 break;
             case VK_DOWN:
-                // down button
+                // Down button
                 scene.lastNavigationButtonPressed = 'DOWN';
                 break;
             case VK_UP:
-                // up button
+                // Up button
                 scene.lastNavigationButtonPressed = 'UP';
                 break;
             case VK_ENTER:
@@ -280,42 +280,39 @@ function handleKeyCode(kc) {
                 scene.lastNumericButtonPressed = '9';
                 break;
             default:
-                // pressed unhandled key
+                // Pressed unhandled key
                 shouldRender = false;
         }
         if (shouldRender) {
-            // render scene
+            // Render scene
             scene.render();
         }
     }
     catch (e) {
-        // pressed unhandled key, catch the error
+        // Pressed unhandled key, catch the error
     }
-    // we return true to prevent default action for processed keys
+    // We return true to prevent default action for processed keys
     return true;
 }
 
-// app entry function
-function start() 
-{
+// App entry function
+function start() {
     try {
 
-        // attempt to acquire the Application object
+        // Attempt to acquire the Application object
         var appManager = document.getElementById('applicationManager');
         var appObject = appManager.getOwnerApplication(document);
-        // check if Application object was a success
+        // Check if Application object was a success
         if (appObject === null) {
-            // error acquiring the Application object!
-        } 
+            // Error acquiring the Application object!
+        }
         else {
-            // we have the Application object, and we can initialize the scene and show our app
+            // We have the Application object, and we can initialize the scene and show our app
             scene.initialize(appObject);
             appObject.show();
         }
     }
     catch (e) {
-        // this is not an HbbTV client, catch the error.
+        // This is not an HbbTV client, catch the error.
     }
 }
-
-
