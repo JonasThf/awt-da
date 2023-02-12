@@ -12,8 +12,10 @@ var scene = {
     shouldReactToPlaybackButtons: false,
     shouldReactToNumericButtons: false,
     timeout: 0,
+    menu:null,
 
     initialize: function(appObj) {
+        this.menu=document.getElementById('menu');
         this.theAppObject = appObj;
         this.appAreaDiv = document.getElementById('app_area');
         this.ad=document.getElementById("ad");
@@ -48,13 +50,15 @@ var scene = {
         setTimeout(function(){
             this.ad.style.visibility='visible';
         }, 2000);
+        
         setTimeout(function(){
             this.ad.style.visibility='hidden';
         }, 5000); // here should be the number of seconds defined in instance of the ad (but minus 2000)
+        //check if the button is still pressed or not
     },
     hideAppArea: function(){
-        this.appAreaDiv.style.visibility = 'hidden';
         this.ad.style.visibility='hidden';
+        this.appAreaDiv.style.visibility = 'hidden';
         this.redButtonDiv.style.visibility = 'visible';
         this.isAppAreaVisible = false;
         
@@ -104,25 +108,35 @@ var scene = {
             toggleNumericField.innerHTML = 'Enable numeric buttons';
         }
         // do prevent field
-        preventField.innerHTML = 'Please press the blue button to prevent the app from receiving button events for 10 seconds.';
-    },
-    timerTick: function() {
-        // check if timeout occured
-        if (scene.timeout > 0) {
-            // not yet, display message
-            var preventField = document.getElementById('prevent_field');
-            preventField.innerHTML = 'The app shall not receive RC button events for ' + scene.timeout + ' seconds.';
-            // decrement timeout and reschedule for 1 second
-            scene.timeout--;
-            setTimeout(scene.timerTick, 1000);
-        }
-        else {
-            // timeout occured, start reacting to buttons again
-            rcUtils.setKeyset(scene.theAppObject, scene.getRelevantButtonsMask());
-            // and rerender scene
-            scene.render();
-        }    
+        preventField.innerHTML = 'Please press the blue button to hiide the menu.';
+    
+        
+        // document.addEventListener("prevent_field", function(event) {
+        //     if (event.which === VK_BLUE) {
+        //       // code to execute when the blue button is pressed
+             
+        //     }
+        //   });
+          
     }
+    // ,
+    // timerTick: function() {
+    //     // check if timeout occured
+    //     if (scene.timeout > 0) {
+    //         // not yet, display message
+    //         var preventField = document.getElementById('prevent_field');
+    //         preventField.innerHTML = 'The app shall not receive RC button events for ' + scene.timeout + ' seconds.';
+    //         // decrement timeout and reschedule for 1 second
+    //         scene.timeout--;
+    //         setTimeout(scene.timerTick, 1000);
+    //     }
+    //     else {
+    //         // timeout occured, start reacting to buttons again
+    //         rcUtils.setKeyset(scene.theAppObject, scene.getRelevantButtonsMask());
+    //         // and rerender scene
+    //         scene.render();
+    //     }    
+    // }
 };
 
 // RC button press handler function
@@ -165,12 +179,29 @@ function handleKeyCode(kc) {
                 rcUtils.setKeyset(scene.theAppObject, scene.getRelevantButtonsMask());
                 break;
             case VK_BLUE:
+
+                    this.menu.style.visibility="hidden";
                 // blue button prevents user input for 10 seconds
-                rcUtils.setKeyset(scene.theAppObject, 0); // this will prevent the app from receiving furher RC button events
-                scene.timeout = 10;
-                scene.timerTick();
+                // if (this.menu.style.visibility==="hidden"){
+                //     this.menu.style.visibility="visible";
+                // }
+                // if (this.menu.style.visibility==="visible")
+                // {
+                //     this.menu.style.visibility="hidden";
+                // }
+                // const visibility = computedStyle.getPropertyValue('visibility');
+                // if (visibility=="hidden"){
+                //     this.menu.style.visibility="visible";
+                // }
+                // if (visibility=="visible"){
+                //     this.menu.style.visibility="hidden";
+                // }
+                
+                // rcUtils.setKeyset(scene.theAppObject, 0); // this will prevent the app from receiving furher RC button events
+                // scene.timeout = 10;
+                // scene.timerTick();
                 // no need to rerender complete scene
-                shouldRender = false;
+                // shouldRender = false;
                 break;
             case VK_LEFT:
                 // left button

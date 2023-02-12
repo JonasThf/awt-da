@@ -33,7 +33,6 @@ div.safe_area
     /** set background color and alpha */
     background-color: rgba(0, 0, 0, .5);
 }
-
 /* set application area invisble as initial state (we need to press the red button, so application scene shows) */
 div#app_area 
 {
@@ -41,6 +40,22 @@ div#app_area
 }
 div#ad{
     visibility: hidden;
+    position: absolute;
+    
+}
+
+div#menu
+{
+    position:absolute;
+    background-color: grey;
+    margin-left:700px;
+    width:450px;
+
+}
+div#broadcast{
+    position:absolute;
+    bottom:-17%;
+    transform: translate(-10%, -10%); 
 }
 
 /* set red button div style */
@@ -63,19 +78,18 @@ div.red_button_style
 /* set title text style */
 div.title_text
 {
-    padding-top: 25px;
-    padding-bottom: 20px;
-    font-size: 36px;
+    
+    font-size: 20px;
     text-align: center;
 }
 
 /* set status text style */
 div.status_text
 {
-    padding-left: 5px;
+    
     padding-top: 5px;
     padding-bottom: 3px;
-    font-size: 20px;
+    font-size: 15px;
     border-top: 2px solid #d3d3d3;
 }
 
