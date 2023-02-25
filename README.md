@@ -14,11 +14,11 @@ Preview of our web-editor:
 
 ## Getting Started
 
-# Prerequisites:
+### Prerequisites:
 - Preinstalled emulator on your browser (like HybridTV Dev Environment or Hybrid TV viewer)
 - Node package manager installed
 
-# Steps to make our project run:
+### Steps to make our project run:
 1. Download or clone our repository
 2. Go to awt-da-editor and run: npm install
 3. Go to awt-da-webserver and run: npm install
