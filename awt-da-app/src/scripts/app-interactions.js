@@ -48,11 +48,11 @@ var scene = {
         // When shown, app reacts to all buttons relevant on the scene
         rcUtils.setKeyset(this.theAppObject, this.getRelevantButtonsMask());
 
-        // Start interval call when app is visible to show a random ad
+        // Start interval call when app is visible to show a random ad every 30 seconds
         this.refreshIntervalId = setInterval(function () {
-            this.currentImageIndex = 0;
+            scene.currentImageIndex = 0;
             getInstance();
-        }, 10000);
+        }, 30000);
 
     },
     hideAppArea: function () {
@@ -172,24 +172,17 @@ function handleKeyCode(kc) {
                 rcUtils.setKeyset(scene.theAppObject, scene.getRelevantButtonsMask());
                 break;
             case VK_BLUE:
-                // blue button prevents user input for 10 seconds
-                // rcUtils.setKeyset(scene.theAppObject, 0); // this will prevent the app from receiving furher RC button events
-                // scene.timeout = 10;
-                // scene.timerTick();
-
-                // PROBLEM: the scene.currentImageIndex does not get set to 0 properly after the ad disappears
-                console.log('before function call: ', scene.currentImageIndex);
+                // Blue button changes images in ad
                 let images = document.getElementById('ad').getElementsByTagName('img');
+                
                 if (images.length > 1) {
-                    console.log('before change: ', scene.currentImageIndex);
                     images[scene.currentImageIndex].style.display = "none";
                     scene.currentImageIndex = (scene.currentImageIndex + 1) % images.length;
                     images[scene.currentImageIndex].style.display = "block";
-                    console.log('after change: ', scene.currentImageIndex);
+                } else {
+                    scene.currentImageIndex = 0;
                 }
-                console.log(images);
 
-                // ShouldRender = false;
                 break;
             case VK_LEFT:
                 // Left button
