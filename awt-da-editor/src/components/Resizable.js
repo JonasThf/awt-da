@@ -38,7 +38,7 @@ const Resizable = (props) => {
       minHeight={props.minHeight}
       minWidth={props.minWidth}
       bounds="parent"
-    >Your ad!
+    >{props.message}
     </Rnd>
   )
 }

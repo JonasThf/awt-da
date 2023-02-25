@@ -29,8 +29,8 @@ const Television = (props) => {
 
     return (
         <div id="television">
-            {props.bannerState === '1' ? <Resizable minHeight={67} minWidth={126} lockAspectRatio={false} disableDragging={false} style={standardBannerStyle} bannerStyle={props.standardBanner} setBannerStyle={props.setStandardBanner} resizing={standardBannerResizing}></Resizable> : null}
-            {props.bannerState === '2' ? <Resizable minHeight={215} minWidth={381} lockAspectRatio={'16/9'} disableDragging={true} style={LBannerStyle} bannerStyle={props.LBanner} setBannerStyle={props.setLBanner} resizing={LBannerResizing}>Broadcast</Resizable> : null}
+            {props.bannerState === '1' ? <Resizable message={'Your Ad!'} minHeight={67} minWidth={126} lockAspectRatio={false} disableDragging={false} style={standardBannerStyle} bannerStyle={props.standardBanner} setBannerStyle={props.setStandardBanner} resizing={standardBannerResizing}></Resizable> : null}
+            {props.bannerState === '2' ? <Resizable message={'Broadcast'} minHeight={215} minWidth={381} lockAspectRatio={'16/9'} disableDragging={true} style={LBannerStyle} bannerStyle={props.LBanner} setBannerStyle={props.setLBanner} resizing={LBannerResizing}></Resizable> : null}
             {props.bannerState === '3' ? <div id="half-screen-top">Your ad!</div> : null}
             {props.bannerState === '4' ? <div id="half-screen-bottom">Your ad!</div> : null}
             {props.previewLBanner}
