@@ -89,7 +89,7 @@ function createIcons(instance) {
   for (let i = 0; i < urlTags.length; i++) {
     //replace '&' with '&#38;' in URLs since they have to be escaped
     let urlTag = urlTags[i].replaceAll('&', '&#38;');
-    xmlTag += `<Icon width="${instance.width}" height="${instance.height}" xPosition="${instance.x}" yPosition="${instance.y}" duration="${instance.duration}">
+    xmlTag += `<Icon width="${instance.ad_width}" height="${instance.ad_height}" xPosition="${instance.ad_x}" yPosition="${instance.ad_y}" duration="${instance.duration}">
                   <StaticResource creativeType="${image}">
                       <URL>${urlTag}</URL>
                   </StaticResource>
@@ -130,7 +130,7 @@ function createXml(instance) {
   return xml;
 }
 
-// Send an instance back in VAST format
+// Send an instance back in VAST format based on date parameter together with coresponding JSON file TODO
 app.get("/getInstance", (req, res) => {
   let instances = readDirectory('./instances/');
   let instance = null;
@@ -155,9 +155,9 @@ app.get("/getInstance", (req, res) => {
     }
     // Create VAST XML
     let xmlResponse = createXml(instance);
-    res.send(xmlResponse);
+    res.send({vastXML: xmlResponse, instance: instance});
   } else {
-    res.send({ message: "No instances" });
+    res.send({ message: "No instances available." });
   }
 });
 
