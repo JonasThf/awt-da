@@ -33,13 +33,13 @@ const CreateTemplate = (props) => {
       case "standard":
         setStyleInput(<Form.Group className="mb-3" id="style-input-group">
           <Form.Label className="style-input-label">Width (max 1278)</Form.Label>
-          <Form.Control id="width-input" type="number" defaultValue={1278} min="126" max="1278" />
+          <Form.Control id="width-input" type="number" defaultValue={1280} min="126" max="1280" />
           <Form.Label className="style-input-label">Height (max 718)</Form.Label>
-          <Form.Control id="height-input" type="number" defaultValue={718} min="67" max="718" />
+          <Form.Control id="height-input" type="number" defaultValue={720} min="67" max="720" />
           <Form.Label className="style-input-label">X</Form.Label>
-          <Form.Control id="x-input" type="number" defaultValue={1} min="1" max="1279" />
+          <Form.Control id="x-input" type="number" defaultValue={0} min="0" max="1279" />
           <Form.Label className="style-input-label">Y</Form.Label>
-          <Form.Control id="y-input" type="number" defaultValue={1} min="1" max="720" />
+          <Form.Control id="y-input" type="number" defaultValue={0} min="0" max="719" />
         </Form.Group>);
         props.setBannerState("1");
         break;
@@ -72,7 +72,7 @@ const CreateTemplate = (props) => {
     let height = Number(document.getElementById('height-input').value);
     let x = Number(document.getElementById('x-input').value);
     let y = Number(document.getElementById('y-input').value);
-    if (width + x < 1280 && height + y < 720 && x > 0 && y > 0) {
+    if (width + x <= 1280 && height + y <= 720 && x >= 0 && y >= 0) {
       props.setStandardBanner({ width: width, height: height, x: x, y: y });
     } else {
       props.setColor('rgb(253, 192, 184)');
