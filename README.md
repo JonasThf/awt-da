@@ -8,9 +8,21 @@ The underlying concept of our architecture:
 
 ![Concept](./docs/architecture.png)
 
-Preview of our editor:
+Preview of our web-editor:
 
-![Editor](./docs/editor.PNG)
+![Editor](./docs/editor_preview.PNG)
+
+## Getting Started
+
+Prerequisites:
+- Preinstalled emulator on your browser (like HybridTV Dev Environment or Hybrid TV viewer)
+- Node package manager installed
+
+1. Download or clone our repository
+2. Go to awt-da-editor and run: npm install
+3. Go to awt-da-webserver and run: npm install
+4. Start the editor and the webserver with: npm start
+5. Go to awt-da-app and run the HTML file in chrome or firefox
 
 ## Disclaimer
 
