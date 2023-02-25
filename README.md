@@ -8,9 +8,9 @@ The underlying concept of our architecture:
 
 ![Concept](./docs/architecture.png)
 
-First layout of our editor:
+Preview of our editor:
 
-![Editor](./docs/singlepage_layout.png)
+![Editor](./docs/editor.PNG)
 
 ## Disclaimer
 
