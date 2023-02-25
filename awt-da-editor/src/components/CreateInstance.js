@@ -256,7 +256,7 @@ const CreateInstance = (props) => {
                 showPreview();
             }}>{showHidePreview ? "Show Preview" : "Hide Preview"}
             </Button> : null}
-            <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
+            <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Submit Instance</Button>
         </div>
     )
 };
