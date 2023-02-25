@@ -96,8 +96,6 @@ const CreateInstance = (props) => {
         // Set media URLs
         selectedTemplate.media_urls = loadMedia();
 
-        console.log(JSON.stringify(selectedTemplate));
-
         try {
             const response = await axios.post(
                 "http://localhost:3001/createInstance",
@@ -138,30 +136,39 @@ const CreateInstance = (props) => {
                 <Form.Control className="input-url" type="url" placeholder="Example URL" />
             </Form.Group>;
 
-            // Show empty preview box based on selected template
+            // Show preview box based on selected template
             if (selectedTemplate.shape === 'l-banner') {
                 props.setPreview(null);
                 props.setPreviewLBanner(<div style={{
                     position: 'absolute',
-                    backgroundColor: 'gray',
-                    right: '0px',
-                    top: '0px',
-                    width: '80%',
-                    height: '70%',
-                    padding: 0,
+                    display: "flex",
+                    backgroundColor: '#0d6efd',
+                    fontSize: '30px',
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: '#FFFFFF',
+                    left: selectedTemplate.broadcast_x,
+                    top: selectedTemplate.broadcast_y,
+                    width: selectedTemplate.broadcast_width,
+                    height: selectedTemplate.broadcast_height,
                     zIndex: 4
-                }}></div>);
+                }}>Broadcast</div>);
             } else {
                 props.setPreviewLBanner(null);
                 props.setPreview(<div style={{
-                    height: selectedTemplate.height,
-                    width: selectedTemplate.width,
-                    left: selectedTemplate.x,
-                    top: selectedTemplate.y,
                     position: "absolute",
-                    border: "1px solid black",
-                    padding: 0
-                }}></div>);
+                    display: "flex",
+                    backgroundColor: '#0d6efd',
+                    fontSize: '30px',
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: '#FFFFFF',
+                    height: selectedTemplate.ad_height,
+                    width: selectedTemplate.ad_width,
+                    left: selectedTemplate.ad_x,
+                    top: selectedTemplate.ad_y,
+                    border: "1px solid black"
+                }}>Your ad!</div>);
             }
 
             if (selectedTemplate.interactions === '1') {
@@ -212,10 +219,10 @@ const CreateInstance = (props) => {
             if (media_urls[0]) {
                 let frontImgURL = media_urls[0];
                 props.setPreview(<img style={{
-                    height: selectedTemplate.height,
-                    width: selectedTemplate.width,
-                    left: selectedTemplate.x,
-                    top: selectedTemplate.y,
+                    height: selectedTemplate.ad_height,
+                    width: selectedTemplate.ad_width,
+                    left: selectedTemplate.ad_x,
+                    top: selectedTemplate.ad_y,
                     position: "absolute",
                     border: "1px solid black",
                     padding: 0,
@@ -239,16 +246,16 @@ const CreateInstance = (props) => {
                     <option>Choose Template</option>
                 </Form.Select>
                 <InputGroup className="mb-3">
-                    <Form.Control id="duration" type="number" placeholder="Duration in Seconds" min="5" max="60" />
+                    <Form.Control id="duration" type="number" placeholder="Duration in Seconds" min="5" max="20" />
                 </InputGroup>
                 {urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
                 {urlInput}
             </Form>
-            <Button variant="primary" id="show-preview-button" onClick={() => {
+            {urlInput ? <Button variant="primary" id="show-preview-button" onClick={() => {
                 setShowHidePreview(!showHidePreview);
                 showPreview();
             }}>{showHidePreview ? "Show Preview" : "Hide Preview"}
-            </Button>
+            </Button> : null}
             <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Create Instance</Button>
         </div>
     )

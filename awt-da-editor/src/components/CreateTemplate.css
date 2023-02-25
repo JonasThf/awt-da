@@ -43,6 +43,37 @@ select {
        border-color: black;
 }
 
+.style-input-label {
+       margin-top: 5px;
+       margin-left: 5px;
+       display: block;
+       font-size: medium;
+}
+
+#style-input-group {
+       margin-top: 30px;
+}
+
+#select-shape {
+       margin-top: 30px;
+}
+
+#select-interaction {
+       margin-top: 30px;
+}
+
+#set-style-button {
+       position: absolute;
+       min-width: 7em;
+       min-height: 3em;
+       font-size: 13px;
+       font-weight: bold;
+       left: 0;
+       bottom: 0;
+       margin-bottom: 30px;
+       margin-left: 20px;
+}
+
 #submit-template-button {
        position: absolute;
        color: black;
@@ -55,12 +86,4 @@ select {
        bottom: 0;
        margin-bottom: 30px;
        margin-right: 20px;
-}
-
-#select-shape {
-       margin-top: 30px;
-}
-
-#select-interaction {
-       margin-top: 30px;
 }

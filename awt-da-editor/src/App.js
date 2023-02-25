@@ -9,11 +9,23 @@ import Modal from 'react-bootstrap/Modal';
 import Television from "./components/Television";
 
 function App() {
-  const [createTemplateRespone, setCreateTemplateRespone] = React.useState(null);
-  const [resizer, setResizer] = React.useState({
-    width: 200,
-    height: 200,
-    x: 0,
+
+  // State for any modals to popup
+  const [modal, setModal] = React.useState(null);
+
+  // State to store the style of standard-banner resizable
+  const [standardBanner, setStandardBanner] = React.useState({
+    width: 780,
+    height: 124,
+    x: 249,
+    y: 500
+  });
+
+  // State to store the style of L-banner resizable
+  const [LBanner, setLBanner] = React.useState({
+    width: 1088,
+    height: 612,
+    x: 192,
     y: 0
   });
 
@@ -39,7 +51,7 @@ function App() {
   }
 
   const setRespone = (respone) => {
-    setCreateTemplateRespone(respone);
+    setModal(respone);
   }
 
   const setColor = (color) => {
@@ -49,25 +61,25 @@ function App() {
   return (
     <div className="root">
       <Modal show={show} onHide={handleClose}>
-        <Modal.Body id="create-template-body" style={{ backgroundColor: popupColor }}>{createTemplateRespone}</Modal.Body>
+        <Modal.Body id="create-template-body" style={{ backgroundColor: popupColor }}>{modal}</Modal.Body>
       </Modal>
       <Container id="container">
         <Row id="row1">
           <Col md={10} id="header">Welcome to the Display Ad Editor</Col>
         </Row>
         <Row id="row2">
-          <Col id="create-template-col" className="px-0" md={2}>
-            <CreateTemplate resizer={resizer} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
+          <Col id="create-template-col" className="px-0" md={1} lg={2}>
+            <CreateTemplate LBanner={LBanner} setLBanner={setLBanner} standardBanner={standardBanner} setStandardBanner={setStandardBanner} setShow={setShowTrue} setRespone={setRespone} setColor={setColor} setBannerState={setBannerState}></CreateTemplate>
           </Col>
-          <Col id="box-col" className="px-0" md={8}>
+          <Col id="box-col" className="px-0" md={8} lg={8}>
             <Row id="row3">
               <p id="tv">TV</p>
             </Row>
             <Row id="row4">
-              <Television bannerState={bannerState} setResizer={setResizer} preview={preview} previewLBanner={previewLBanner}></Television>
+              <Television bannerState={bannerState} LBanner={LBanner} setLBanner={setLBanner} standardBanner={standardBanner} setStandardBanner={setStandardBanner} preview={preview} previewLBanner={previewLBanner}></Television>
             </Row>
           </Col>
-          <Col id="create-instance-col" className="px-0" md={2}>
+          <Col id="create-instance-col" className="px-0" md={1} lg={2}>
             <CreateInstance setPreview={setPreview} setShow={setShowTrue} setColor={setColor} setRespone={setRespone} setPreviewLBanner={setPreviewLBanner}></CreateInstance>
           </Col>
         </Row>

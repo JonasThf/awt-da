@@ -4,21 +4,25 @@ import axios from "axios";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-
-/* eslint-disable */
 const CreateTemplate = (props) => {
+
+  const [styleInput, setStyleInput] = React.useState(null);
 
   let template = {
     "name": "",
     "shape": "",
-    "image_resize": false,
+    "broadcast_resize": false,
     "interactions": "",
     "duration": "00:00:00",
     "media_urls": [],
-    "width": 0,
-    "height": 0,
-    "x": 0,
-    "y": 0,
+    "ad_width": 0,
+    "ad_height": 0,
+    "ad_x": 0,
+    "ad_y": 0,
+    "broadcast_width": 0,
+    "broadcast_height": 0,
+    "broadcast_x": 0,
+    "broadcast_y": 0,
     "position": "absolute"
   }
 
@@ -27,20 +31,53 @@ const CreateTemplate = (props) => {
     let select = document.getElementById('select-shape');
     switch (select.value) {
       case "standard":
+        setStyleInput(<Form.Group className="mb-3" id="style-input-group">
+          <Form.Label className="style-input-label">Width (max 1278)</Form.Label>
+          <Form.Control id="width-input" type="number" defaultValue={1278} min="126" max="1278" />
+          <Form.Label className="style-input-label">Height (max 718)</Form.Label>
+          <Form.Control id="height-input" type="number" defaultValue={718} min="67" max="718" />
+          <Form.Label className="style-input-label">X</Form.Label>
+          <Form.Control id="x-input" type="number" defaultValue={1} min="1" max="1279" />
+          <Form.Label className="style-input-label">Y</Form.Label>
+          <Form.Control id="y-input" type="number" defaultValue={1} min="1" max="720" />
+        </Form.Group>);
         props.setBannerState("1");
         break;
 
       case "l-banner":
+        setStyleInput(null);
         props.setBannerState("2");
         break;
 
-      case "half-screen":
+      case "half-screen-top":
+        setStyleInput(null);
         props.setBannerState("3");
         break;
 
+      case "half-screen-bottom":
+        setStyleInput(null);
+        props.setBannerState("4");
+        break;
+
       default:
+        setStyleInput(null);
         props.setBannerState(null);
         break;
+    }
+  }
+
+  // Handle userinput for standard banner style
+  function changeStandardBanner() {
+    let width = Number(document.getElementById('width-input').value);
+    let height = Number(document.getElementById('height-input').value);
+    let x = Number(document.getElementById('x-input').value);
+    let y = Number(document.getElementById('y-input').value);
+    if (width + x < 1280 && height + y < 720 && x > 0 && y > 0) {
+      props.setStandardBanner({ width: width, height: height, x: x, y: y });
+    } else {
+      props.setColor('rgb(253, 192, 184)');
+      props.setShow();
+      props.setRespone('Your AD would cross the TV border. Please change position or size.');
     }
   }
 
@@ -51,21 +88,36 @@ const CreateTemplate = (props) => {
     template.shape = document.getElementById("select-shape").value;
     template.interactions = document.getElementById("select-interaction").value;
 
-    // If l-banner was selected, width and height need to be 100%
-    if (template.shape === "l-banner") {
-      template.image_resize = true;
-      template.height = "100%";
-      template.width = "100%";
-      template.x = 0;
-      template.y = 0;
-    } else {
-      template.height = props.resizer.height;
-      template.width = props.resizer.width;
-      template.x = props.resizer.x;
-      template.y = props.resizer.y;
+    if (template.shape === 'standard') {
+      template.ad_height = props.standardBanner.height + 'px';
+      template.ad_width = props.standardBanner.width + 'px';
+      template.ad_x = props.standardBanner.x;
+      template.ad_y = props.standardBanner.y;
     }
-    var templateAsString = JSON.stringify(template)
-    console.log(templateAsString);
+    // If l-banner was selected, width and height need to be 100%
+    if (template.shape === 'l-banner') {
+      template.broadcast_resize = true;
+      template.broadcast_height = props.LBanner.height + 'px';
+      template.broadcast_width = props.LBanner.width + 'px';
+      template.broadcast_x = props.LBanner.x;
+      template.broadcast_y = props.LBanner.y;
+      template.ad_height = '100%';
+      template.ad_width = '100%';
+      template.ad_x = 0;
+      template.ad_y = 0;
+    }
+    if (template.shape === 'half-screen-top') {
+      template.ad_height = "50%";
+      template.ad_width = "100%";
+      template.ad_x = 0;
+      template.ad_y = 0;
+    }
+    if (template.shape === 'half-screen-bottom') {
+      template.ad_height = "50%";
+      template.ad_width = "100%";
+      template.ad_x = 0;
+      template.ad_y = 360;
+    }
 
     try {
       const response = await axios.post("http://localhost:3001/createTemplate", template, { headers: { 'Content-Type': 'application/json' } });
@@ -77,7 +129,6 @@ const CreateTemplate = (props) => {
         props.setColor('rgb(198, 253, 184)');
         document.getElementById("formular").reset();
       }
-
       props.setShow();
       props.setRespone(response.data);
       props.setBannerState('0');
@@ -86,7 +137,6 @@ const CreateTemplate = (props) => {
       console.log(error);
     }
   }
-
 
   return (
     <div id="create-template">
@@ -100,14 +150,17 @@ const CreateTemplate = (props) => {
           <option>Choose a Banner-Type</option>
           <option value="standard">Standard</option>
           <option value="l-banner">L-Banner</option>
-          <option value="half-screen">Half Screen</option>
+          <option value="half-screen-top">Half Screen Top</option>
+          <option value="half-screen-bottom">Half Screen Bottom</option>
         </Form.Select>
         <Form.Select id="select-interaction">
           <option>Choose Interaction</option>
           <option value="1">Change image when pressing color buttons</option>
           <option value="2">No Interaction</option>
         </Form.Select>
+        {styleInput}
       </Form>
+      {styleInput ? <Button variant="primary" id="set-style-button" onClick={changeStandardBanner}>Set Style</Button> : null}
       <Button variant="primary" id="submit-template-button" onClick={submit}>Submit Template</Button>
     </div>
   );
