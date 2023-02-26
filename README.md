@@ -18,13 +18,14 @@ Preview of our web-editor:
 - Preinstalled emulator on your browser (like HybridTV Dev Environment or Hybrid TV viewer)
 - Node package manager installed
 - A monitor with at least 1920 x 1080 resolution since the hbbTV screen already has 1280 x 720
+- Chrome Browser is recommended
 
 ### Steps to make our project run:
 1. Download or clone our repository
 2. Go to awt-da-editor and run: npm install
 3. Go to awt-da-webserver and run: npm install
 4. Start the editor and the webserver with: npm start
-5. Go to awt-da-app and run the HTML file in chrome or firefox
+5. Go to awt-da-app and run the HTML file in your browser
 6. Start the HbbTV plugin for your browser
 7. Enjoy the show
 
