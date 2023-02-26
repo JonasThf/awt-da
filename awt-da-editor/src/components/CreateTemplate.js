@@ -123,38 +123,44 @@ const CreateTemplate = (props) => {
       const response = await axios.post("http://localhost:3001/createTemplate", template, { headers: { 'Content-Type': 'application/json' } });
 
       // If template was created, show green popup, else red
-      if (response.data.includes('!') || response.data.includes('empty')) {
-        props.setColor('rgb(253, 192, 184)');
-      } else {
+      if (response.status === 200) {
         props.setColor('rgb(198, 253, 184)');
         document.getElementById("formular").reset();
+        props.setShow();
+        props.setRespone(response.data);
+        props.setBannerState('0');
+      } else {
+        props.setColor('rgb(253, 192, 184)');
+        props.setShow();
+        props.setRespone(response.data);
+        props.setBannerState('0');
       }
-      props.setShow();
-      props.setRespone(response.data);
-      props.setBannerState('0');
     }
     catch (error) {
-      console.log(error);
+      props.setColor('rgb(253, 192, 184)');
+      props.setShow();
+      props.setRespone(error.response.data);
+      props.setBannerState('0');
     }
   }
 
   return (
     <div id="create-template">
-      <h1>Create Template</h1>
+      <h1>Create<br/>Template</h1>
       <Form id="formular" >
         <Form.Group className="mb-3" id="template-name-group">
           <Form.Label htmlFor="template-name" id="template-name-label">Template Name</Form.Label>
           <Form.Control type="text" placeholder="Example Name" id="template-name" />
         </Form.Group>
         <Form.Select id="select-shape" onChange={setBannerSelected}>
-          <option>Choose a Banner-Type</option>
+          <option value="">Choose a Banner-Type</option>
           <option value="standard">Standard</option>
           <option value="l-banner">L-Banner</option>
           <option value="half-screen-top">Half Screen Top</option>
           <option value="half-screen-bottom">Half Screen Bottom</option>
         </Form.Select>
         <Form.Select id="select-interaction">
-          <option>Choose Interaction</option>
+          <option value="">Choose Interaction</option>
           <option value="1">Change image when pressing color buttons</option>
           <option value="2">No Interaction</option>
         </Form.Select>

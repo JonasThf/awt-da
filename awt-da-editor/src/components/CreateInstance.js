@@ -186,7 +186,11 @@ const CreateInstance = (props) => {
                     </div>
                 );
             } else {
-                setUrlInput(<div className="url-input-div"></div>);
+                setUrlInput(
+                    <div className="url-input-div">
+                        {url_input}
+                    </div>
+                );
             }
         } else {
             setUrlInput(null);
@@ -237,7 +241,7 @@ const CreateInstance = (props) => {
 
     return (
         <div id="create-instance">
-            <h1> Create Instance</h1>
+            <h1> Create<br/>Instance</h1>
             <Form id="instance-form">
                 <Button variant="primary" id="get-templates-button" onClick={getTemplates}>Get Existing Templates</Button>
                 <Form.Select id="select-template" onChange={() => {
