@@ -33,13 +33,13 @@ const CreateTemplate = (props) => {
       case "standard":
         setStyleInput(<Form.Group className="mb-3" id="style-input-group">
           <Form.Label className="style-input-label">Width (max 1280)</Form.Label>
-          <Form.Control id="width-input" type="number" defaultValue={1280} min="126" max="1280" />
+          <Form.Control id="width-input" type="number" defaultValue={780} min="126" max="1280" />
           <Form.Label className="style-input-label">Height (max 720)</Form.Label>
-          <Form.Control id="height-input" type="number" defaultValue={720} min="67" max="720" />
+          <Form.Control id="height-input" type="number" defaultValue={124} min="67" max="720" />
           <Form.Label className="style-input-label">X</Form.Label>
-          <Form.Control id="x-input" type="number" defaultValue={0} min="0" max="1279" />
+          <Form.Control id="x-input" type="number" defaultValue={249} min="0" max="1279" />
           <Form.Label className="style-input-label">Y</Form.Label>
-          <Form.Control id="y-input" type="number" defaultValue={0} min="0" max="719" />
+          <Form.Control id="y-input" type="number" defaultValue={500} min="0" max="719" />
         </Form.Group>);
         props.setBannerState("1");
         break;

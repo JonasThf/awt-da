@@ -82,39 +82,65 @@ const CreateInstance = (props) => {
 
     // Submit an instance to the webserver together with its media
     async function submitInstance() {
+        let selectedTemplateName = document.getElementById('select-template').value;
         let selectedTemplate = null;
 
+        if (selectedTemplateName === "") {
+            props.setColor('rgb(253, 192, 184)');
+            props.setShow();
+            props.setRespone("No Template selected. Please select a Template.");
+            return;
+        }
+
+        // Find the selected template and store it in variable
         for (let i = 0; i < parsedTemplates.length; i++) {
-            if (parsedTemplates[i].name === document.getElementById('select-template').value) {
+            if (parsedTemplates[i].name === selectedTemplateName) {
                 selectedTemplate = parsedTemplates[i];
             }
         }
 
-        // Set duration
-        selectedTemplate.duration = formatSeconds((document.getElementById('duration').value));
+        //Set duration
+        let duration = document.getElementById('duration').value;
 
-        // Set media URLs
-        selectedTemplate.media_urls = loadMedia();
+        // Default duration is 5 seconds
+        if (duration === "") {
+            duration = 5;
+            selectedTemplate.duration = "00:00:05";
+        } else {
+            selectedTemplate.duration = formatSeconds((document.getElementById('duration').value));
+        }
+        
+        // Check if media URLs are empty
+        let urls = loadMedia();
+
+        // If urls is empty show error message
+        if(urls.length === 0) {
+            props.setColor('rgb(253, 192, 184)');
+            props.setShow();
+            props.setRespone("No URL(s) were provided. Please enter a URL.");
+            return;
+        } else {
+            selectedTemplate.media_urls = loadMedia();
+        }
 
         try {
-            const response = await axios.post(
-                "http://localhost:3001/createInstance",
-                selectedTemplate,
-                {
+            const response = await axios.post("http://localhost:3001/createInstance", selectedTemplate, {
                     headers: { 'Content-Type': 'application/json' },
                     maxContentLength: 100000000,
                     maxBodyLength: 1000000000
-                });
-            if (response.data.includes('Instance could not be created.')) {
-                props.setColor('rgb(253, 192, 184)');
-            } else {
+            });
+           
+            if (response.status === 200) {
                 props.setColor('rgb(198, 253, 184)');
+                props.setShow();
+                props.setRespone(response.data+' Ad duration: '+duration+'s.');
             }
-            props.setShow();
-            props.setRespone(response.data);
         }
         catch (error) {
-            console.log(error);
+            props.setColor('rgb(253, 192, 184)');
+            props.setShow();
+            props.setRespone(error.response.data);
+            return;
         }
         document.getElementById('instance-form').reset();
         setUrlInput(null);
@@ -130,10 +156,10 @@ const CreateInstance = (props) => {
             setShowHidePreview(true);
         }
 
-        if (!(select.value === 'Choose Template')) {
+        if (!(select.value === "")) {
             let selectedTemplate = getTemplateByName(select.value);
             let url_input = <Form.Group className="mb-3" id="url-upload-group">
-                <Form.Control className="input-url" type="url" placeholder="Example URL" />
+                <Form.Control className="input-url" type="url" placeholder="Example URL" defaultValue={""} />
             </Form.Group>;
 
             // Show preview box based on selected template
@@ -231,7 +257,7 @@ const CreateInstance = (props) => {
                     border: "1px solid black",
                     padding: 0,
                     zIndex: -1
-                }} alt='preview' src={frontImgURL}></img>);
+                }} alt=' Wrong URL! Media could not be loaded.' src={frontImgURL}></img>);
             }
         } else {
             props.setPreview(null);
@@ -247,10 +273,10 @@ const CreateInstance = (props) => {
                 <Form.Select id="select-template" onChange={() => {
                     showInputURL();
                 }}>
-                    <option>Choose Template</option>
+                    <option value="">Choose Template</option>
                 </Form.Select>
                 <InputGroup className="mb-3">
-                    <Form.Control id="duration" type="number" placeholder="Duration in Seconds" min="5" max="20" />
+                    <Form.Control id="duration" type="number" placeholder="Duration in Seconds" min="5" max="20" defaultValue={""}/>
                 </InputGroup>
                 {urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
                 {urlInput}
