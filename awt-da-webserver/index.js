@@ -86,7 +86,7 @@ app.post("/createInstance", (req, res) => {
   fs.writeFile('./instances/' + title + '.json', JSON.stringify(instance), (err) => {
     if (err) {
       console.log(err);
-      res.status(500).send("Instance was not created.");
+      res.status(500).send("Instance could not be created.");
     }
     else {
       res.status(200).send("Instance was created.");
