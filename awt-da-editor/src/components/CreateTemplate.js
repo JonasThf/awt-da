@@ -32,9 +32,9 @@ const CreateTemplate = (props) => {
     switch (select.value) {
       case "standard":
         setStyleInput(<Form.Group className="mb-3" id="style-input-group">
-          <Form.Label className="style-input-label">Width (max 1278)</Form.Label>
+          <Form.Label className="style-input-label">Width (max 1280)</Form.Label>
           <Form.Control id="width-input" type="number" defaultValue={1280} min="126" max="1280" />
-          <Form.Label className="style-input-label">Height (max 718)</Form.Label>
+          <Form.Label className="style-input-label">Height (max 720)</Form.Label>
           <Form.Control id="height-input" type="number" defaultValue={720} min="67" max="720" />
           <Form.Label className="style-input-label">X</Form.Label>
           <Form.Control id="x-input" type="number" defaultValue={0} min="0" max="1279" />

@@ -24,18 +24,31 @@ function readDirectory(directory) {
 // Middleware to submit a template
 app.post("/createTemplate", (req, res) => {
   const template = req.body;
-  var refused = false;
   const title = template.name;
+  var refused = false;
+
+  // Check if template name is too short or empty
+  if (title.length < 1 || title.includes(' ')) {
+    refused = true;
+    res.status(406).send("Template name is empty or spaces were used.");
+    return;
+  }
+
+  // Check if template shape or interaction are empty
+  if (template.shape === '' || template.interactions === '') {
+    refused = true;
+    res.status(406).send("Banner type or interaction not selected.");
+    return;
+  }
+  
   const templates = readDirectory('./templates/');
 
+  // Check if template name already exists
   templates.forEach(x => {
     if (title.toLowerCase() === JSON.parse(x).name.toLowerCase()) {
       refused = true;
-      res.status(200).send("Template " + title + " already exists! \nChoose a different Name.")
-    }
-    else if (title.length < 1 || title.includes(' ')) {
-      refused = true;
-      res.status(200).send("Template name is empty or spaces were used.")
+      res.status(409).send("Template " + title + " already exists! \nChoose a different Name.");
+      return;
     }
   });
 
