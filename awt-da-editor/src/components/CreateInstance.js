@@ -147,6 +147,44 @@ const CreateInstance = (props) => {
         props.setPreview(null);
     }
 
+    // Shows preview box of ad based on template
+    function showPreview(template) {
+        // Show preview box based on template shape
+        if (template.shape === 'l-banner') {
+            props.setPreview(null);
+            props.setPreviewLBanner(<div style={{
+                position: 'absolute',
+                display: "flex",
+                backgroundColor: '#0d6efd',
+                fontSize: '30px',
+                justifyContent: "center",
+                alignItems: "center",
+                color: '#FFFFFF',
+                left: template.broadcast_x,
+                top: template.broadcast_y,
+                width: template.broadcast_width,
+                height: template.broadcast_height,
+                zIndex: 4
+            }}>Broadcast</div>);
+        } else {
+            props.setPreviewLBanner(null);
+            props.setPreview(<div style={{
+                position: "absolute",
+                display: "flex",
+                backgroundColor: '#0d6efd',
+                fontSize: '30px',
+                justifyContent: "center",
+                alignItems: "center",
+                color: '#FFFFFF',
+                height: template.ad_height,
+                width: template.ad_width,
+                left: template.ad_x,
+                top: template.ad_y,
+                border: "1px solid black"
+            }}>Your ad!</div>);
+        }
+    }
+
     // Make fields visible for URL inputs based on the template type. If no interaction -> show one URL input
     function showInputURL() {
         let select = document.getElementById("select-template");
@@ -162,40 +200,8 @@ const CreateInstance = (props) => {
                 <Form.Control className="input-url" type="url" placeholder="Example URL" defaultValue={""} />
             </Form.Group>;
 
-            // Show preview box based on selected template
-            if (selectedTemplate.shape === 'l-banner') {
-                props.setPreview(null);
-                props.setPreviewLBanner(<div style={{
-                    position: 'absolute',
-                    display: "flex",
-                    backgroundColor: '#0d6efd',
-                    fontSize: '30px',
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: '#FFFFFF',
-                    left: selectedTemplate.broadcast_x,
-                    top: selectedTemplate.broadcast_y,
-                    width: selectedTemplate.broadcast_width,
-                    height: selectedTemplate.broadcast_height,
-                    zIndex: 4
-                }}>Broadcast</div>);
-            } else {
-                props.setPreviewLBanner(null);
-                props.setPreview(<div style={{
-                    position: "absolute",
-                    display: "flex",
-                    backgroundColor: '#0d6efd',
-                    fontSize: '30px',
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: '#FFFFFF',
-                    height: selectedTemplate.ad_height,
-                    width: selectedTemplate.ad_width,
-                    left: selectedTemplate.ad_x,
-                    top: selectedTemplate.ad_y,
-                    border: "1px solid black"
-                }}>Your ad!</div>);
-            }
+            // Show preview of template without media
+            showPreview(selectedTemplate);
 
             if (selectedTemplate.interactions === '1') {
                 setUrlInput(
@@ -239,14 +245,19 @@ const CreateInstance = (props) => {
     }
 
     // Show a preview of the selected template and its first image
-    function showPreview() {
-        if (showHidePreview) {
-            let select = document.getElementById("select-template");
-            let selectedTemplate = getTemplateByName(select.value);
+    function showMedia() {
+        let select = document.getElementById("select-template");
+        let selectedTemplate = getTemplateByName(select.value);
 
+        if (showHidePreview) {
             let media_urls = loadMedia();
 
-            if (media_urls[0]) {
+            if (media_urls.length === 0) {
+                props.setColor('rgb(253, 192, 184)');
+                props.setShow();
+                props.setRespone('No URLs provided to preview.');
+                return;
+            } else {
                 let frontImgURL = media_urls[0];
                 props.setPreview(<img style={{
                     height: selectedTemplate.ad_height,
@@ -258,9 +269,12 @@ const CreateInstance = (props) => {
                     padding: 0,
                     zIndex: -1
                 }} alt=' Wrong URL! Media could not be loaded.' src={frontImgURL}></img>);
+                setShowHidePreview(false);
             }
         } else {
-            props.setPreview(null);
+            // Show preview of template without media
+            showPreview(selectedTemplate);
+            setShowHidePreview(true);
         }
         return;
     }
@@ -270,9 +284,7 @@ const CreateInstance = (props) => {
             <h1> Create<br/>Instance</h1>
             <Form id="instance-form">
                 <Button variant="primary" id="get-templates-button" onClick={getTemplates}>Get Existing Templates</Button>
-                <Form.Select id="select-template" onChange={() => {
-                    showInputURL();
-                }}>
+                <Form.Select id="select-template" onChange={showInputURL}>
                     <option value="">Choose Template</option>
                 </Form.Select>
                 <InputGroup className="mb-3">
@@ -281,11 +293,7 @@ const CreateInstance = (props) => {
                 {urlInput ? <Form.Label id="url-label">Media URL(s)</Form.Label> : null}
                 {urlInput}
             </Form>
-            {urlInput ? <Button variant="primary" id="show-preview-button" onClick={() => {
-                setShowHidePreview(!showHidePreview);
-                showPreview();
-            }}>{showHidePreview ? "Show Preview" : "Hide Preview"}
-            </Button> : null}
+            {urlInput ? <Button variant="primary" id="show-preview-button" onClick={showMedia}>{showHidePreview ? "Show Preview" : "Hide Preview"}</Button> : null}
             <Button variant="primary" id="create-instance-button" onClick={submitInstance}>Submit Instance</Button>
         </div>
     )
