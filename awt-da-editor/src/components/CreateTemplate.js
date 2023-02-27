@@ -133,14 +133,12 @@ const CreateTemplate = (props) => {
         props.setColor('rgb(253, 192, 184)');
         props.setShow();
         props.setRespone(response.data);
-        props.setBannerState('0');
       }
     }
     catch (error) {
       props.setColor('rgb(253, 192, 184)');
       props.setShow();
       props.setRespone(error.response.data);
-      props.setBannerState('0');
     }
   }
 
