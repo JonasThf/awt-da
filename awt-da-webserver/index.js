@@ -41,6 +41,11 @@ app.post("/createTemplate", (req, res) => {
     return;
   }
   
+  // Check if ./templates/ directory does not exist
+  if (!fs.existsSync('./templates/')) {
+    fs.mkdirSync('./templates/');
+  }
+
   const templates = readDirectory('./templates/');
 
   // Check if template name already exists
@@ -77,6 +82,12 @@ app.get("/getTemplates", async (req, res) => {
 // Middleware to submit an instance
 app.post("/createInstance", (req, res) => {
   const instance = req.body;
+
+  // Check if ./instances/ directory does not exist
+  if (!fs.existsSync('./instances/')) {
+    fs.mkdirSync('./instances/');
+  }
+
   let fileNames = fs.readdirSync('./instances/');
   let addTitle = 'instance_';
 
