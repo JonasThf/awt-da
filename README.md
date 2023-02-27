@@ -24,7 +24,7 @@ Preview of our web-editor:
 1. Download or clone our repository
 2. Go to awt-da-editor and run: npm install
 3. Go to awt-da-webserver and run: npm install
-4. Start the editor and the webserver with: npm start
+4. Start the editor and the webserver seperately with: npm start
 5. Go to awt-da-app and run the HTML file in your browser
 6. Start the HbbTV plugin for your browser
 7. Enjoy the show
