@@ -27,7 +27,8 @@ Preview of our web-editor:
 4. Start the editor and the webserver seperately with: npm start
 5. Go to awt-da-app and run the HTML file in your browser
 6. Start the HbbTV plugin for your browser
-7. Enjoy the show
+7. Press the red button
+8. Enjoy the show
 
 ## Disclaimer
 
