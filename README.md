@@ -30,6 +30,11 @@ Preview of our web-editor:
 7. Press the red button
 8. Enjoy the show
 
+### Limitations
+- Advertisers can choose only one type of ad interactivity in the web editor
+- It is not possible to place video URLs inside an ad, only image URLs
+- The HbbTV app only displays a static background image upon launch, no video
+
 ## Disclaimer
 
 This prototype is developed in context of the *Master Project: Advanced Web Technologies* at the TU Berlin
